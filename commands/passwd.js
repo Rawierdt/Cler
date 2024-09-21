@@ -17,7 +17,7 @@ module.exports = {
     name: "passwd",
     description: "Genera una contraseña segura",
     aliases: ["genpass", "password", "pass"],
-    async executePrefix(message, args) {
+    async executePrefix(client, message, args) {
         if (!args[0] || isNaN(args[0]) || args[0] <= 0) {
             return message.reply(":x: | Por favor, ingresa un número válido para la longitud de la contraseña.");
         }

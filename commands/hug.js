@@ -3,7 +3,7 @@ const { EmbedBuilder } = require('discord.js');
 module.exports = {
     name: 'hug',
     description: 'Envía un abrazo a otro usuario con un GIF aleatorio.',
-    async executePrefix(message, args) {
+    async executePrefix(client, message, args) {
         // Lista de enlaces de GIFs de abrazos (puedes agregar más enlaces)
         const gifs = [
             'https://media.giphy.com/media/l2QDM9Jnim1YVILXa/giphy.gif',

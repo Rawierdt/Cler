@@ -3,7 +3,12 @@ const { PermissionsBitField } = require('discord.js');
 module.exports = {
     name: 'say',
     description: 'Permite a un administrador hacer que el bot diga algo en un canal específico.',
-    async executePrefix(message, args) {
+    async executePrefix(client, message, args) {
+        // Verificar si el mensaje proviene de un servidor
+        if (!message.guild) {
+            return message.channel.send('Este comando solo puede usarse en un servidor.');
+        }
+
         // Verificar si el usuario tiene permisos de administrador
         if (!message.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
             return message.reply('Lo siento, necesitas permisos de administrador para usar este comando.');

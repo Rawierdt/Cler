@@ -3,7 +3,7 @@ const { EmbedBuilder } = require('discord.js');
 module.exports = {
     name: 'kiss',
     description: 'Envía un beso a otro usuario con un GIF aleatorio.',
-    async executePrefix(message, args) {
+    async executePrefix(client, message, args) {
         // Lista de enlaces de GIFs de besos (puedes agregar más enlaces)
         const gifs = [
             'https://media.giphy.com/media/G3va31oEEnIkM/giphy.gif',

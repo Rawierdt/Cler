@@ -3,7 +3,7 @@ const { EmbedBuilder } = require('discord.js');
 module.exports = {
     name: 'cry',
     description: 'Expresa que estás llorando con un GIF aleatorio.',
-    async executePrefix(message, args) {
+    async executePrefix(client, message, args) {
         // Lista de enlaces de GIFs de llorar (puedes agregar más enlaces)
         const gifs = [
             'https://media.giphy.com/media/ROF8OQvDmxytW/giphy.gif',

@@ -3,7 +3,7 @@ const { EmbedBuilder } = require('discord.js');
 module.exports = {
     name: 'kill',
     description: 'Desvives a otro usuario con un GIF aleatorio.',
-    async executePrefix(message, args) {
+    async executePrefix(client, message, args) {
         // Lista de enlaces de GIFs de abrazos (puedes agregar más enlaces)
         const gifs = [
             "http://pa1.narvii.com/5751/803ba83ee4101ad22bb57c9b54805937b9ead8aa_hq.gif", 

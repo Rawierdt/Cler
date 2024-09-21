@@ -105,6 +105,16 @@ const commands = [
       option.setName('cantidad')
         .setDescription('La cantidad de mensajes a borrar')
         .setRequired(true)),
+    new SlashCommandBuilder()
+      .setName('avatar')
+      .setDescription('Muestra el avatar de un usuario.')
+      .addUserOption(option =>
+        option.setName('user')
+          .setDescription('El usuario del que deseas ver el avatar.')
+          .setRequired(false)),
+    new SlashCommandBuilder()
+    .setName('help')
+    .setDescription('Muestra la lista de comandos disponibles.'),
 ].map(command => command.toJSON());
 
 const rest = new REST({ version: '10' }).setToken(process.env.BOT_TOKEN);

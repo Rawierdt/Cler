@@ -4,7 +4,7 @@ module.exports = {
     name: 'jumbo',
     description: 'Envía el emoji del server pero en grande.',
     aliases: ['jumbo'],
-    async executePrefix(message, args) {
+    async executePrefix(client, message, args) {
         if (!args[0]) {
             return message.reply(":x: | Ingresa un emoji");
         }

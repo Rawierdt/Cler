@@ -3,7 +3,7 @@ const { EmbedBuilder } = require('discord.js');
 module.exports = {
     name: 'angry',
     description: 'Expresa que estás enojado con un GIF aleatorio.',
-    async executePrefix(message, args) {
+    async executePrefix(client, message, args) {
         const gifs = [
             "https://c.tenor.com/kaRCm9ELxKgAAAAC/menhera-chan-chibi.gif", // Introducimos el link del gif
             "https://c.tenor.com/ikKAd57zDEwAAAAM/anime-mad.gif", 

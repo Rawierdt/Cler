@@ -3,7 +3,7 @@ const { EmbedBuilder } = require('discord.js');
 module.exports = {
     name: 'chiste',
     description: 'Muestra un chiste aleatorio.',
-    async executePrefix(message, args) {
+    async executePrefix(client, message, args) {
         // Lista de enlaces de chistes
         const chistes = [
             'https://i.ibb.co/Z6kk7g6/chiste1.png',

@@ -3,7 +3,7 @@ const { EmbedBuilder } = require('discord.js');
 module.exports = {
     name: '8ball',
     description: 'Responde a una pregunta con una respuesta aleatoria.',
-    async executePrefix(message, args) {
+    async executePrefix(client, message, args) {
         let mensaje = args.slice().join(" ");
         if (!mensaje) return message.reply("Primero pregúntame algo.");
 
