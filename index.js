@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, Collection, ActivityType } = require('discord.js');
+const { Client, GatewayIntentBits, Collection, ActivityType, Events } = require('discord.js');
 const fs = require('fs');
 const config = require('./config.json');
 require('dotenv').config();
@@ -13,6 +13,10 @@ const client = new Client({
     GatewayIntentBits.GuildMessageReactions,
     GatewayIntentBits.GuildModeration,
     GatewayIntentBits.DirectMessages, // Asegúrate de incluir esto
+    GatewayIntentBits.DirectMessageReactions,
+    GatewayIntentBits.DirectMessageTyping,
+    GatewayIntentBits.AutoModerationConfiguration,
+    GatewayIntentBits.Guilds, 
   ],
 });
 
@@ -37,34 +41,60 @@ function loadCommands(directory) {
 // Cargar comandos generales y de admin
 loadCommands('./commands');
 loadCommands('./commands/admin');
+loadCommands('./commands/social');
+loadCommands('./commands/contextMenu');
+loadCommands('./commands/fun');
+loadCommands('./commands/secrets');
+loadCommands('./commands/utility');
 
 // Logs de actividad del bot
 client.once('ready', () => {
   console.log(`En línea como ${client.user.tag}`);
   console.log(`[LOG] Bot atendiendo en ${client.guilds.cache.size} servidores`);
-  client.user.setStatus('idle');
-  client.user.setActivity(`LOOSEER!`, { type: ActivityType.Watching });
+  client.user.setStatus('online');
+  client.user.setActivity(`c!help | /help`, { type: ActivityType.Listening });
 });
 
 // Manejando eventos de interacción (slash commands)
-client.on('interactionCreate', async interaction => {
-  if (!interaction.isCommand()) return;
+client.on(Events.InteractionCreate, async interaction => {
+  if (interaction.isChatInputCommand()) {
+    const command = client.commands.get(interaction.commandName);
+    if (!command) return;
 
-  const command = client.commands.get(interaction.commandName);
-  if (!command) return;
-
-  try {
-    if (command.executeSlash) {
-      await command.executeSlash(interaction);  // Ejecuta el método para slash commands
+    try {
+      if (command.executeSlash) {
+        await command.executeSlash(interaction);  // Ejecuta el método para slash commands
+      }
+      console.log(`[LOG] ${interaction.user.tag} ha ejecutado ${interaction.commandName} en ${interaction.guild.name}`);
+    } catch (error) {
+      console.error(error);
+      if (interaction.replied || interaction.deferred) {
+        await interaction.followUp({ content: 'Hubo un error al ejecutar este comando.', ephemeral: true });
+      } else {
+        await interaction.reply({ content: 'Hubo un error al ejecutar este comando.', ephemeral: true });
+      }
     }
-    console.log(`[LOG] ${interaction.user.tag} ha ejecutado ${interaction.commandName} en ${interaction.guild.name}`);
-  } catch (error) {
-    console.error(error);
-    await interaction.reply({ content: 'Hubo un error al ejecutar el comando.', ephemeral: true });
+  } else if (interaction.isContextMenuCommand()) {
+    const command = client.commands.get(interaction.commandName);
+    if (!command) return;
+
+    try {
+      if (command.executeContextMenu) {
+        await command.executeContextMenu(interaction);  // Ejecuta el método para context menu commands
+      }
+      console.log(`[LOG] ${interaction.user.tag} ha ejecutado ${interaction.commandName} en ${interaction.guild.name}`);
+    } catch (error) {
+      console.error(error);
+      if (interaction.replied || interaction.deferred) {
+        await interaction.followUp({ content: 'Hubo un error al ejecutar este comando.', ephemeral: true });
+      } else {
+        await interaction.reply({ content: 'Hubo un error al ejecutar este comando.', ephemeral: true });
+      }
+    }
   }
 });
 
-// Manejo de mensajes (comandos con prefijo)
+
 // Manejo de mensajes (comandos con prefijo y DMs)
 client.on('messageCreate', message => {
   // Ignorar mensajes del propio bot
@@ -78,7 +108,7 @@ client.on('messageCreate', message => {
   }
 
   // Comandos con prefijo
-  if (!message.content.startsWith(config.prefix)) return;
+  if (!message.content.startsWith(config.prefix)) ret<urn;
 
   const args = message.content.slice(config.prefix.length).trim().split(/ +/);
   const commandName = args.shift().toLowerCase();

@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require('discord.js');
 const figlet = require('figlet');
-let color = process.env.COLOR;
+let color = 0x5e10f8;
 let dev = process.env.DEV;
 
 module.exports = {
@@ -18,7 +18,7 @@ module.exports = {
                 return;
             }
             const embed = new EmbedBuilder()
-                .setColor(color || '#0099ff')
+                .setColor(color)
                 .setDescription("```" + data + "```");
 
             message.reply({ embeds: [embed] });

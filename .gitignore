@@ -12,7 +12,8 @@
 /mega_databases
 
 # Ignore commands/meme.js file
-/commands/meme.js
+/commands/fun/meme.js
+/commands/dm.js
 
 # testing
 /coverage

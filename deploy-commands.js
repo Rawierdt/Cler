@@ -1,4 +1,4 @@
-const { REST, Routes, SlashCommandBuilder } = require('discord.js');
+const { REST, Routes, SlashCommandBuilder, ContextMenuCommandBuilder, ApplicationCommandType, Events } = require('discord.js');
 require('dotenv').config();
 
 const commands = [
@@ -106,29 +106,34 @@ const commands = [
         .setDescription('La cantidad de mensajes a borrar')
         .setRequired(true)),
     new SlashCommandBuilder()
-      .setName('avatar')
-      .setDescription('Muestra el avatar de un usuario.')
-      .addUserOption(option =>
-        option.setName('user')
-          .setDescription('El usuario del que deseas ver el avatar.')
-          .setRequired(false)),
-    new SlashCommandBuilder()
-    .setName('help')
-    .setDescription('Muestra la lista de comandos disponibles.'),
-].map(command => command.toJSON());
+      .setName('help')
+      .setDescription('Muestra la lista de comandos disponibles.'),
+  new SlashCommandBuilder()
+    .setName('avatar')
+    .setDescription('Muestra el avatar de un usuario.')
+    .addUserOption(option =>
+      option.setName('user')
+        .setDescription('El usuario del que deseas ver el avatar.')),
+  new ContextMenuCommandBuilder()
+    .setName('Ver Avatar')
+    .setType(ApplicationCommandType.User),
+].map(command => {
+  console.log(`Comando: ${command.name} registrado.`); // Agrega un log para cada comando
+  return command.toJSON();
+});
 
 const rest = new REST({ version: '10' }).setToken(process.env.BOT_TOKEN);
 
 (async () => {
   try {
-    console.log('Iniciando registro de comandos slash globales...');
+    console.log('Iniciando registro de comandos...');
 
     await rest.put(
       Routes.applicationCommands(process.env.CLIENT_ID),
       { body: commands },
     );
 
-    console.log('Comandos slash globales registrados correctamente.');
+    console.log('Comandos registrados correctamente.');
   } catch (error) {
     console.error('Error al registrar comandos:', error);
   }
