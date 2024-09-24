@@ -11,7 +11,7 @@ module.exports = {
         const embed = new EmbedBuilder()
             .setImage('https://i.redd.it/coz72i73uf881.jpg')
             .setColor(color)
-            .setFooter({ text: "● Comando Secreto 1/20 ● " });
+            .setFooter({ text: "● Comando Secreto 1/10 ● " });
 
         message.reply({ embeds: [embed] });
     }

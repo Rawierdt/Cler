@@ -9,6 +9,12 @@ module.exports = {
             'https://media.giphy.com/media/G3va31oEEnIkM/giphy.gif',
             'https://media.giphy.com/media/FqBTvSNjNzeZG/giphy.gif',
             'https://media.giphy.com/media/11k3oaUjSlFR4I/giphy.gif',
+            'https://i.gifer.com/YQzo.gif',
+            'https://i.pinimg.com/originals/0b/39/ba/0b39ba7b0affa79d3d6eddbe5bea684a.gif',
+            'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHVwN2s5dWk4bGhjaGVmNmszbGQwZ2ZvZzh5cndlZHNoMm5keGQwcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/zkppEMFvRX5FC/giphy.webp',
+            'https://d31xsmoz1lk3y3.cloudfront.net/games/imgur/eisk88U.gif',
+            'https://i.pinimg.com/originals/13/06/73/1306732d3351afe642c9a7f6d46f548e.gif',
+            'https://64.media.tumblr.com/ea7842aad07c00b098397bf4d00723c6/tumblr_n570yg0ZIv1rikkvpo1_500.gif',
             // Agrega más enlaces de GIFs aquí
         ];
         const randomGif = gifs[Math.floor(Math.random() * gifs.length)];

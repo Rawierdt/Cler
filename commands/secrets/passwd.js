@@ -29,7 +29,7 @@ module.exports = {
             .setColor(0x5e10f8)
             .setTitle("Contraseña Segura Generada")
             .setDescription("```" + password + "```")
-            .setFooter({ text: "● Comando Secreto 2/20 ● " });
+            .setFooter({ text: "● Comando Secreto 2/10 ● " });
 
         message.reply({ embeds: [embed] });
     }

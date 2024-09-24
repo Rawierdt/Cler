@@ -74,7 +74,7 @@ client.on(Events.InteractionCreate, async interaction => {
         await interaction.reply({ content: 'Hubo un error al ejecutar este comando.', ephemeral: true });
       }
     }
-  } else if (interaction.isContextMenuCommand()) {
+  } else if (interaction.isContextMenuCommand()) { // Verifica que es un menú contextual
     const command = client.commands.get(interaction.commandName);
     if (!command) return;
 
@@ -103,12 +103,11 @@ client.on('messageCreate', message => {
   // Manejo de mensajes en DMs
   if (message.channel.type === 'DM') {
     console.log(`[DM] ${message.author.tag} envió un mensaje: ${message.content}`);
-    // Aquí puedes agregar más lógica para responder a DMs, si lo deseas
     return; // Salimos aquí para no seguir procesando como un comando
   }
 
   // Comandos con prefijo
-  if (!message.content.startsWith(config.prefix)) ret<urn;
+  if (!message.content.startsWith(config.prefix)) return;
 
   const args = message.content.slice(config.prefix.length).trim().split(/ +/);
   const commandName = args.shift().toLowerCase();

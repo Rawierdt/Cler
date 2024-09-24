@@ -8,6 +8,11 @@ module.exports = {
         const gifs = [
             'https://media.giphy.com/media/l2QDM9Jnim1YVILXa/giphy.gif',
             'https://media.giphy.com/media/od5H3PmEG5EVq/giphy.gif',
+            'https://64.media.tumblr.com/2be3818398fa62f2aff108e8f73618bb/tumblr_nvrggbVi5I1rw7ngmo1_500.gif',
+            'https://i.gifer.com/Txh9.gif',
+            'https://64.media.tumblr.com/f2a878657add13aa09a5e089378ec43d/tumblr_n5uovjOi931tp7433o1_500.gif',
+            'https://i0.wp.com/drunkenanimeblog.com/wp-content/uploads/2018/03/tenor.gif',
+            'https://i.pinimg.com/originals/23/4d/47/234d471b1068bc25d435c607224454c9.gif',
             // Agrega más enlaces de GIFs aquí
         ];
         const randomGif = gifs[Math.floor(Math.random() * gifs.length)];

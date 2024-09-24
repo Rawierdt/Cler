@@ -114,9 +114,19 @@ const commands = [
     .addUserOption(option =>
       option.setName('user')
         .setDescription('El usuario del que deseas ver el avatar.')),
+  new SlashCommandBuilder()
+    .setName('test')
+    .setDescription('Un comando de prueba'),
   new ContextMenuCommandBuilder()
     .setName('Ver Avatar')
     .setType(ApplicationCommandType.User),
+  new SlashCommandBuilder()
+    .setName('set-fc-channel')
+    .setDescription('Define el canal donde se anunciarán los cumpleaños')
+    .addChannelOption(option => 
+      option.setName('canal')
+        .setDescription('El canal para los anuncios de cumpleaños')
+        .setRequired(true)),
 ].map(command => {
   console.log(`Comando: ${command.name} registrado.`); // Agrega un log para cada comando
   return command.toJSON();

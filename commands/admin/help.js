@@ -10,7 +10,7 @@ module.exports = {
 
   async executeSlash(interaction) {
     await this.sendHelpMessage(interaction.user);
-    await interaction.reply({ content: '📩 He enviado la lista de comandos a tus mensajes privados.', ephemeral: true });
+    await interaction.reply({ content: '<:765discordinfowhitetheme:1287542268328280197> He enviado la lista de comandos a tus mensajes privados.', ephemeral: true });
   },
 
   async executePrefix(client, message, args) {
@@ -23,7 +23,7 @@ module.exports = {
     await this.sendHelpMessage(message.author);
     
     // Enviar una respuesta simple en el canal
-    await message.channel.send('📩 He enviado la lista de comandos a tus mensajes privados.'); // Cambia aquí para no usar `message.reply`
+    await message.channel.send('<:765discordinfowhitetheme:1287542268328280197> He enviado la lista de comandos a tus mensajes privados.'); // Cambia aquí para no usar `message.reply`
 },
 
   async sendHelpMessage(user) {
