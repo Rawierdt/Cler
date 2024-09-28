@@ -17,7 +17,7 @@ module.exports = {
 
         // Crear el embed
         const embed = new EmbedBuilder()
-            .setTitle(`¡Feliz cumpleaños, ${mentionedUser.username}! 🎉`)
+            .setTitle(`${mentionedUser.username}! <a:lf:1289409156754702417> <a:le:1289409008922263584> <a:ll:1289408851891720264> <a:li:1289409215613505608> <a:lz:1289409226694856768> | <a:lc:1289408784044920956> <a:lu:1289409274530889802> <a:lm:1289409204079300729> <a:lp:1289409084138852484> <a:ll:1289408851891720264> <a:le:1289409008922263584>`)
             .setImage('https://cdn.discordapp.com/attachments/663931999798689843/1287276732541435998/image.png')
             .setColor(color)
             .setFooter({ text: "● Comando Secreto 3/10 ● " });

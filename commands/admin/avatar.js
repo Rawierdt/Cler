@@ -29,7 +29,7 @@ module.exports = {
     const member = message.mentions.members.first() || message.member; // Si no se menciona a nadie, usa al que ejecutó el comando
     const avatarEmbed = new EmbedBuilder()
       .setColor(0x00AE86)
-      .setTitle(`${member.user.username}'s Avatar`)
+      .setTitle(`${member.user.username}'s Avatar <:flamespurple:1287542491200884736>`)
       .setImage(member.user.displayAvatarURL({ dynamic: true, size: 512 }))
       .setTimestamp()
       .setFooter({ text: 'Solicitado por ' + message.author.tag, iconURL: message.author.displayAvatarURL() });

@@ -18,7 +18,7 @@ module.exports = {
 
     // Verificar permisos
     if (!interaction.member.permissions.has(PermissionsBitField.Flags.BanMembers)) {
-      return interaction.reply({ content: 'No tienes permiso para desbanear usuarios.', ephemeral: true });
+      return interaction.reply({ content: '<:win11erroicon:1287543137505378324> | No tienes permiso para desbanear usuarios.', ephemeral: true });
     }
 
     try {
@@ -26,7 +26,7 @@ module.exports = {
       const bannedUser = await interaction.guild.bans.fetch(userId);
 
       if (!bannedUser) {
-        return interaction.reply({ content: `No se encontró a ningún usuario baneado con el ID ${userId}.`, ephemeral: true });
+        return interaction.reply({ content: `<:440warning:1287542257985126501> | No se encontró a ningún usuario baneado con el ID ${userId}.`, ephemeral: true });
       }
 
       // Desbanear al usuario
@@ -34,12 +34,12 @@ module.exports = {
 
       // Crear el embed de confirmación
       const unbanEmbed = new EmbedBuilder()
-        .setTitle('🔓 Usuario Desbaneado')
-        .setDescription(`El usuario ha sido desbaneado correctamente.`)
+        .setTitle('<a:7621hypesquadeventsanimation:1287542126237847622> Usuario Desbaneado')
+        .setDescription(`<a:7checkbox:1287542421386690570> | El usuario ha sido desbaneado correctamente.`)
         .setColor('Green')
         .addFields(
-          { name: '👤 Usuario', value: `${bannedUser.user.tag} (${bannedUser.user.id})`, inline: true },
-          { name: '👮 Moderador', value: `${interaction.user.tag}`, inline: true }
+          { name: '<:discordcopyid:1287542182080679997> Usuario', value: `${bannedUser.user.tag} (${bannedUser.user.id})`, inline: true },
+          { name: '<a:9755discordstaffanimated:1287542237571321896> Moderador', value: `${interaction.user.tag}`, inline: true }
         )
         .setTimestamp();
 
@@ -47,7 +47,7 @@ module.exports = {
       return interaction.reply({ embeds: [unbanEmbed] });
     } catch (error) {
       console.error('Error al desbanear:', error);
-      return interaction.reply({ content: `Hubo un error al intentar desbanear al usuario con ID ${userId}.`, ephemeral: true });
+      return interaction.reply({ content: `<a:denyxbox:1287542408082358292> | Hubo un error al intentar desbanear al usuario con ID ${userId}.`, ephemeral: true });
     }
   },
 
@@ -56,7 +56,7 @@ module.exports = {
 
     // Verificar permisos
     if (!message.member.permissions.has(PermissionsBitField.Flags.BanMembers)) {
-      return message.reply('No tienes permiso para desbanear usuarios.');
+      return message.reply('<:win11erroicon:1287543137505378324> | No tienes permiso para desbanear usuarios.');
     }
 
     try {
@@ -64,7 +64,7 @@ module.exports = {
       const bannedUser = await message.guild.bans.fetch(userId);
 
       if (!bannedUser) {
-        return message.reply(`No se encontró a ningún usuario baneado con el ID ${userId}.`);
+        return message.reply(`<:440warning:1287542257985126501> | No se encontró a ningún usuario baneado con el ID ${userId}.`);
       }
 
       // Desbanear al usuario
@@ -72,12 +72,12 @@ module.exports = {
 
       // Crear el embed de confirmación
       const unbanEmbed = new EmbedBuilder()
-        .setTitle('🔓 Usuario Desbaneado')
-        .setDescription(`El usuario ha sido desbaneado correctamente.`)
+        .setTitle('<a:7621hypesquadeventsanimation:1287542126237847622> Usuario Desbaneado')
+        .setDescription(`<a:7checkbox:1287542421386690570> | El usuario ha sido desbaneado correctamente.`)
         .setColor('Green')
         .addFields(
-          { name: '👤 Usuario', value: `${bannedUser.user.tag} (${bannedUser.user.id})`, inline: true },
-          { name: '👮 Moderador', value: `${message.author.tag}`, inline: true }
+          { name: '<:discordcopyid:1287542182080679997> Usuario', value: `${bannedUser.user.tag} (${bannedUser.user.id})`, inline: true },
+          { name: '<a:9755discordstaffanimated:1287542237571321896> Moderador', value: `${message.author.tag}`, inline: true }
         )
         .setTimestamp();
 
@@ -85,7 +85,7 @@ module.exports = {
       return message.channel.send({ embeds: [unbanEmbed] });
     } catch (error) {
       console.error('Error al desbanear:', error);
-      return message.reply(`Hubo un error al intentar desbanear al usuario con ID ${userId}.`);
+      return message.reply(`<a:denyxbox:1287542408082358292> | Hubo un error al intentar desbanear al usuario con ID ${userId}.`);
     }
   },
 };

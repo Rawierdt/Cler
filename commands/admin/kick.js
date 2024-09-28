@@ -28,7 +28,7 @@ module.exports = {
   async executePrefix(message, args) {
     const member = message.mentions.members.first();
     if (!member) {
-      return message.reply('Por favor menciona a un usuario válido.');
+      return message.reply('<:440warning:1287542257985126501> | Por favor menciona a un usuario válido.');
     }
 
     // El resto del mensaje puede contener el motivo, si se proporciona
@@ -41,15 +41,15 @@ module.exports = {
 
     // Verificar si tiene permisos de expulsión (solo en prefijos)
     if (!isInteraction && !context.member.permissions.has('KICK_MEMBERS')) {
-      return context.reply({ content: 'No tienes permiso para expulsar miembros.', ephemeral: true });
+      return context.reply({ content: '<:win11erroicon:1287543137505378324> | No tienes permiso para expulsar miembros.', ephemeral: true });
     }
 
     if (!member) {
-      return context.reply({ content: 'Por favor selecciona a un miembro válido.', ephemeral: true });
+      return context.reply({ content: '<:440warning:1287542257985126501> | Por favor selecciona a un miembro válido.', ephemeral: true });
     }
 
     if (!member.kickable) {
-      return context.reply({ content: 'No puedo expulsar a este miembro.', ephemeral: true });
+      return context.reply({ content: '<a:denyxbox:1287542408082358292> | No puedo expulsar a este miembro.', ephemeral: true });
     }
 
     try {
@@ -69,13 +69,13 @@ module.exports = {
         .setTitle('Miembro Expulsado')
         .setDescription(`${member.user.tag} ha sido expulsado del servidor.`)
         .addFields(
-          { name: 'Moderador', value: `${context.user.tag}`, inline: true },
-          { name: 'Miembro', value: `${member.user.tag}`, inline: true },
-          { name: 'Razón', value: reason, inline: false }
+          { name: '<a:9755discordstaffanimated:1287542237571321896> Moderador', value: `${context.user.tag}`, inline: true },
+          { name: '<:discordcopyid:1287542182080679997> Miembro', value: `${member.user.tag}`, inline: true },
+          { name: '<:discordeditprofile:1287542190926467094> Razón', value: reason, inline: false }
         )
         .setThumbnail(member.user.displayAvatarURL())
         .setTimestamp()
-        .setFooter({ text: 'Expulsión ejecutada', iconURL: context.user.displayAvatarURL() });
+        .setFooter({ text: '<a:7checkbox:1287542421386690570> | Expulsión ejecutada', iconURL: context.user.displayAvatarURL() });
 
       // Enviar el embed como respuesta
       await context.reply({ embeds: [kickEmbed] });

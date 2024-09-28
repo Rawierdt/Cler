@@ -127,23 +127,23 @@ const commands = [
       option.setName('canal')
         .setDescription('El canal para los anuncios de cumpleaños')
         .setRequired(true)),
-  new SlashCommandBuilder()
-    .setName('add-fc')
-    .setDescription('Agrega una fecha de cumpleaños')
-    .addUserOption(option => 
-      option.setName('usuario')
-        .setDescription('El usuario al que deseas agregar el cumpleaños (opcional)'))
-    .addStringOption(option => 
-      option.setName('nombre')
-        .setDescription('El nombre de la persona si no es un usuario de Discord (opcional)'))
-    .addIntegerOption(option => 
-      option.setName('día')
-        .setDescription('Día del cumpleaños')
-        .setRequired(true))
-    .addIntegerOption(option => 
-      option.setName('mes')
-        .setDescription('Mes del cumpleaños')
-        .setRequired(true)),
+new SlashCommandBuilder()
+  .setName('add-fc')
+  .setDescription('Agrega una fecha de cumpleaños')
+  .addIntegerOption(option => 
+    option.setName('día')
+      .setDescription('Día del cumpleaños')
+      .setRequired(true))
+  .addIntegerOption(option => 
+    option.setName('mes')
+      .setDescription('Mes del cumpleaños')
+      .setRequired(true))
+  .addUserOption(option => 
+    option.setName('usuario')
+      .setDescription('El usuario al que deseas agregar el cumpleaños (opcional)'))
+  .addStringOption(option => 
+    option.setName('nombre')
+      .setDescription('El nombre de la persona si no es un usuario de Discord (opcional)')),
 ].map(command => {
   console.log(`Comando: ${command.name} registrado.`); // Agrega un log para cada comando
   return command.toJSON();

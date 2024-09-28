@@ -22,14 +22,14 @@ module.exports = {
   async executeSlash(interaction) {
     // Verificar si el usuario tiene permisos de moderar miembros
     if (!interaction.member.permissions.has(PermissionFlagsBits.ModerateMembers)) {
-      return interaction.reply({ content: 'No tienes permisos para usar este comando.', ephemeral: true });
+      return interaction.reply({ content: '<:win11erroicon:1287543137505378324> | No tienes permisos para usar este comando.', ephemeral: true });
     }
 
     const member = interaction.options.getMember('user');
     const index = interaction.options.getInteger('index') - 1; // Restamos 1 para ajustar al índice de array
 
     if (!member) {
-      return interaction.reply({ content: 'Usuario no encontrado.', ephemeral: true });
+      return interaction.reply({ content: '<:databaseerror:1287543007117054063> | Usuario no encontrado.', ephemeral: true });
     }
 
     // Obtener las advertencias del miembro
@@ -39,15 +39,15 @@ module.exports = {
       warnings = allWarnings[member.id] || [];
     } catch (error) {
       console.error('Error al obtener advertencias:', error);
-      return interaction.reply({ content: 'Hubo un error al acceder a las advertencias.', ephemeral: true });
+      return interaction.reply({ content: '<a:7loading:1287542248258666647> | Hubo un error al acceder a las advertencias.', ephemeral: true });
     }
 
     if (warnings.length === 0) {
-      return interaction.reply({ content: `Este usuario no tiene advertencias.`, ephemeral: true });
+      return interaction.reply({ content: `<:databaseerror:1287543007117054063> | Este usuario no tiene advertencias.`, ephemeral: true });
     }
 
     if (index < 0 || index >= warnings.length) {
-      return interaction.reply({ content: `El número de advertencia es inválido.`, ephemeral: true });
+      return interaction.reply({ content: `<:440warning:1287542257985126501> | El número de advertencia es inválido.`, ephemeral: true });
     }
 
     // Eliminar la advertencia del índice especificado
@@ -58,10 +58,10 @@ module.exports = {
       await warnDB.set(`warnings.${member.id}`, warnings);
     } catch (error) {
       console.error('Error al eliminar advertencia:', error);
-      return interaction.reply({ content: 'Hubo un error al actualizar las advertencias.', ephemeral: true });
+      return interaction.reply({ content: '<:440warning:1287542257985126501> | Hubo un error al actualizar las advertencias.', ephemeral: true });
     }
 
-    return interaction.reply({ content: `Advertencia #${index + 1} eliminada correctamente de ${member.user.tag}.`, ephemeral: true });
+    return interaction.reply({ content: `<a:7checkbox:1287542421386690570> | Advertencia #${index + 1} eliminada correctamente de ${member.user.tag}.`, ephemeral: true });
   },
 
   async executePrefix(message, args) {
@@ -74,11 +74,11 @@ module.exports = {
     const index = parseInt(args[1]) - 1; // Restamos 1 para ajustar al índice de array
 
     if (!member) {
-      return message.reply('Por favor menciona a un usuario válido.');
+      return message.reply('<:440warning:1287542257985126501> | Por favor menciona a un usuario válido.');
     }
 
     if (isNaN(index)) {
-      return message.reply('Por favor proporciona un número válido para la advertencia que deseas eliminar.');
+      return message.reply('<:440warning:1287542257985126501> | Por favor proporciona un número válido para la advertencia que deseas eliminar.');
     }
 
     // Obtener las advertencias del miembro
@@ -88,7 +88,7 @@ module.exports = {
       warnings = allWarnings[member.id] || [];
     } catch (error) {
       console.error('Error al obtener advertencias:', error);
-      return message.reply('Hubo un error al acceder a las advertencias.');
+      return message.reply('<:440warning:1287542257985126501> | Hubo un error al acceder a las advertencias.');
     }
 
     if (warnings.length === 0) {
@@ -107,7 +107,7 @@ module.exports = {
       await warnDB.set(`warnings.${member.id}`, warnings);
     } catch (error) {
       console.error('Error al eliminar advertencia:', error);
-      return message.reply('Hubo un error al actualizar las advertencias.');
+      return message.reply('<:440warning:1287542257985126501> | Hubo un error al actualizar las advertencias.');
     }
 
     return message.reply(`Advertencia #${index + 1} eliminada correctamente de ${member.user.tag}.`);

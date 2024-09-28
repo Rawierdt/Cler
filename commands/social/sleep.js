@@ -17,7 +17,7 @@ module.exports = {
         // Crear embed para el llanto
         const sleepEmbed = new EmbedBuilder()
             .setColor(0x1E90FF)
-            .setTitle('💤 ¡Que sueño! 💤')
+            .setTitle('💤 ¡Que sueño! <a:24822monsterenergydrink:1287542749201043527>')
             .setDescription(`${message.author} está durmiendo.`)
             .setImage(randomGif)
             .setTimestamp();

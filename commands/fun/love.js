@@ -8,8 +8,8 @@ module.exports = {
     aliases: ["love"],
     async executePrefix(client, message, args) {
         let users = message.mentions.users.first();
-        if (!users) return message.reply("Menciona a alguien por favor! :heartpulse:");
-        if (users === message.author) return message.channel.send(":heart_exclamation: **El amor por ti mismo es infinito, comparte un poco** :heart_exclamation:");
+        if (!users) return message.reply("Menciona a alguien por favor! <:73433caringhand:1287542803861213247>");
+        if (users === message.author) return message.channel.send("<a:heartarrow_purple:1287542898266607669> **El amor por ti mismo es infinito, comparte un poco** <:73433caringhand:1287542803861213247>");
         if (users === client.user) return message.channel.send("**Lo siento, pero no eres de mi agrado >n<** :sob:");
 
         const random = Math.floor(Math.random() * 100);
@@ -17,9 +17,9 @@ module.exports = {
         if (random < 10) {
             heard = ':woman_gesturing_no: **Negativo** *No son compatibles en lo absoluto, será mejor dar la vuelta y continuar el recorrido...* :woman_gesturing_no:';
         } else if (random < 40) {
-            heard = ':broken_heart: *Podrían perfectamente ser amigos, pero solo eso...* :broken_heart:';
+            heard = '<:4912brokenheart:1287542928062943374> *Podrían perfectamente ser amigos, pero solo eso...* <:4912brokenheart:1287542928062943374>';
         } else if (random < 75) {
-            heard = ':heart: *Podrían intentarlo, aunque como mejores amigos será lo suficiente...* :heart:';
+            heard = '<:mileyheart:1287542639805075518> *Podrían intentarlo, aunque como mejores amigos será lo suficiente...* <:mileyheart:1287542639805075518>';
         } else if (random < 101) {
             heard = ':sparkling_heart: **Son perfectamente compatibles, su relación podría durar varios años...** :sparkling_heart:';
         }

@@ -81,7 +81,7 @@ client.once('ready', async () => {
       'https://i.ytimg.com/vi/v5mDnxORsXU/mqdefault.jpg',
       'https://i.pinimg.com/originals/75/5c/64/755c64611d7c623c9fb06259c5a32306.jpg',
       'https://i.pinimg.com/736x/0e/1c/dc/0e1cdcccfbc296bd15f7462912ee1dd8.jpg',
-      
+
     ];
   
     // Cron job que se ejecuta todos los días a las 00:00
@@ -117,11 +117,11 @@ client.once('ready', async () => {
   
           // Crear el embed para el cumpleaños
           const birthdayEmbed = new EmbedBuilder()
-            .setTitle('<a:hb_animated:1287508461462229125> 🎉 ¡Feliz Cumpleaños! 🎂 <a:hb_animated:1287508461462229125>')
+            .setTitle('<a:lf:1289409156754702417> <a:le:1289409008922263584> <a:ll:1289408851891720264> <a:li:1289409215613505608> <a:lz:1289409226694856768> | <a:lc:1289408784044920956> <a:lu:1289409274530889802> <a:lm:1289409204079300729> <a:lp:1289409084138852484> <a:ll:1289408851891720264> <a:le:1289409008922263584>')
             .setDescription(`¡Hoy es el cumpleaños de **${name}**! <a:2207crown:1287542600017907775> 🎁\nAsegúrate de desearle un excelente día y darle un fuerte abrazo.`)
             .setColor(0x00FF00) // Verde brillante
             .setThumbnail(randomImage) // Imagen aleatoria de cumpleaños
-            .setFooter({ text: '<a:hb_cake:1287508450250719232> ¡Felicidades!, Te quiere Cler! <a:hb_cake:1287508450250719232>'}) // Imagen de pie de página
+            .setFooter({ text: '<a:hb_animated:1287508461462229125> ¡Felicidades!, Te quiere Cler! <a:hb_animated:1287508461462229125>'}) // Imagen de pie de página
             .setTimestamp(); // Establece la hora actual en el embed
   
           // Enviar el embed al canal

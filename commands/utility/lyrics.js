@@ -8,7 +8,7 @@ module.exports = {
 
   async executePrefix(client, message, args) {
     if (args.length < 2) {
-      return message.channel.send('Por favor, proporciona el nombre del artista y la canción.');
+      return message.channel.send('<:win11warningicon:1287543045289410602> Por favor, proporciona el nombre del artista y la canción.');
     }
 
     const artist = args[0];

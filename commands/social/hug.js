@@ -34,7 +34,7 @@ module.exports = {
         // Crear embed para el abrazo
         const abrazoEmbed = new EmbedBuilder()
             .setColor(0xFF69B4)
-            .setTitle('¡Abrazo!')
+            .setTitle('<a:61623heartbeat:1287542624588267642> ¡Abrazo! <a:61623heartbeat:1287542624588267642>')
             .setDescription(`${message.author} le ha dado un abrazo a ${user}! 🤗`)
             .setImage(randomGif)
             .setTimestamp();

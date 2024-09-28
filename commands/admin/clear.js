@@ -30,11 +30,11 @@ module.exports = {
 
     // Verificar si tiene permisos para gestionar mensajes
     if (!isInteraction && !context.member.permissions.has(PermissionFlagsBits.ManageMessages)) {
-      return context.reply({ content: 'No tienes permiso para gestionar mensajes.', ephemeral: true });
+      return context.reply({ content: '<:win11erroicon:1287543137505378324> | No tienes permiso para gestionar mensajes.', ephemeral: true });
     }
 
     if (isNaN(cantidad) || cantidad < 1) {
-      return context.reply({ content: 'Debes proporcionar un número válido de mensajes a borrar (mínimo 1).', ephemeral: true });
+      return context.reply({ content: '<:440warning:1287542257985126501> | Debes proporcionar un número válido de mensajes a borrar (mínimo 1).', ephemeral: true });
     }
 
     // Limitar la cantidad de mensajes a un máximo de 100 (límite de Discord)

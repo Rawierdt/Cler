@@ -29,7 +29,7 @@ module.exports = {
     const member = message.mentions.members.first();
     const reason = args.slice(1).join(' ') || 'No se proporcionó razón.';
     if (!member) {
-      return message.reply('Por favor menciona a un usuario válido.');
+      return message.reply('<a:denyxbox:1287542408082358292> | Por favor menciona a un usuario válido.');
     }
     await this.warnMember(message, member, reason);
   },
@@ -39,17 +39,17 @@ module.exports = {
 
     // Verificar si tiene permisos de advertencia (solo en prefijos)
     if (!isInteraction && !context.member.permissions.has('MODERATE_MEMBERS')) {
-      return context.reply({ content: 'No tienes permiso para advertir miembros.', ephemeral: true });
+      return context.reply({ content: '<:win11erroicon:1287543137505378324> | No tienes permiso para advertir miembros.', ephemeral: true });
     }
 
     if (!member) {
-      return context.reply({ content: 'Por favor selecciona a un miembro válido.', ephemeral: true });
+      return context.reply({ content: '<:440warning:1287542257985126501> | Por favor selecciona a un miembro válido.', ephemeral: true });
     }
 
     try {
       // Intentar enviar un mensaje directo al usuario
       try {
-        await member.send(`Has recibido una advertencia en el servidor ${context.guild.name} por ${context.user.tag}. Razón: ${reason}`);
+        await member.send(`<a:1302moderatorprogramsalumnia:1287542225399709737> Has recibido una advertencia en el servidor ${context.guild.name} por ${context.user.tag}. Razón: ${reason}`);
       } catch (error) {
         console.log(`[LOG] No se pudo enviar un mensaje directo a ${member.user.tag}.`);
       }
@@ -67,16 +67,16 @@ module.exports = {
       // Crear embed para notificar al canal
       const warnEmbed = new EmbedBuilder()
         .setColor(0xffff00) // Amarillo
-        .setTitle('Advertencia')
+        .setTitle('<a:1302moderatorprogramsalumnia:1287542225399709737> **ADVERTENCIA**')
         .setDescription(`${member.user.tag} ha recibido una advertencia.`)
         .addFields(
-          { name: 'Moderador', value: `${context.user.tag}`, inline: true },
-          { name: 'Miembro', value: `${member.user.tag}`, inline: true },
-          { name: 'Razón', value: reason, inline: false }
+          { name: '<a:9755discordstaffanimated:1287542237571321896> Moderador', value: `${context.user.tag}`, inline: true },
+          { name: '<:discordcopyid:1287542182080679997> Miembro', value: `${member.user.tag}`, inline: true },
+          { name: '<:discordeditprofile:1287542190926467094> Razón', value: reason, inline: false }
         )
         .setThumbnail(member.user.displayAvatarURL())
         .setTimestamp()
-        .setFooter({ text: 'Advertencia registrada', iconURL: context.user.displayAvatarURL() });
+        .setFooter({ text: '<a:7checkbox:1287542421386690570> | Advertencia registrada', iconURL: context.user.displayAvatarURL() });
 
       // Enviar el embed como respuesta
       await context.reply({ embeds: [warnEmbed] });

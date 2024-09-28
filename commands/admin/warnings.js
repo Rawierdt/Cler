@@ -24,7 +24,7 @@ module.exports = {
     
     // Asegurarse de que el usuario sea válido
     if (!member) {
-      return interaction.reply({ content: 'Usuario no encontrado.', ephemeral: true });
+      return interaction.reply({ content: '<:databaseerror:1287543007117054063> | Usuario no encontrado.', ephemeral: true });
     }
 
     // Obtener las advertencias del miembro
@@ -59,14 +59,14 @@ module.exports = {
   async executePrefix(message, args) {
     // Verificar si el usuario tiene permisos de moderar miembros
     if (!message.member.permissions.has(PermissionFlagsBits.ModerateMembers)) {
-      return message.reply('No tienes permisos para usar este comando.');
+      return message.reply('<:win11erroicon:1287543137505378324> | No tienes permisos para usar este comando.');
     }
 
     // Obtener el miembro mencionado
     const member = message.mentions.members.first();
     
     if (!member) {
-      return message.reply('Por favor menciona a un usuario válido.');
+      return message.reply('<:440warning:1287542257985126501> | Por favor menciona a un usuario válido.');
     }
 
     // Obtener las advertencias del miembro
@@ -80,7 +80,7 @@ module.exports = {
     }
 
     if (warnings.length === 0) {
-      return message.reply(`Este usuario no tiene advertencias.`);
+      return message.reply(`<:databaseerror:1287543007117054063> | Este usuario no tiene advertencias.`);
     }
 
     // Crear un embed para mostrar las advertencias
