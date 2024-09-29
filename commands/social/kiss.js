@@ -30,14 +30,14 @@ module.exports = {
             return message.reply('¡No puedes besarte a ti mismo!, seria raro 😨');
         }
         if (user.id === message.client.user.id) {
-            return message.reply('¡Lo siento, pero me negaré esta vez 😔!');
+            return message.reply('¡Lo siento, pero no eres mi tipo! <:bow:1287542831920971826>');
         }
 
         // Crear embed para el beso
         const besoEmbed = new EmbedBuilder()
             .setColor(0xFF69B4)
             .setTitle('¡Beso!')
-            .setDescription(`${message.author} le ha dado un beso a ${user}! 😘`)
+            .setDescription(`<a:heartarrow_white1:1287542081732218900> ${message.author} le ha dado un beso a ${user}! <a:8048minecraftheartrainbow:1287542054804656238>`)
             .setImage(randomGif)
             .setTimestamp();
 

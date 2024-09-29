@@ -71,7 +71,7 @@ module.exports = {
         )
         .setThumbnail(member.user.displayAvatarURL())
         .setTimestamp()
-        .setFooter({ text: '<a:7checkbox:1287542421386690570> | Baneo ejecutado', iconURL: context.user.displayAvatarURL() });
+        .setFooter({ text: 'Baneo ejecutado', iconURL: context.user.displayAvatarURL() });
 
       // Enviar el embed como respuesta
       await context.reply({ embeds: [banEmbed] });

@@ -111,7 +111,7 @@ module.exports = {
       console.log(`[LOG] ${context.user.tag} ha silenciado a ${member.user.tag} en ${context.guild.name} por ${time || 'Indefinido'} minutos.`);
     } catch (error) {
       console.error(error);
-      context.reply({ content: 'Hubo un error al silenciar a este miembro.', ephemeral: true });
+      context.reply({ content: '<a:denyxbox:1287542408082358292> | Hubo un error al silenciar a este miembro.', ephemeral: true });
     }
   },
 

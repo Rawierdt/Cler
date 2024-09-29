@@ -52,7 +52,7 @@ module.exports = {
         const embed = new EmbedBuilder()
             .setTitle('Nombre del ship: ' + message.author.username.slice(0, -2) + users.username.slice(2))
             .setAuthor({ name: `${msg}` })
-            .setThumbnail("https://c.tenor.com/VhFHg1pUQRcAAAAC/heart-emoji.gif")
+            .setThumbnail("https://i.ibb.co/C5PnW62/6c8944a7fcaade2713616a936686e29d.gif")
             .setFooter({ text: "Love · Cler", iconURL: message.author.displayAvatarURL() })
             .setDescription(`${random} % ${heard}`)
             .setColor(0xff4d4d);
