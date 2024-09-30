@@ -74,7 +74,7 @@ module.exports = {
         .setFooter({ text: 'Baneo ejecutado', iconURL: context.user.displayAvatarURL() });
 
       // Enviar el embed como respuesta
-      await context.reply({ embeds: [banEmbed] });
+      await context.reply({ embeds: [banEmbed] });x
 
       // Log en consola
       console.log(`[LOG] ${context.user.tag} ha baneado a ${member.user.tag} en ${context.guild.name}`);

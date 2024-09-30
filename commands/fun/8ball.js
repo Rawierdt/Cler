@@ -5,6 +5,7 @@ module.exports = {
     description: 'Responde a una pregunta con una respuesta aleatoria.',
     async executePrefix(client, message, args) {
         let mensaje = args.slice().join(" ");
+        if (message.deletable) message.delete();
         if (!mensaje) return message.reply("Primero pregúntame algo.");
 
         let respuestas = [

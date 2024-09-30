@@ -9,7 +9,7 @@ module.exports = {
         const embed = new EmbedBuilder()
             .setImage('https://i.redd.it/coz72i73uf881.jpg')
             .setColor(0x5e10f8)
-            .setFooter({ text: "● Comando Secreto 1/10 ● " });
+            .setFooter({ text: "● Comando Secreto 1/6 ● " });
 
         message.channel.send({ embeds: [embed] });
     }

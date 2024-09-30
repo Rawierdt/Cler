@@ -31,6 +31,7 @@ module.exports = {
                     { name: ":pager: Ram", value: `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB` },
                     { name: "<:nodejs:1289396587235377162> Entorno", value: "NodeJS" },
                     { name: "<a:discordverifypurple:1287542526848532500> Librería", value: "Discord.js v14.16.2" },
+                    { name: ":clock3: Local Time", value: new Intl.DateTimeFormat('es-AR', {timeStyle: 'short', hourCycle: 'h23'}).format(new Date()) },                    
                     { name: ":alarm_clock: Uptime", value: `${Math.round(client.uptime / (1000 * 60 * 60))} Hora(s), ${Math.round(client.uptime / (1000 * 60)) % 60} minuto(s), ${Math.round(client.uptime / 1000) % 60} segundo(s)` }
                 )
                 .setColor(color);  // Se usa color como cadena o número

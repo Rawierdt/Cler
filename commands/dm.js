@@ -8,7 +8,7 @@ module.exports = {
 
         // Verificar si el autor del mensaje tiene el ID permitido
         if (message.author.id !== allowedId) {
-            return message.channel.send(`${author} **:x: | Te atrapé!**`);
+            return message.channel.send(`${author} <a:denyxbox:1287542408082358292> | **Te atrapé!**`);
         }
 
         if (message.deletable) message.delete();
@@ -32,7 +32,7 @@ module.exports = {
         if (targetUser) {
             targetUser.send(mentionMessage);
         } else {
-            message.channel.send(`${author} **:x: | No se pudo enviar el mensaje. Asegúrate de mencionar a un usuario o de usar un ID válido.**`);
+            message.channel.send(`${author} <a:denyxbox:1287542408082358292> |**No se pudo enviar el mensaje.**`);
         }
     },
 };

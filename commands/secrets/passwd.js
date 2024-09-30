@@ -10,7 +10,6 @@ function generatePassword(length) {
     return password;
 }
 
-let color = process.env.COLOR;
 let dev = process.env.DEV;
 
 module.exports = {
@@ -19,7 +18,7 @@ module.exports = {
     aliases: ["genpass", "password", "pass"],
     async executePrefix(client, message, args) {
         if (!args[0] || isNaN(args[0]) || args[0] <= 0) {
-            return message.reply(":x: | Por favor, ingresa un número válido para la longitud de la contraseña.");
+            return message.reply("<a:denyxbox:1287542408082358292> | Por favor, ingresa un número válido para la longitud de la contraseña.");
         }
 
         const length = parseInt(args[0]);
@@ -29,8 +28,8 @@ module.exports = {
             .setColor(0x5e10f8)
             .setTitle("Contraseña Segura Generada")
             .setDescription("```" + password + "```")
-            .setFooter({ text: "● Comando Secreto 2/10 ● " });
+            .setFooter({ text: "● Comando Secreto 3/6 ● " });
 
-        message.reply({ embeds: [embed] });
+            message.channel.send({ embeds: [embed] });
     }
 };
