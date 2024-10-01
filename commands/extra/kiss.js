@@ -8,7 +8,7 @@ module.exports = {
             option.setName('usuario')
             .setDescription('El usuario al que deseas besar')
             .setRequired(true)),
-    async execute(interaction) {
+    async executeSlash(interaction) {
         // Lista de enlaces de GIFs de besos (puedes agregar más enlaces)
         const gifs = [
             'https://media.giphy.com/media/G3va31oEEnIkM/giphy.gif',

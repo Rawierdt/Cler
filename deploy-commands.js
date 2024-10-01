@@ -151,6 +151,13 @@ new SlashCommandBuilder()
             option.setName('usuario')
             .setDescription('El usuario al que deseas besar')
             .setRequired(true)),
+  new SlashCommandBuilder()
+        .setName('hug')
+        .setDescription('Envía un abrazo a otro usuario con un GIF aleatorio.')
+        .addUserOption(option => 
+            option.setName('usuario')
+            .setDescription('El usuario al que deseas abrazar')
+            .setRequired(true)),
 ].map(command => {
   console.log(`Comando: ${command.name} registrado.`); // Agrega un log para cada comando
   return command.toJSON();
