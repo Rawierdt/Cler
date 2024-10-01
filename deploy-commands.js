@@ -144,6 +144,13 @@ new SlashCommandBuilder()
   .addStringOption(option => 
     option.setName('nombre')
       .setDescription('El nombre de la persona si no es un usuario de Discord (opcional)')),
+  new SlashCommandBuilder()
+        .setName('kiss')
+        .setDescription('Envía un beso a otro usuario con un GIF aleatorio.')
+        .addUserOption(option => 
+            option.setName('usuario')
+            .setDescription('El usuario al que deseas besar')
+            .setRequired(true)),
 ].map(command => {
   console.log(`Comando: ${command.name} registrado.`); // Agrega un log para cada comando
   return command.toJSON();

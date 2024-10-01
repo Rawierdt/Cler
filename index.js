@@ -51,6 +51,7 @@ loadCommands('./commands/contextMenu');
 loadCommands('./commands/fun');
 loadCommands('./commands/secrets');
 loadCommands('./commands/utility');
+loadCommands('./commands/extra')
 
 // Función para verificar y anunciar los cumpleaños
 async function checkBirthdays() {
