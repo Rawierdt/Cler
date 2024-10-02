@@ -3,7 +3,7 @@
 # Cler
 
 ## Cler Discord multipurpose bot
-**PassPai** es una herramienta para la generación y gestión de contraseñas de codigo abierto que permite la generación de contraseñas seguras gracias a la encriptación  AES-256
+**Cler** es una bot de Discord para administrar tu servidor, cuenta con multiples comandos como de administración, utilidad y de diversión.
 
 > [!NOTE]
 > Disclaimer: Any extended use of this tool to companies will incur charges.
