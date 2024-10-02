@@ -1,6 +1,14 @@
-![Cler](/clerlogo.gif)
+![imageTitle](./title.jpg)
 
-# About Cler | Acerca de Cler
+# Cler
+
+## Cler Discord multipurpose bot
+**PassPai** es una herramienta para la generación y gestión de contraseñas de codigo abierto que permite la generación de contraseñas seguras gracias a la encriptación  AES-256
+
+> [!NOTE]
+> Disclaimer: Any extended use of this tool to companies will incur charges.
+
+[Cler's Monitor](https://bit.ly/cler-bot)
 
 [Invite Cler on your server](https://discord.com/oauth2/authorize?client_id=774150617546883073&permissions=8&scope=bot)
 
@@ -11,6 +19,10 @@ Please report any issue or bug.
 * |Advertencia| Bot para discord en español escrito en node.js / discord.js.
 * Soporta Slash Commands
 Informa cualquier problema o error.
+
+## Lastest Version and What's New
+
+**v4.7.20**
 
 #### *Spanish language only from here*
 
@@ -25,17 +37,72 @@ Informa cualquier problema o error.
 
 # Planes a futuro
 
-* Pagina Web y Docs
-  * Conectar con MongoDB
+* Pagina side-side.
+* Comandos personalizados por servidor.
+* Sistema de mascota y economia.
+* Comandos para el desarrollo de sistemas embebidos.
+* Comandos para el aprendizaje de la ciberseguridad.
 * Comer bayas azules
 
 Postdata: Si abandoné este proyecto es porque me aburrí o hice una mejor versión.
 
+## 📦 Requirements
+
+- **1 GB disk space**
+- **256 MB RAM**
+
+## 💻 Installation
+
+Para instalar y ejecutar Cler localmente, sigue estos pasos:
+
+1. **Clona el repositorio**:
+
+    ```bash
+    git clone git@github.com:Rawierdt/Cler.git
+    ```
+
+2. **Navega al directorio del proyecto**:
+
+    ```bash
+    cd Cler
+    ```
+
+3. **Crea un archivo de configuración .env dentro del directorio**:
+
+    ```bash
+    BOT_TOKEN=YOUR_BOT_TOKEN
+    CLIENT_ID=YOUR_CLIENT_ID
+    GUILD_ID=YOUR_GUILD_ID
+    PREFIX='YOUR_PREFIX'
+    COLOR='0x5e10f8'
+    OWNER=YOUR_DISCORD_ID
+    ```
+
+4. **Instala las dependencias**:
+
+    ```bash
+    npm install
+    ```
+
+5. **Ejecuta el comando de carga global**:
+
+    ```bash
+    npm deploy-commands.js
+    ```
+
+6. **Ejecuta el comando de inicio**:
+
+    ```bash
+    npm index.js
+    ```
+
+    Dirigete a tu servidor de discord al que invitaste a tu bot y ejecuta el comando de /help.
+
 # Comandos
 
-Lista completa de comandos en [Documentación](https://lwnadev.gitbook.io/cler/)
+Lista completa de comandos en [Documentación](https://rawier.gitbook.io/cler)
 
-Estructura y Diagramación en Repositorio de [Github](https://github.com/LwnaDev/Cler)
+Estructura y Diagramación en Repositorio de [Github](https://github.com/Rawierdt/Cler)
 
 ### Admin / Mod
 
@@ -47,29 +114,21 @@ Estructura y Diagramación en Repositorio de [Github](https://github.com/LwnaDev
 * `c!kick <@member> <reason>` Expulsa del servidor al miembro etiquetado.
 * `c!softban <@member> <reason>` Expulsa del servidor al miembro etiquetado de manera temporal por 7 dias.
 * `c!warn <@member> <reason>` Notifica al miembro seleccionado
-* `c!bc <#channel> <message>` Envia un mensaje de manera remota al canal seleccionado Nombre o ID.
 
-Lista completa de comandos en [Documentación](https://lwnadev.gitbook.io/cler/)
+Lista completa de comandos en [Documentación](https://rawier.gitbook.io/cler)
 
 ### Acción
 
 * `c!hug  <@member>` Envia un Gif de Abrazo / Imagen.
 * `c!kiss <@member>` Envia un Gif de Beso / Imagen.
-* `c!kill <@member>` Envia un Gif de Mat#r / Imagen.
 * `c!pat <@member>` Envia un Gif de Caricia / Imagen.
-* `c!lick <@member>` Envia un Gif de Lamida / Imagen.
 * `c!slap <@member>` Envia un Gif de Golpe / Imagen.
-* `c!feed <@member>` Envia un Gif de Alimentar / Imagen.
 * `c!cry` Envia un Gif de Llorar / Imagen.
 * `c!angry` Envia un Gif de Enojo / Imagen.
-* `c!happy` Envia un Gif de Felicidad / Imagen.
-* `c!dance` Envia un Gif de Danza / Imagen.
-* `c!confused` Envia un Gif de Confundido / Imagen.
-* `c!blush` Envia un Gif de Sonrojar / Imagen.
 * `c!sleep` Envia un Gif de Dormir / Imagen.
 * `c!bored` Envia un Gif de Aburrido / Imagen.
 
-Lista completa de comandos en [Documentación](https://lwnadev.gitbook.io/cler/)
+Lista completa de comandos en [Documentación](https://rawier.gitbook.io/cler)
 
 ### Diversión
 
@@ -80,13 +139,19 @@ Lista completa de comandos en [Documentación](https://lwnadev.gitbook.io/cler/)
 * `c!love <@member>` Mide tu compatibilidad de amor con el usuario mencionado.
 * `c!chiste` Envia una imagen con chiste / Imagen.
 
-Lista completa de comandos en [Documentación](https://lwnadev.gitbook.io/cler/)
+Lista completa de comandos en [Documentación](https://rawier.gitbook.io/cler)
 
 ### Utileria
 
 * `c!avatar  <@member>` Envia el avatar de un usuario Gif / Imagen.
 
-Lista completa de comandos en [Documentación](https://lwnadev.gitbook.io/cler/)
+Lista completa de comandos en [Documentación](https://rawier.gitbook.io/cler)
+
+### Comandos contextuales
+
+* `Ver Avatar` Envia el avatar de un usuario Gif / Imagen.
+
+Lista completa de comandos en [Documentación](https://rawier.gitbook.io/cler)
 
 ### Libraries and frameworks used
 
@@ -98,3 +163,33 @@ Lista completa de comandos en [Documentación](https://lwnadev.gitbook.io/cler/)
 * [os](https://github.com/DiegoRBaquero/node-os)
 * [figlet](https://github.com/patorjk/figlet.js#readme)
 * [discord-tts](https://www.npmjs.com/package/discord-tts)
+
+## 🤝 Contributing
+
+Contributions, issues and feature requests are welcome! Feel free to check issues page.
+
+1. **Haz un Fork del Repositorio**: Crea una copia del repositorio en tu cuenta de GitHub.
+2. **Crea una Rama**: 
+
+    ```bash
+    git checkout -b nombre-de-tu-rama
+    ```
+
+3. **Haz tus Cambios**: Realiza las modificaciones que deseas agregar.
+4. **Commit y Push**:
+
+    ```bash
+    git add .
+    git commit -m "Descripción de los cambios"
+    git push origin nombre-de-tu-rama
+    ```
+
+5. **Crea un Pull Request**: Abre un Pull Request desde tu rama a la rama principal del repositorio.
+
+### ❤️ Show your support
+
+Give a ⭐️ if this _project helped you!_ 
+
+### 💜 License
+
+Copyright © 2024 [Rawier](https://rawier.vercel.app). This project is [AGPL](/LICENSE) licensed.
