@@ -64,7 +64,7 @@ async function enviarEventoAGlitch(data) {
       headers: { 'Content-Type': 'application/json' },
     });
     const result = await response.text();
-    console.log('Respuesta de Glitch:', result);
+    console.log('Endpoint Response:', result);
   } catch (error) {
     console.error('Error al enviar evento a Glitch:', error);
   }
@@ -182,7 +182,7 @@ client.once('ready', async () => {
       activities: [{ 
         type: ActivityType.Custom,
         name: 'customname',
-        state: 'c!help | /help'
+        state: '💜 c!help · /help'
       }],
     });
 
@@ -192,7 +192,7 @@ client.once('ready', async () => {
     // Comprobación de cumpleaños al iniciar
     try {
       await checkBirthdays();
-      console.log(`${chalk.magenta('[LOG] Comprobación inicial de cumpleaños completada.')}`);
+      console.log(`${chalk.white.bgGreen.bold('[LOG] Comprobación inicial de cumpleaños completada.')}`);
     } catch (error) {
       console.error('[ERROR] Error al comprobar los cumpleaños al iniciar:', error);
     }
@@ -201,7 +201,7 @@ client.once('ready', async () => {
     cron.schedule('0 0 * * *', async () => {
       try {
         await checkBirthdays();
-        console.log(`${chalk.magenta('[LOG] Comprobación diaria de cumpleaños completada.')}`);
+        console.log(`${chalk.white.bgRed.bold('[LOG] Comprobación diaria de cumpleaños completada.')}`);
       } catch (error) {
         console.error('[ERROR] Error en el cron job diario de cumpleaños:', error);
       }
@@ -212,7 +212,7 @@ client.once('ready', async () => {
       console.log(`[LOG] Hora actual: ${new Date().toLocaleTimeString()}`);
       try {
         await checkBirthdays();
-        console.log(`${chalk.magenta('[LOG] Comprobación de cumpleaños cada 8 horas completada.')}`);
+        console.log(`${chalk.white.bgMagenta.bold('[LOG] Comprobación de cumpleaños cada 8 horas completada.')}`);
       } catch (error) {
         console.error('[ERROR] Error en el cron job de 8 horas para cumpleaños:', error);
       }
@@ -234,7 +234,6 @@ client.once('ready', async () => {
   }
 });
 
-
 // Manejando eventos de interacción (slash commands)
 client.on(Events.InteractionCreate, async interaction => {
   if (interaction.isChatInputCommand()) {
@@ -254,7 +253,7 @@ client.on(Events.InteractionCreate, async interaction => {
         guild: interaction.guild.name
       });
 
-      console.log(`${chalk.blue(`[${new Date().toLocaleTimeString()}]`)} ${chalk.rgb(121, 13, 236).bold('[LOG]')} ${chalk.yellow(interaction.user.tag)} ha ejecutado ${chalk.white.bgMagenta.bold(interaction.commandName)} en ${chalk.cyan(interaction.guild.name)}`);
+      console.log(`${chalk.blue(`[${new Date().toLocaleTimeString()}]`)} ${chalk.rgb(121, 13, 236).bold('[LOG]')} ${chalk.yellow(interaction.user.tag)} ha ejecutado ${chalk.white.bgGreen.bold(interaction.commandName)} en ${chalk.cyan(interaction.guild.name)}`);
       //console.log(`[${new Date().toLocaleTimeString()}] [LOG S] ${interaction.user.tag} ha ejecutado ${interaction.commandName} en ${interaction.guild.name}`);
     } catch (error) {
       console.error(error);
@@ -280,7 +279,7 @@ client.on(Events.InteractionCreate, async interaction => {
         guild: interaction.guild.name
       });
 
-      console.log(`${chalk.blue(`[${new Date().toLocaleTimeString()}]`)} ${chalk.rgb(13, 236, 229).bold('[LOG]')} ${interaction.user.tag} ha ejecutado ${chalk.white.bgMagenta.bold(interaction.commandName)} en ${interaction.guild.name}`);
+      console.log(`${chalk.blue(`[${new Date().toLocaleTimeString()}]`)} ${chalk.rgb(13, 236, 229).bold('[LOG]')} ${chalk.yellow(interaction.user.tag)} ha ejecutado ${chalk.white.bgGreen.bold(interaction.commandName)} en ${chalk.cyan(interaction.guild.name)}`);
     } catch (error) {
       console.error(error);
       if (interaction.replied || interaction.deferred) {
@@ -291,7 +290,6 @@ client.on(Events.InteractionCreate, async interaction => {
     }
   }
 });
-
 
 // Manejo de mensajes (comandos con prefijo y DMs)
 client.on('messageCreate', message => {
@@ -317,7 +315,7 @@ client.on('messageCreate', message => {
     if (command.executePrefix) {
       command.executePrefix(client, message, args);  // Ejecuta el método para comandos con prefijo
     }
-    console.log(`${chalk.blue(`[${new Date().toLocaleTimeString()}]`)} ${chalk.rgb(11, 227, 116).bold('[LOG]')} ${chalk.yellow(message.author.tag)} ha ejecutado ${chalk.white.bgMagenta.bold(commandName)} en ${message.guild.name}`);
+    console.log(`${chalk.blue(`[${new Date().toLocaleTimeString()}]`)} ${chalk.rgb(11, 227, 116).bold('[LOG]')} ${chalk.yellow(message.author.tag)} ha ejecutado ${chalk.white.bgGreen.bold(commandName)} en ${chalk.cyan(message.guild.name)}`);
   } catch (error) {
     console.error(error);
     message.reply('Hubo un error al ejecutar ese comando.');

@@ -158,6 +158,17 @@ new SlashCommandBuilder()
             option.setName('usuario')
             .setDescription('El usuario al que deseas abrazar')
             .setRequired(true)),
+  new SlashCommandBuilder()
+        .setName('zin_avatar')
+        .setDescription('Cambia el avatar del bot.')
+        .addAttachmentOption(option =>
+            option.setName('avatar')
+            .setDescription('El avatar del bot')
+            .setRequired(true)),
+  new SlashCommandBuilder()
+        .setName('ask')
+        .setDescription('Has una pregunta para Cler')
+        .addStringOption(option => option.setName('prompt').setDescription('¿Cuál es tu pregunta?').setRequired(true)),
 ].map(command => {
   console.log(`Comando: ${command.name} registrado.`); // Agrega un log para cada comando
   return command.toJSON();

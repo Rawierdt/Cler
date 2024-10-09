@@ -14,6 +14,7 @@
 # Ignore commands/meme.js file
 /commands/fun/meme.js
 /commands/dm.js
+/commands/extra/zin_avatar.js
 
 # testing
 /coverage
