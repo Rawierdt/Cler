@@ -7,6 +7,7 @@ const cron = require('node-cron');
 const config = require('./config.json');
 const chalk = require('chalk');
 require('dotenv').config();
+const fetch = require('node-fetch');
 
 
 // Crear el cliente del bot
@@ -53,6 +54,21 @@ loadCommands('./commands/fun');
 loadCommands('./commands/secrets');
 loadCommands('./commands/utility');
 loadCommands('./commands/extra');
+
+// Función para enviar un evento (Endpoint) a Glitch
+async function enviarEventoAGlitch(data) {
+  try {
+    const response = await fetch('https://endpoint-cler.glitch.me/endpoint-cler', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const result = await response.text();
+    console.log('Respuesta de Glitch:', result);
+  } catch (error) {
+    console.error('Error al enviar evento a Glitch:', error);
+  }
+}
 
 // Función para verificar y anunciar los cumpleaños
 async function checkBirthdays() {
@@ -158,8 +174,20 @@ client.once('ready', async () => {
     console.log(`[LOG] Bot atendiendo en ${client.guilds.cache.size} servidores`);
     console.log(`[LOG] Hora actual: ${new Date().toLocaleTimeString()}`);
 
-    client.user.setStatus('online');
-    client.user.setActivity(`c!help | /help`, { type: ActivityType.Listening });
+    // client.user.setStatus('online');
+    // client.user.setActivity(`c!help | /help`, { type: ActivityType.Listening });
+
+    await client.user.setPresence({
+      status: 'online',
+      activities: [{ 
+        type: ActivityType.Custom,
+        name: 'customname',
+        state: 'c!help | /help'
+      }],
+    });
+
+    // Enviar evento a Glitch al iniciar
+    await enviarEventoAGlitch({ event: 'Bot en línea', guilds: client.guilds.cache.size });
 
     // Comprobación de cumpleaños al iniciar
     try {
@@ -217,6 +245,15 @@ client.on(Events.InteractionCreate, async interaction => {
       if (command.executeSlash) {
         await command.executeSlash(interaction);  // Ejecuta el método para slash commands
       }
+
+      // Enviar evento a Glitch al ejecutar un comando
+      await enviarEventoAGlitch({
+        event: 'Comando ejecutado',
+        user: interaction.user.tag,
+        command: interaction.commandName,
+        guild: interaction.guild.name
+      });
+
       console.log(`${chalk.blue(`[${new Date().toLocaleTimeString()}]`)} ${chalk.rgb(121, 13, 236).bold('[LOG]')} ${chalk.yellow(interaction.user.tag)} ha ejecutado ${chalk.white.bgMagenta.bold(interaction.commandName)} en ${chalk.cyan(interaction.guild.name)}`);
       //console.log(`[${new Date().toLocaleTimeString()}] [LOG S] ${interaction.user.tag} ha ejecutado ${interaction.commandName} en ${interaction.guild.name}`);
     } catch (error) {
@@ -235,6 +272,14 @@ client.on(Events.InteractionCreate, async interaction => {
       if (command.executeContextMenu) {
         await command.executeContextMenu(interaction);  // Ejecuta el método para context menu commands
       }
+
+      await enviarEventoAGlitch({
+        event: 'Comando ejecutado',
+        user: interaction.user.tag,
+        command: interaction.commandName,
+        guild: interaction.guild.name
+      });
+
       console.log(`${chalk.blue(`[${new Date().toLocaleTimeString()}]`)} ${chalk.rgb(13, 236, 229).bold('[LOG]')} ${interaction.user.tag} ha ejecutado ${chalk.white.bgMagenta.bold(interaction.commandName)} en ${interaction.guild.name}`);
     } catch (error) {
       console.error(error);
