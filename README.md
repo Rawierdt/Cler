@@ -2,7 +2,8 @@
 
 # Cler
 
-## Cler Discord multipurpose bot
+## Cler Discord multipurpose bot using Node.js, PostgreSQL and Endpoint (API)
+
 **Cler** es una bot de Discord para administrar tu servidor, cuenta con multiples comandos como de administración, utilidad y de diversión.
 
 > [!NOTE]
@@ -22,7 +23,7 @@ Informa cualquier problema o error.
 
 ## Lastest Version and What's New
 
-**v4.7.20**
+**v4.8.20**
 
 #### *Spanish language only from here*
 
@@ -31,16 +32,13 @@ Informa cualquier problema o error.
 ### (Asynchronous Transfer Mode)
 
 * Usa el prefix. `c!` o el Slash `/` Para comandos de moderación
-  * ~~buscar manga, anime, reviews... owo~~ pronto.
 * Ahora con mas secretos (｢• ω •)｢ (⌒ω⌒`)
 * Bot en Discord.js v14.16.2
 
 # Planes a futuro
 
-* Pagina side-side.
 * Comandos personalizados por servidor.
 * Sistema de mascota y economia.
-* Comandos para el desarrollo de sistemas embebidos.
 * Comandos para el aprendizaje de la ciberseguridad.
 * Comer bayas azules
 
@@ -169,6 +167,7 @@ Lista completa de comandos en [Documentación](https://rawier.gitbook.io/cler)
 * [os](https://github.com/DiegoRBaquero/node-os)
 * [figlet](https://github.com/patorjk/figlet.js#readme)
 * [discord-tts](https://www.npmjs.com/package/discord-tts)
+* [postgresql](https://www.npmjs.com/package/pg)
 
 ## 🤝 Contributing
 
