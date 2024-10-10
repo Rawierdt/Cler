@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionsBitField } = require('discord.js');
+const { query } = require('../../db');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -10,8 +11,8 @@ module.exports = {
         .setRequired(true),
     ),
 
-    name: 'unban', // Nombre para comandos con prefijo
-    description: 'Desbanea a un miembro del servidor.',
+  name: 'unban', // Nombre para comandos con prefijo
+  description: 'Desbanea a un miembro del servidor.',
 
   async executeSlash(interaction) {
     const userId = interaction.options.getString('userid');
@@ -31,6 +32,9 @@ module.exports = {
 
       // Desbanear al usuario
       await interaction.guild.members.unban(userId);
+
+      // Borrar el registro del baneo en la tabla 'bans'
+      await query('DELETE FROM bans WHERE user_id = $1', [userId]);
 
       // Crear el embed de confirmación
       const unbanEmbed = new EmbedBuilder()
@@ -70,6 +74,9 @@ module.exports = {
       // Desbanear al usuario
       await message.guild.members.unban(userId);
 
+      // Borrar el registro del baneo en la tabla 'bans'
+      await query('DELETE FROM bans WHERE user_id = $1', [userId]);
+
       // Crear el embed de confirmación
       const unbanEmbed = new EmbedBuilder()
         .setTitle('<a:7621hypesquadeventsanimation:1287542126237847622> Usuario Desbaneado')
@@ -89,3 +96,9 @@ module.exports = {
     }
   },
 };
+
+module.exports.help = {
+  name: 'unban',
+  description: 'Desbanea a un miembro del servidor.',
+  usage: 'unban <user id>',
+};  

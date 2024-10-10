@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
-const db = require('megadb'); // Requerimos megadb
-const muteRoleDB = new db.crearDB('muteRoles'); // Cargamos la base de datos donde se guardó el rol de mute por servidor
+const { query } = require('../../db');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -69,6 +68,9 @@ module.exports = {
       // Eliminar el rol de mute
       await member.roles.remove(muteRole);
 
+      // Borrar el registro de mute de la base de datos
+      await query('DELETE FROM mutes WHERE user_id = $1 AND guild_id = $2', [member.user.id, context.guild.id]);
+
       // Crear embed para notificar el unmute
       const unmuteEmbed = new EmbedBuilder()
         .setColor(0x00ff00) // Verde
@@ -88,19 +90,29 @@ module.exports = {
       // Log en consola
       console.log(`[LOG] ${context.user.tag} ha desmuteado a ${member.user.tag} en ${context.guild.name}`);
     } catch (error) {
-      console.error(error);
+      console.error(`[ERROR] Hubo un error al desmutear a ${member.user.tag}:`, error);
       context.reply({ content: 'Hubo un error al desmutear a este miembro.', ephemeral: true });
     }
   },
 
   // Función para obtener el rol de mute desde la base de datos
   async getMuteRole(guildId) {
+    const queryText = 'SELECT muted_role_id FROM muted_roles WHERE guild_id = $1;';
     try {
-      const muteRoleId = await muteRoleDB.get(`${guildId}.muteRole`);
-      return muteRoleId;
+      const res = await query(queryText, [guildId]);
+      if (res.rows.length > 0) {
+        return res.rows[0].muted_role_id;
+      }
+      return null;
     } catch (error) {
-      console.error(`[ERROR] No se pudo obtener el rol de mute para el servidor con ID ${guildId}: ${error}`);
+      console.error(`[ERROR] No se pudo obtener el rol de mute para el servidor con ID ${guildId}:`, error);
       return null;
     }
   }
+};
+
+module.exports.help = {
+  name: 'unmute',
+  description: 'Desmutea a un miembro del servidor.',
+  usage: 'unmute <user>',
 };

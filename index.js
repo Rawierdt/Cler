@@ -6,8 +6,9 @@ const configDB = new db.crearDB('config');
 const cron = require('node-cron');
 const config = require('./config.json');
 const chalk = require('chalk');
-require('dotenv').config();
+const { query } = require('./db');
 const fetch = require('node-fetch');
+require('dotenv').config();
 
 
 // Crear el cliente del bot
@@ -174,9 +175,19 @@ client.once('ready', async () => {
     console.log(`[LOG] Bot atendiendo en ${client.guilds.cache.size} servidores`);
     console.log(`[LOG] Hora actual: ${new Date().toLocaleTimeString()}`);
 
+  // Prueba de conexión a PostgreSQL
+  try {
+    const res = await query('SELECT NOW()');
+    console.log(chalk.white.bgBlue.bold('Conexión a DB exitosa:'), res.rows[0]);
+    console.log('--------------------------');
+  } catch (err) {
+    console.error('Error conectando a PostgreSQL:', err);
+  }
+
     // client.user.setStatus('online');
     // client.user.setActivity(`c!help | /help`, { type: ActivityType.Listening });
 
+    // Precencia del bot (Status)
     await client.user.setPresence({
       status: 'online',
       activities: [{ 

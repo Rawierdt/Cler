@@ -1,8 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
-const db = require('megadb');
-
-// Crear o cargar la base de datos de advertencias
-const warnDB = new db.crearDB('warnings'); // Utilizando el nombre del archivo sin extensión
+const { query } = require('../../db');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -11,105 +8,106 @@ module.exports = {
     .addUserOption(option =>
       option.setName('user')
         .setDescription('El usuario del cual deseas eliminar la advertencia.')
-        .setRequired(true)
-    )
+        .setRequired(true))
     .addIntegerOption(option =>
       option.setName('index')
         .setDescription('El número de la advertencia que deseas eliminar.')
-        .setRequired(true)
-    ),
+        .setRequired(true)),
 
+  /**
+   * Ejecuta el comando `/unwarn` con el parámetro `user` y `index`.
+   * 
+   * @param {import('discord.js').Interaction} interaction La interacción que activó el comando.
+   * @returns {Promise<void>}
+   */
   async executeSlash(interaction) {
-    // Verificar si el usuario tiene permisos de moderar miembros
     if (!interaction.member.permissions.has(PermissionFlagsBits.ModerateMembers)) {
-      return interaction.reply({ content: '<:win11erroicon:1287543137505378324> | No tienes permisos para usar este comando.', ephemeral: true });
+      return interaction.reply({ content: 'No tienes permisos para usar este comando.', ephemeral: true });
     }
 
     const member = interaction.options.getMember('user');
-    const index = interaction.options.getInteger('index') - 1; // Restamos 1 para ajustar al índice de array
+    const index = interaction.options.getInteger('index') - 1; // Ajustar el índice para el array
 
     if (!member) {
-      return interaction.reply({ content: '<:databaseerror:1287543007117054063> | Usuario no encontrado.', ephemeral: true });
+      return interaction.reply({ content: 'Usuario no encontrado.', ephemeral: true });
     }
 
-    // Obtener las advertencias del miembro
-    let warnings;
     try {
-      const allWarnings = await warnDB.get('warnings');
-      warnings = allWarnings[member.id] || [];
+      // Obtener advertencias del miembro
+      const warningsResult = await query('SELECT * FROM warnings WHERE user_id = $1 ORDER BY timestamp ASC', [member.id]);
+      const warnings = warningsResult.rows;
+
+      if (warnings.length === 0) {
+        return interaction.reply({ content: 'Este usuario no tiene advertencias.', ephemeral: true });
+      }
+
+      if (index < 0 || index >= warnings.length) {
+        return interaction.reply({ content: 'El número de advertencia es inválido.', ephemeral: true });
+      }
+
+      // Eliminar la advertencia específica por su ID
+      const warningId = warnings[index].id;
+      await query('DELETE FROM warnings WHERE id = $1', [warningId]);
+
+      interaction.reply({ content: `Advertencia #${index + 1} eliminada correctamente de ${member.user.tag}.`, ephemeral: true });
+
     } catch (error) {
-      console.error('Error al obtener advertencias:', error);
-      return interaction.reply({ content: '<a:7loading:1287542248258666647> | Hubo un error al acceder a las advertencias.', ephemeral: true });
+      console.error('Error al eliminar la advertencia:', error);
+      interaction.reply({ content: 'Hubo un error al eliminar la advertencia.', ephemeral: true });
     }
-
-    if (warnings.length === 0) {
-      return interaction.reply({ content: `<:databaseerror:1287543007117054063> | Este usuario no tiene advertencias.`, ephemeral: true });
-    }
-
-    if (index < 0 || index >= warnings.length) {
-      return interaction.reply({ content: `<:440warning:1287542257985126501> | El número de advertencia es inválido.`, ephemeral: true });
-    }
-
-    // Eliminar la advertencia del índice especificado
-    warnings.splice(index, 1);
-
-    // Actualizar la base de datos
-    try {
-      await warnDB.set(`warnings.${member.id}`, warnings);
-    } catch (error) {
-      console.error('Error al eliminar advertencia:', error);
-      return interaction.reply({ content: '<:440warning:1287542257985126501> | Hubo un error al actualizar las advertencias.', ephemeral: true });
-    }
-
-    return interaction.reply({ content: `<a:7checkbox:1287542421386690570> | Advertencia #${index + 1} eliminada correctamente de ${member.user.tag}.`, ephemeral: true });
   },
 
+  /**
+   * Ejecuta el comando `/unwarn <@miembro> <número>` para eliminar una advertencia de un miembro.
+   * 
+   * @param {import('discord.js').Message} message El mensaje que activó el comando.
+   * @param {string[]} args Los argumentos proporcionados en el mensaje del comando.
+   * @returns {Promise<void>}
+   */
   async executePrefix(message, args) {
-    // Verificar si el usuario tiene permisos de moderar miembros
     if (!message.member.permissions.has(PermissionFlagsBits.ModerateMembers)) {
       return message.reply('No tienes permisos para usar este comando.');
     }
 
     const member = message.mentions.members.first();
-    const index = parseInt(args[1]) - 1; // Restamos 1 para ajustar al índice de array
+    const index = parseInt(args[1]) - 1;
 
     if (!member) {
-      return message.reply('<:440warning:1287542257985126501> | Por favor menciona a un usuario válido.');
+      return message.reply('Por favor menciona a un usuario válido.');
     }
 
     if (isNaN(index)) {
-      return message.reply('<:440warning:1287542257985126501> | Por favor proporciona un número válido para la advertencia que deseas eliminar.');
+      return message.reply('Por favor proporciona un número válido para la advertencia que deseas eliminar.');
     }
 
-    // Obtener las advertencias del miembro
-    let warnings;
     try {
-      const allWarnings = await warnDB.get('warnings');
-      warnings = allWarnings[member.id] || [];
+      // Obtener advertencias del miembro
+      const warningsResult = await query('SELECT * FROM warnings WHERE user_id = $1 ORDER BY timestamp ASC', [member.id]);
+      const warnings = warningsResult.rows;
+
+      if (warnings.length === 0) {
+        return message.reply('Este usuario no tiene advertencias.');
+      }
+
+      if (index < 0 || index >= warnings.length) {
+        return message.reply('El número de advertencia es inválido.');
+      }
+
+      // Eliminar la advertencia específica por su ID
+      const warningId = warnings[index].id;
+      await query('DELETE FROM warnings WHERE id = $1', [warningId]);
+
+      message.reply(`Advertencia #${index + 1} eliminada correctamente de ${member.user.tag}.`);
+
     } catch (error) {
-      console.error('Error al obtener advertencias:', error);
-      return message.reply('<:440warning:1287542257985126501> | Hubo un error al acceder a las advertencias.');
+      console.error('Error al eliminar la advertencia:', error);
+      message.reply('Hubo un error al eliminar la advertencia.');
     }
-
-    if (warnings.length === 0) {
-      return message.reply(`Este usuario no tiene advertencias.`);
-    }
-
-    if (index < 0 || index >= warnings.length) {
-      return message.reply(`El número de advertencia es inválido.`);
-    }
-
-    // Eliminar la advertencia del índice especificado
-    warnings.splice(index, 1);
-
-    // Actualizar la base de datos
-    try {
-      await warnDB.set(`warnings.${member.id}`, warnings);
-    } catch (error) {
-      console.error('Error al eliminar advertencia:', error);
-      return message.reply('<:440warning:1287542257985126501> | Hubo un error al actualizar las advertencias.');
-    }
-
-    return message.reply(`Advertencia #${index + 1} eliminada correctamente de ${member.user.tag}.`);
   },
+};
+
+module.exports.help = {
+  name: 'unwarn',
+  description: 'Elimina una advertencia de un miembro del servidor.',
+  usage: 'unwarn <user> <index>',
 };

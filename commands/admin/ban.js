@@ -1,10 +1,11 @@
 const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
+const { query } = require('../../db'); // Importar el conector de PostgreSQL
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('ban')
     .setDescription('Banea a un miembro del servidor.')
-    .addUserOption(option => 
+    .addUserOption(option =>
       option.setName('user')
         .setDescription('El usuario que deseas banear')
         .setRequired(true))
@@ -35,17 +36,17 @@ module.exports = {
   async banMember(context, member, reason) {
     const isInteraction = !!context.isCommand;
 
-    // Verificar si tiene permisos de baneo (solo en prefijos)
-    if (!isInteraction && !context.member.permissions.has('BAN_MEMBERS')) {
-      return context.reply({ content: '<:win11erroicon:1287543137505378324> | No tienes permiso para banear miembros.', ephemeral: true });
+    // Verificar permisos de baneo (solo en prefijos)
+    if (!isInteraction && !context.member.permissions.has(PermissionFlagsBits.BanMembers)) {
+      return context.reply({ content: 'No tienes permiso para banear miembros.', ephemeral: true });
     }
 
     if (!member) {
-      return context.reply({ content: '<:440warning:1287542257985126501> | Por favor selecciona a un miembro válido.', ephemeral: true });
+      return context.reply({ content: 'Por favor selecciona a un miembro válido.', ephemeral: true });
     }
 
     if (!member.bannable) {
-      return context.reply({ content: '<a:denyxbox:1287542408082358292> | No puedo banear a este miembro.', ephemeral: true });
+      return context.reply({ content: 'No puedo banear a este miembro.', ephemeral: true });
     }
 
     try {
@@ -59,22 +60,38 @@ module.exports = {
       // Bannear al miembro
       await member.ban({ reason });
 
+      // Loguear el baneo en la tabla 'bans'
+      const banQuery = `
+        INSERT INTO bans (user_id, moderator_id, reason, timestamp)
+        VALUES ($1, $2, $3, NOW());
+      `;
+      const banValues = [member.user.id, context.user.id, reason];
+      await query(banQuery, banValues);
+
+      // Loguear el evento de moderación en 'moderation_events'
+      const logQuery = `
+        INSERT INTO moderation_events (guild_id, user_id, moderator_id, event_type, reason, event_date)
+        VALUES ($1, $2, $3, 'ban', $4, NOW());
+      `;
+      const logValues = [context.guild.id, member.user.id, context.user.id, reason];
+      await query(logQuery, logValues);
+
       // Crear embed para notificar al canal
       const banEmbed = new EmbedBuilder()
         .setColor(0xff0000) // Rojo
-        .setTitle('<a:1302moderatorprogramsalumnia:1287542225399709737> **BANEO**')
+        .setTitle('BANEO')
         .setDescription(`${member.user.tag} ha sido baneado del servidor.`)
         .addFields(
-          { name: '<a:9755discordstaffanimated:1287542237571321896> Moderador', value: `${context.user.tag}`, inline: true },
-          { name: '<:discordcopyid:1287542182080679997> Miembro', value: `${member.user.tag}`, inline: true },
-          { name: '<:discordeditprofile:1287542190926467094> Razón', value: reason, inline: false }
+          { name: 'Moderador', value: `${context.user.tag}`, inline: true },
+          { name: 'Miembro', value: `${member.user.tag}`, inline: true },
+          { name: 'Razón', value: reason, inline: false }
         )
         .setThumbnail(member.user.displayAvatarURL())
         .setTimestamp()
         .setFooter({ text: 'Baneo ejecutado', iconURL: context.user.displayAvatarURL() });
 
       // Enviar el embed como respuesta
-      await context.reply({ embeds: [banEmbed] });x
+      await context.reply({ embeds: [banEmbed] });
 
       // Log en consola
       console.log(`[LOG] ${context.user.tag} ha baneado a ${member.user.tag} en ${context.guild.name}`);
@@ -83,4 +100,10 @@ module.exports = {
       context.reply({ content: 'Hubo un error al banear a este miembro.', ephemeral: true });
     }
   },
+};
+
+module.exports.help = {
+  name: 'ban',
+  description: 'Banea a un miembro del servidor.',
+  usage: 'ban <user> <reason>',
 };

@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
-const db = require('megadb'); // Requerimos megadb
-const muteRoleDB = new db.crearDB('muteRoles'); // Creamos la base de datos para guardar los roles de mute por servidor
+const { query } = require('../../db');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -68,11 +67,23 @@ module.exports = {
 
   // Función para guardar el rol de mute en la base de datos
   async setMuteRole(guildId, roleId) {
+    const queryText = `
+      INSERT INTO muted_roles (guild_id, muted_role_id)
+      VALUES ($1, $2)
+      ON CONFLICT (guild_id) DO UPDATE SET muted_role_id = $2;
+    `;
+
     try {
-      await muteRoleDB.set(`${guildId}.muteRole`, roleId);
+      await query(queryText, [guildId, roleId]);
       console.log(`[LOG] Rol de mute guardado para el servidor con ID ${guildId}: ${roleId}`);
     } catch (error) {
       console.error(`[ERROR] No se pudo guardar el rol de mute para el servidor con ID ${guildId}: ${error}`);
     }
   }
+};
+
+module.exports.help = {
+  name: 'set_mute',
+  description: 'Configura el rol de mute para el servidor.',
+  usage: 'set_mute <role>',
 };

@@ -1,10 +1,11 @@
 const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
+const { query } = require('../../db'); // Importar el conector de PostgreSQL
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('kick')
     .setDescription('Expulsa a un miembro del servidor.')
-    .addUserOption(option => 
+    .addUserOption(option =>
       option.setName('user')
         .setDescription('El usuario que deseas expulsar')
         .setRequired(true)
@@ -40,7 +41,7 @@ module.exports = {
     const isInteraction = !!context.isCommand;
 
     // Verificar si tiene permisos de expulsión (solo en prefijos)
-    if (!isInteraction && !context.member.permissions.has('KICK_MEMBERS')) {
+    if (!isInteraction && !context.member.permissions.has(PermissionFlagsBits.KickMembers)) {
       return context.reply({ content: '<:win11erroicon:1287543137505378324> | No tienes permiso para expulsar miembros.', ephemeral: true });
     }
 
@@ -63,7 +64,23 @@ module.exports = {
       // Expulsar al miembro
       await member.kick(reason);
 
-      // Crear embed para notificar al canal
+      // Registrar el kick en la tabla 'kicks'
+      const kickQuery = `
+        INSERT INTO kicks (user_id, moderator_id, reason, timestamp)
+        VALUES ($1, $2, $3, NOW());
+      `;
+      const kickValues = [member.user.id, context.user.id, reason];
+      await query(kickQuery, kickValues);
+
+      // Registrar el evento en 'moderation_events'
+      const logQuery = `
+        INSERT INTO moderation_events (guild_id, user_id, moderator_id, event_type, reason, event_date)
+        VALUES ($1, $2, $3, 'kick', $4, NOW());
+      `;
+      const logValues = [context.guild.id, member.user.id, context.user.id, reason];
+      await query(logQuery, logValues);
+
+      // Crear el embed para notificar al canal
       const kickEmbed = new EmbedBuilder()
         .setColor(0xff0000) // Rojo
         .setTitle('Miembro Expulsado')
@@ -87,4 +104,10 @@ module.exports = {
       context.reply({ content: 'Hubo un error al expulsar a este miembro.', ephemeral: true });
     }
   },
+};
+
+module.exports.help = {
+  name: 'kick',
+  description: 'Expulsa a un miembro del servidor.',
+  usage: 'kick <user> <reason>',
 };

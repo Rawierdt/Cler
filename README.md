@@ -74,8 +74,14 @@ Para instalar y ejecutar Cler localmente, sigue estos pasos:
     CLIENT_ID=YOUR_CLIENT_ID
     GUILD_ID=YOUR_GUILD_ID
     PREFIX='YOUR_PREFIX'
-    COLOR='0x5e10f8'
+    COLOR=0x5e10f8
     OWNER=YOUR_DISCORD_ID
+    PG_USER=YOUR_POSTGRES_USER
+    PG_PASSWORD=YOUR_POSTGRES_PASSWORD
+    PG_HOST=localhost
+    PG_DATABASE=YOUR_POSTGRES_DATABASE
+    PG_PORT=5432
+
     ```
 
 4. **Instala las dependencias**:

@@ -1,4 +1,4 @@
-const { REST, Routes, SlashCommandBuilder, ContextMenuCommandBuilder, ApplicationCommandType, Events } = require('discord.js');
+const { REST, Routes, SlashCommandBuilder, ContextMenuCommandBuilder, ApplicationCommandType, Events, PermissionFlagsBits } = require('discord.js');
 require('dotenv').config();
 
 const commands = [
@@ -11,22 +11,24 @@ const commands = [
         .setRequired(true))
     .addStringOption(option =>
       option.setName('reason')
-        .setDescription('Razón de la expulsión')
-        .setRequired(false)),
+        .setDescription('Razón para expulsar al miembro')
+        .setRequired(false))
+    .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers), 
   new SlashCommandBuilder()
     .setName('ban')
     .setDescription('Banea a un miembro del servidor.')
-    .addUserOption(option =>
+    .addUserOption(option => 
       option.setName('user')
         .setDescription('El usuario que deseas banear')
         .setRequired(true))
     .addStringOption(option =>
       option.setName('reason')
         .setDescription('Razón del baneo')
-        .setRequired(false)),
+        .setRequired(false))
+    .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
   new SlashCommandBuilder()
     .setName('softban')
-    .setDescription('Realiza un softban a un miembro, banea temporalmente y borra mensajes recientes.')
+    .setDescription('Realiza un softban a un miembro, banea por 7 días y borra mensajes recientes.')
     .addUserOption(option =>
       option.setName('user')
         .setDescription('El usuario que deseas softbanear')
@@ -34,7 +36,8 @@ const commands = [
     .addStringOption(option =>
       option.setName('reason')
         .setDescription('Razón del softban')
-        .setRequired(false)),
+        .setRequired(false))
+    .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
   new SlashCommandBuilder()
     .setName('unban')
     .setDescription('Desbanea a un miembro del servidor.')
@@ -44,41 +47,43 @@ const commands = [
         .setRequired(true)),
   new SlashCommandBuilder()
     .setName('warn')
-    .setDescription('Advierte a un miembro.')
+    .setDescription('Advierte a un miembro del servidor.')
     .addUserOption(option =>
       option.setName('user')
-        .setDescription('El usuario a advertir')
+        .setDescription('El usuario que deseas advertir')
         .setRequired(true))
     .addStringOption(option =>
       option.setName('reason')
         .setDescription('Razón de la advertencia')
-        .setRequired(false)),
-    new SlashCommandBuilder()
+        .setRequired(false))
+    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
+  new SlashCommandBuilder()
     .setName('warnings')
-    .setDescription('Ver advertencias de un miembro.')
+    .setDescription('Muestra las advertencias de un miembro.')
     .addUserOption(option =>
       option.setName('user')
-        .setDescription('El usuario a ver')
+        .setDescription('El usuario del cual deseas ver las advertencias.')
         .setRequired(true)),
-    new SlashCommandBuilder()
+  new SlashCommandBuilder()
     .setName('unwarn')
-    .setDescription('Elimina advertencias de un miembro.')
+    .setDescription('Elimina una advertencia de un miembro.')
     .addUserOption(option =>
       option.setName('user')
-        .setDescription('El usuario')
+        .setDescription('El usuario del cual deseas eliminar la advertencia.')
         .setRequired(true))
     .addIntegerOption(option =>
       option.setName('index')
-        .setDescription('El número de la advertencia')
+        .setDescription('El número de la advertencia que deseas eliminar.')
         .setRequired(true)),
-    new SlashCommandBuilder()
+  new SlashCommandBuilder()
     .setName('set_mute')
     .setDescription('Configura el rol de mute para el servidor.')
     .addRoleOption(option => 
       option.setName('role')
         .setDescription('El rol que deseas configurar como rol de mute.')
-        .setRequired(true)),
-    new SlashCommandBuilder()
+        .setRequired(true))
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+  new SlashCommandBuilder()
     .setName('mute')
     .setDescription('Silencia a un miembro del servidor por un tiempo definido.')
     .addUserOption(option => 
@@ -90,22 +95,25 @@ const commands = [
         .setDescription('Tiempo en minutos para silenciar al usuario (opcional)'))
     .addStringOption(option =>
       option.setName('reason')
-        .setDescription('Razón del mute (opcional)')),
-    new SlashCommandBuilder()
+        .setDescription('Razón del mute (opcional)'))
+    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
+  new SlashCommandBuilder()
     .setName('unmute')
     .setDescription('Desmuta a un miembro del servidor.')
     .addUserOption(option => 
       option.setName('user')
         .setDescription('El usuario que deseas desmutear')
-        .setRequired(true)),
-    new SlashCommandBuilder()
+        .setRequired(true))
+    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
+  new SlashCommandBuilder()
     .setName('clear')
     .setDescription('Elimina una cantidad especificada de mensajes en el canal actual.')
     .addIntegerOption(option =>
       option.setName('cantidad')
-        .setDescription('La cantidad de mensajes a borrar')
-        .setRequired(true)),
-    new SlashCommandBuilder()
+        .setDescription('La cantidad de mensajes a borrar (mínimo 1)')
+        .setRequired(true))
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
+  new SlashCommandBuilder()
       .setName('help')
       .setDescription('Muestra la lista de comandos disponibles.'),
   new SlashCommandBuilder()
@@ -169,6 +177,14 @@ new SlashCommandBuilder()
         .setName('ask')
         .setDescription('Has una pregunta para Cler')
         .addStringOption(option => option.setName('prompt').setDescription('¿Cuál es tu pregunta?').setRequired(true)),
+  new SlashCommandBuilder()
+    .setName('modlogs')
+    .setDescription('Muestra el historial de moderación de un usuario.')
+    .addUserOption(option =>
+      option.setName('user')
+        .setDescription('El usuario del cual deseas ver los registros de moderación')
+        .setRequired(true))
+    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers), 
 ].map(command => {
   console.log(`Comando: ${command.name} registrado.`); // Agrega un log para cada comando
   return command.toJSON();

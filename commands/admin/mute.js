@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
-const db = require('megadb'); // Requerimos megadb
-const muteRoleDB = new db.crearDB('muteRoles'); // Cargamos la base de datos donde se guardó el rol de mute por servidor
+const { query } = require('../../db');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -79,6 +78,24 @@ module.exports = {
       // Asignar el rol de mute
       await member.roles.add(muteRole);
 
+      // Insertar en la base de datos `moderation_events` para logs
+      const logQuery = `
+        INSERT INTO moderation_events (user_id, moderator_id, action, reason, guild_id, event_type, date)
+        VALUES ($1, $2, 'mute', $3, $4, 'mute', CURRENT_TIMESTAMP)
+        RETURNING id;
+      `;
+      const logValues = [member.user.id, context.user.id, reason, context.guild.id];
+      const logResult = await query(logQuery, logValues);
+      const eventId = logResult.rows[0].id; // Obtener el ID del evento insertado
+
+      // Insertar en la base de datos `mutes`
+      const muteQuery = `
+        INSERT INTO mutes (user_id, moderator_id, action, reason, date, event_id, time, guild_id)
+        VALUES ($1, $2, 'mute', $3, CURRENT_TIMESTAMP, $4, $5, $6);
+      `;
+      const muteValues = [member.user.id, context.user.id, reason, eventId, time, context.guild.id];
+      await query(muteQuery, muteValues);
+
       // Si se proporciona un tiempo, configurar el desmute automático
       if (time && !isNaN(time)) {
         setTimeout(async () => {
@@ -117,12 +134,22 @@ module.exports = {
 
   // Función para obtener el rol de mute desde la base de datos
   async getMuteRole(guildId) {
+    const queryText = 'SELECT muted_role_id FROM muted_roles WHERE guild_id = $1;';
     try {
-      const muteRoleId = await muteRoleDB.get(`${guildId}.muteRole`);
-      return muteRoleId;
+      const res = await query(queryText, [guildId]);
+      if (res.rows.length > 0) {
+        return res.rows[0].muted_role_id;
+      }
+      return null;
     } catch (error) {
       console.error(`[ERROR] No se pudo obtener el rol de mute para el servidor con ID ${guildId}: ${error}`);
       return null;
     }
   }
+};
+
+module.exports.help = {
+  name: 'mute',
+  description: 'Silencia a un miembro del servidor.',
+  usage: 'mute <user> <time> <reason>',
 };
