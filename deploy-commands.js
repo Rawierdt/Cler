@@ -176,7 +176,10 @@ new SlashCommandBuilder()
   new SlashCommandBuilder()
         .setName('ask')
         .setDescription('Has una pregunta para Cler')
-        .addStringOption(option => option.setName('prompt').setDescription('¿Cuál es tu pregunta?').setRequired(true)),
+        .addStringOption(option => 
+            option.setName('prompt')
+            .setDescription('¿Cuál es tu pregunta?')
+            .setRequired(true)),
   new SlashCommandBuilder()
     .setName('modlogs')
     .setDescription('Muestra el historial de moderación de un usuario.')

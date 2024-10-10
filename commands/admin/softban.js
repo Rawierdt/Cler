@@ -26,6 +26,12 @@ module.exports = {
   async executePrefix(message, args) {
     const member = message.mentions.members.first();
     const reason = args.slice(1).join(' ') || 'No se proporcionó razón.';
+
+    // Verificar que se mencionó a un usuario
+    if (args.length === 0 || !message.mentions.members.size) {
+      return message.reply('<a:denyxbox:1287542408082358292> | Por favor menciona a un usuario válido.');
+    }
+
     if (!member) {
       return message.reply('<:440warning:1287542257985126501> |Por favor menciona a un usuario válido.');
     }

@@ -58,6 +58,11 @@ module.exports = {
   async executePrefix(message, args) {
     const userId = args[0];
 
+    // Verificar que se mencionó a un usuario
+    if (args.length === 0 || !message.mentions.members.size) {
+      return message.reply('<a:denyxbox:1287542408082358292> | Por favor menciona a un usuario válido.');
+    }
+
     // Verificar permisos
     if (!message.member.permissions.has(PermissionsBitField.Flags.BanMembers)) {
       return message.reply('<:win11erroicon:1287543137505378324> | No tienes permiso para desbanear usuarios.');

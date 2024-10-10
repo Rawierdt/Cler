@@ -69,6 +69,11 @@ module.exports = {
       return message.reply('No tienes permisos para usar este comando.');
     }
 
+    // Verificar que se mencionó a un usuario
+    if (args.length === 0 || !message.mentions.members.size) {
+      return message.reply('<a:denyxbox:1287542408082358292> | Por favor menciona a un usuario válido.');
+    }
+
     const member = message.mentions.members.first();
     const index = parseInt(args[1]) - 1;
 

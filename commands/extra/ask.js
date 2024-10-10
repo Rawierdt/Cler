@@ -5,32 +5,31 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('ask')
         .setDescription('Has una pregunta para Cler')
-        .addStringOption(option => option.setName('prompt').setDescription('¿Cuál es tu pregunta?').setRequired(true)),
-    async executeSlash (interaction) {
+        .addStringOption(option => option.setName('prompt')
+            .setDescription('¿Cuál es tu pregunta?')
+            .setRequired(true)),
+    async executeSlash(interaction) {
         await interaction.deferReply({ ephemeral: true });
 
-        const { options } = interaction;
-        const prompt = options.getString('prompt');
+        const prompt = interaction.options.getString('prompt');
 
         try {
             const browser = await puppeteer.launch({ headless: true });
             const page = await browser.newPage();
 
-            await page.goto('https://chat-app-f2d296.zapier.app/');
+            await page.goto('https://chat-app-f2d296.zapier.app/', { waitUntil: 'networkidle2' });
 
-            // typing prompt
-            await page.waitForSelector('textarea[placeholder="Ask me anything!"]');
-            await page.focus('textarea[placeholder="Ask me anything!"]');
-            await page.waitForTimeout(1000);
+            await page.waitForSelector('textarea[placeholder="automate"]', { timeout: 60000 });
+            await page.focus('textarea[placeholder="automate"]');
+            await new Promise(resolve => setTimeout(resolve, 1000));
             await page.keyboard.type(prompt);
             await page.keyboard.press('Enter');
 
-            // get response
-            await page.waitForTimeout(10000);
+            await new Promise(resolve => setTimeout(resolve, 10000));
             await page.waitForSelector('[data-testid="bot-message"]');
 
-            var value = await page.$$eval('[data-testid="bot-message"]', async (elements) => {
-                return elements.map((element) => element.textContent);
+            const value = await page.$$eval('[data-testid="bot-message"]', elements => {
+                return elements.map(element => element.textContent);
             });
 
             if (value.length === 0) {
@@ -47,7 +46,7 @@ module.exports = {
             await browser.close();
         } catch (error) {
             console.error(error);
-            await interaction.editReply({ content: 'There was an error getting that response, try again later!' });
+            await interaction.editReply({ content: '<:Fadeaway:1293808891850788944> No puedo responder eso ahora, intentalo mas tarde' });
         }
     }
 };

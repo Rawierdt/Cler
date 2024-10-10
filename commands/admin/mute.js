@@ -40,6 +40,12 @@ module.exports = {
   },
 
   async executePrefix(message, args) {
+
+    // Verificar que se mencionó a un usuario
+    if (args.length === 0 || !message.mentions.members.size) {
+      return message.reply('<a:denyxbox:1287542408082358292> | Por favor menciona a un usuario válido.');
+    }
+
     const member = message.mentions.members.first();
     const time = args[1] ? parseInt(args[1], 10) : null; // El segundo argumento es el tiempo en minutos
     const reason = args.slice(2).join(' ') || 'No se proporcionó razón.';
