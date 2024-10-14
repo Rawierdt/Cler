@@ -12,6 +12,7 @@
   "dependencies": {
     "@discordjs/rest": "^2.4.0",
     "@discordjs/voice": "^0.17.0",
+    "akaneko": "^5.3.0",
     "axios": "^1.7.7",
     "chalk": "^4.1.2",
     "discord-api-types": "^0.37.100",

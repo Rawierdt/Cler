@@ -1,3 +1,13 @@
+/**
+* SPANISH
+* Autor: Alejandro Aguilar (Rawier)
+* Sitio Web: https://rawier.vercel.app
+* Ultima Modificación: 13/10/2024 : 19:44 PM
+* Descripción: Bot Multipropositos para Discord con funciones de moderación y utilidad, Desarrollado con
+*              Node.js (Javascript) y PostgreSQL y MegaDB para las base de datos.
+* Objetivo: Solucionar la problematica de administración de ususarios para más de 10,000 servidores.
+**/
+
 const { Client, GatewayIntentBits, Collection, ActivityType, Events, EmbedBuilder } = require('discord.js');
 const fs = require('fs');
 const db = require('megadb');
@@ -20,7 +30,7 @@ const client = new Client({
     GatewayIntentBits.MessageContent,
     GatewayIntentBits.GuildMessageReactions,
     GatewayIntentBits.GuildModeration,
-    GatewayIntentBits.DirectMessages, // Asegúrate de incluir esto
+    GatewayIntentBits.DirectMessages,
     GatewayIntentBits.DirectMessageReactions,
     GatewayIntentBits.DirectMessageTyping,
     GatewayIntentBits.AutoModerationConfiguration,
@@ -75,32 +85,37 @@ async function enviarEventoAGlitch(data) {
 async function checkBirthdays() {
   const currentDate = new Date();
   const currentDay = currentDate.getDate();
-  const currentMonth = currentDate.getMonth() + 1; // Los meses en JS comienzan desde 0
+  const currentMonth = currentDate.getMonth() + 1;
 
   client.guilds.cache.forEach(async (guild) => {
     try {
-      // Verificar si hay un canal de cumpleaños configurado
       const birthdayChannelId = await configDB.get(`birthdayChannel_${guild.id}`);
-      if (!birthdayChannelId) return; // Si no hay un canal configurado, pasar a la siguiente guild
+      if (!birthdayChannelId) return;
 
       const birthdayChannel = guild.channels.cache.get(birthdayChannelId);
-      if (!birthdayChannel) return; // Si el canal no existe, pasar a la siguiente guild
+      if (!birthdayChannel) return;
 
-      // Obtener los cumpleaños registrados para este servidor
       const birthdays = await birthdaysDB.get(`${guild.id}`);
-      if (!birthdays) return; // Si no hay cumpleaños registrados, pasar a la siguiente guild
+      if (!birthdays) return;
 
-      // Filtrar los cumpleaños que coinciden con el día y mes actual
       const birthdaysToday = Object.entries(birthdays).filter(([id, data]) => {
-        return data.día === currentDay && data.mes === currentMonth && !data.anunciado; // Solo si no ha sido anunciado
+        return (
+          data.día === currentDay &&
+          data.mes === currentMonth &&
+          !data.anunciado
+        );
       });
 
-      // Enviar un embed por cada cumpleaños
       for (const [id, data] of birthdaysToday) {
-        let user = guild.members.cache.get(id); // Intentar obtener el miembro por ID
-        let name = user ? user.user.username : id; // Usar el nombre de usuario o el ID/nombre registrado
+        let name;
 
-        // Seleccionar una imagen aleatoria del array
+        if (!isNaN(id)) {  // Si es un ID numérico
+          const user = guild.members.cache.get(id);
+          name = user ? `<@${id}>` : `ID: ${id}`; // Menciona al usuario o usa el ID si no está en cache
+        } else {
+          name = id; // Usa el nombre personalizado de la base de datos
+        }
+
         const birthdayImages = [
           'https://24.media.tumblr.com/151da26b7f0587a6fb33fba2dcce9ab0/tumblr_mi9p8bMvHJ1s5r6jko1_500.gif',
           'https://www.cumpleanosimagenes.org/wp-content/uploads/2017/11/ara%C3%B1a2.jpg',
@@ -121,11 +136,10 @@ async function checkBirthdays() {
           'https://i.ytimg.com/vi/i-KCSp1ZD-Q/hq720.jpg',
           'https://i.ytimg.com/vi/v5mDnxORsXU/mqdefault.jpg',
           'https://i.pinimg.com/originals/75/5c/64/755c64611d7c623c9fb06259c5a32306.jpg',
-          'https://i.pinimg.com/736x/0e/1c/dc/0e1cdcccfbc296bd15f7462912ee1dd8.jpg'
-        ]; // Asegúrate de tener imágenes en este array
+          'https://i.pinimg.com/736x/0e/1c/dc/0e1cdcccfbc296bd15f7462912ee1dd8.jpg',
+        ];
         const randomImage = birthdayImages[Math.floor(Math.random() * birthdayImages.length)];
 
-        // Crear el embed para el cumpleaños
         const birthdayEmbed = new EmbedBuilder()
           .setTitle(`¡Hoy es el cumpleaños de **${name}**!`)
           .setDescription('🎁 Asegúrate de desearle un excelente día y darle un fuerte abrazo.')
@@ -135,17 +149,14 @@ async function checkBirthdays() {
           .setFooter({ text: '¡Felicidades!, Te quiere Cler!' })
           .setTimestamp();
 
-        // Manejo de errores al enviar el mensaje
         try {
           await birthdayChannel.send({ embeds: [birthdayEmbed] });
-          // Actualizar el campo "anunciado" a true
-          data.anunciado = true; // Marca como anunciado
+          data.anunciado = true;
         } catch (sendError) {
           console.error(`Error al enviar el mensaje de cumpleaños en el servidor ${guild.id}:`, sendError);
         }
       }
 
-      // Actualizar la base de datos con los cumpleaños modificados
       await birthdaysDB.set(`${guild.id}`, birthdays);
     } catch (error) {
       console.error(`Error al verificar cumpleaños en el servidor ${guild.id}:`, error);

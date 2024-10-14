@@ -1,15 +1,15 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, MessageFlags } = require('discord.js');
 const puppeteer = require('puppeteer');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('ask')
-        .setDescription('Has una pregunta para Cler')
+        .setDescription('Has una pregunta a Cler')
         .addStringOption(option => option.setName('prompt')
             .setDescription('¿Cuál es tu pregunta?')
             .setRequired(true)),
     async executeSlash(interaction) {
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply();
 
         const prompt = interaction.options.getString('prompt');
 
@@ -41,7 +41,10 @@ module.exports = {
                 .setColor('Blurple')
                 .setDescription(`\`\`\`${value.join('\n\n')}\`\`\``);
 
-            await interaction.editReply({ embeds: [embed] });
+            await interaction.editReply({
+                embeds: [embed],
+                flags: MessageFlags.SuppressEmbeds // Hacer la notificación silenciosa
+            });
 
             await browser.close();
         } catch (error) {
