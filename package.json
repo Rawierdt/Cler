@@ -1,9 +1,10 @@
 {
   "name": "cler_bot",
   "version": "4.7.20",
-  "main": "index.js",
+  "main": "shard.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node shard.js"
   },
   "keywords": [],
   "author": "",

@@ -30,7 +30,7 @@ module.exports = {
                     { name: "<:Intel:1289395942759596062> Procesador", value: `${os.cpus().map(i => `${i.model}`)[0]}`, inline: true },
                     { name: "<a:1442foxspin:1287542069610549248> Memoria", value: `${(process.memoryUsage().rss / 1024 / 1024).toFixed(2)}/${(os.totalmem() / 1024 / 1024).toFixed(2)} MB`, inline: true },
                     { name: "<:nodejs:1289396587235377162> Entorno", value: "NodeJS" },
-                    { name: "<:useapps:1287542291078189140> Versión", value: "v4.8.20" },
+                    { name: "<:useapps:1287542291078189140> Versión", value: "v4.8.40" },
                     { name: "<a:discordverifypurple:1287542526848532500> Librería", value: "Discord.js v14.16.2" },
                     { name: ":clock3: Local Time", value: new Intl.DateTimeFormat('es-AR', {timeStyle: 'short', hourCycle: 'h23'}).format(new Date()) },                 
                     { name: ":alarm_clock: Uptime", value: `${Math.round(client.uptime / (1000 * 60 * 60))} Hora(s), ${Math.round(client.uptime / (1000 * 60)) % 60} minuto(s), ${Math.round(client.uptime / 1000) % 60} segundo(s)` }

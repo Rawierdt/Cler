@@ -15,6 +15,7 @@
 /commands/fun/meme.js
 /commands/dm.js
 /commands/extra/zin_avatar.js
+/migrate.js
 
 # testing
 /coverage
@@ -33,6 +34,7 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
+.env
 .env.local
 .env.development.local
 .env.test.local

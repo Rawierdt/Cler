@@ -23,7 +23,7 @@ Informa cualquier problema o error.
 
 ## Lastest Version and What's New
 
-**v4.8.20**
+**v4.8.40**
 
 #### *Spanish language only from here*
 

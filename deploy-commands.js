@@ -135,37 +135,23 @@ const commands = [
       option.setName('canal')
         .setDescription('El canal para los anuncios de cumpleaños')
         .setRequired(true)),
-new SlashCommandBuilder()
-  .setName('add-fc')
-  .setDescription('Agrega una fecha de cumpleaños')
-  .addIntegerOption(option => 
-    option.setName('día')
-      .setDescription('Día del cumpleaños')
-      .setRequired(true))
-  .addIntegerOption(option => 
-    option.setName('mes')
-      .setDescription('Mes del cumpleaños')
-      .setRequired(true))
-  .addUserOption(option => 
-    option.setName('usuario')
-      .setDescription('El usuario al que deseas agregar el cumpleaños (opcional)'))
-  .addStringOption(option => 
-    option.setName('nombre')
-      .setDescription('El nombre de la persona si no es un usuario de Discord (opcional)')),
   new SlashCommandBuilder()
-        .setName('kiss')
-        .setDescription('Envía un beso a otro usuario con un GIF aleatorio.')
-        .addUserOption(option => 
-            option.setName('usuario')
-            .setDescription('El usuario al que deseas besar')
-            .setRequired(true)),
-  new SlashCommandBuilder()
-        .setName('hug')
-        .setDescription('Envía un abrazo a otro usuario con un GIF aleatorio.')
-        .addUserOption(option => 
-            option.setName('usuario')
-            .setDescription('El usuario al que deseas abrazar')
-            .setRequired(true)),
+    .setName('add-fc')
+    .setDescription('Agrega una fecha de cumpleaños')
+    .addIntegerOption(option => 
+      option.setName('día')
+        .setDescription('Día del cumpleaños')
+        .setRequired(true))
+    .addIntegerOption(option => 
+      option.setName('mes')
+        .setDescription('Mes del cumpleaños')
+        .setRequired(true))
+    .addUserOption(option => 
+      option.setName('usuario')
+        .setDescription('El usuario al que deseas agregar el cumpleaños (opcional)'))
+    .addStringOption(option => 
+      option.setName('nombre')
+        .setDescription('El nombre de la persona si no es un usuario de Discord (opcional)')),
   new SlashCommandBuilder()
         .setName('zin_avatar')
         .setDescription('Cambia el avatar del bot.')
@@ -187,7 +173,61 @@ new SlashCommandBuilder()
       option.setName('user')
         .setDescription('El usuario del cual deseas ver los registros de moderación')
         .setRequired(true))
-    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers), 
+    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
+    new SlashCommandBuilder()
+        .setName('love')
+        .setDescription('💘 Calcula tu compatibilidad amorosa.')
+        .addUserOption(option =>
+            option.setName('user')
+                .setDescription('Usuario con el que quieres hacer match')
+                .setRequired(true)),
+    new SlashCommandBuilder()
+        .setName('remove-fc')
+        .setDescription('Elimina un cumpleaños registrado')
+        .addUserOption(option =>
+          option.setName('user')
+            .setDescription('El usuario cuyo cumpleaños deseas eliminar (opcional)'))
+        .addStringOption(option =>
+          option.setName('nombre')
+            .setDescription('El nombre de la persona si no es un usuario de Discord (opcional)')),
+    new SlashCommandBuilder()
+        .setName('user')
+        .setDescription('Muestra información sobre un usuario.')
+        .addUserOption(option =>
+          option.setName('usuario')
+            .setDescription('Selecciona un usuario.')
+            .setRequired(true)),
+    new SlashCommandBuilder()
+        .setName('act')
+        .setDescription('Realiza acciones con GIFs.')
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('kiss')
+                .setDescription('Envía un beso a otro usuario.')
+                .addUserOption(option =>
+                    option.setName('usuario')
+                    .setDescription('El usuario al que deseas besar')
+                    .setRequired(true)))
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('cry')
+                .setDescription('Expresa que estás llorando.'))
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('kill')
+                .setDescription('Envía un desvivir a otro usuario.')
+                .addUserOption(option =>
+                    option.setName('usuario')
+                    .setDescription('El usuario al que deseas desvivir')
+                    .setRequired(true)))
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('hug')
+                .setDescription('Envía un abrazo a otro usuario.')
+                .addUserOption(option =>
+                    option.setName('usuario')
+                    .setDescription('El usuario al que deseas abrazar')
+                    .setRequired(true))),
 ].map(command => {
   console.log(`Comando: ${command.name} registrado.`); // Agrega un log para cada comando
   return command.toJSON();
