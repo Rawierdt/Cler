@@ -175,21 +175,21 @@ const commands = [
         .setRequired(true))
     .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
     new SlashCommandBuilder()
-        .setName('love')
-        .setDescription('💘 Calcula tu compatibilidad amorosa.')
-        .addUserOption(option =>
-            option.setName('user')
-                .setDescription('Usuario con el que quieres hacer match')
-                .setRequired(true)),
+      .setName('love')
+      .setDescription('💘 : Calcula tu compatibilidad amorosa.')
+      .addUserOption(option =>
+          option.setName('user')
+            .setDescription('Usuario con el que quieres hacer match')
+            .setRequired(true)),
     new SlashCommandBuilder()
         .setName('remove-fc')
         .setDescription('Elimina un cumpleaños registrado')
         .addUserOption(option =>
-          option.setName('user')
-            .setDescription('El usuario cuyo cumpleaños deseas eliminar (opcional)'))
-        .addStringOption(option =>
-          option.setName('nombre')
-            .setDescription('El nombre de la persona si no es un usuario de Discord (opcional)')),
+            option.setName('user') // Aquí es 'user', no 'usuario'
+              .setDescription('El usuario cuyo cumpleaños deseas eliminar (opcional)'))
+          .addStringOption(option =>
+            option.setName('nombre')
+                .setDescription('El nombre de la persona si no es un usuario de Discord (opcional)')),
     new SlashCommandBuilder()
         .setName('user')
         .setDescription('Muestra información sobre un usuario.')
@@ -203,7 +203,7 @@ const commands = [
         .addSubcommand(subcommand =>
             subcommand
                 .setName('kiss')
-                .setDescription('Envía un beso a otro usuario.')
+                .setDescription('😘 : Envía un beso a otro usuario.')
                 .addUserOption(option =>
                     option.setName('usuario')
                     .setDescription('El usuario al que deseas besar')
@@ -211,11 +211,11 @@ const commands = [
         .addSubcommand(subcommand =>
             subcommand
                 .setName('cry')
-                .setDescription('Expresa que estás llorando.'))
+                .setDescription('😭 : Expresa que estás llorando.'))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('kill')
-                .setDescription('Envía un desvivir a otro usuario.')
+                .setDescription('🔪 : Envía un desvivir a otro usuario.')
                 .addUserOption(option =>
                     option.setName('usuario')
                     .setDescription('El usuario al que deseas desvivir')
@@ -223,7 +223,7 @@ const commands = [
         .addSubcommand(subcommand =>
             subcommand
                 .setName('hug')
-                .setDescription('Envía un abrazo a otro usuario.')
+                .setDescription('🤗 : Envía un abrazo a otro usuario.')
                 .addUserOption(option =>
                     option.setName('usuario')
                     .setDescription('El usuario al que deseas abrazar')

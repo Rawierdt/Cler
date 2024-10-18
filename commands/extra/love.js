@@ -1,17 +1,15 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-let color = process.env.COLOR;
-let dev = process.env.DEV;
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('love')
-        .setDescription('💘 Calcula tu compatibilidad amorosa.')
+        .setDescription('💘 : Calcula tu compatibilidad amorosa.')
         .addUserOption(option =>
             option.setName('user')
                 .setDescription('Usuario con el que quieres hacer match')
                 .setRequired(true)),
     async executeSlash(interaction) {
-        const user = interaction.options.getUser('usuario');
+        const user = interaction.options.getUser('user'); // Corregido
 
         if (user.id === interaction.user.id) {
             return interaction.reply("<a:heartarrow_purple:1287542898266607669> **El amor por ti mismo es infinito, comparte un poco** <:73433caringhand:1287542803861213247>");

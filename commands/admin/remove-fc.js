@@ -6,7 +6,7 @@ module.exports = {
     .setName('remove-fc')
     .setDescription('Elimina un cumpleaños registrado')
     .addUserOption(option =>
-      option.setName('user')
+      option.setName('user') // Aquí es 'user', no 'usuario'
         .setDescription('El usuario cuyo cumpleaños deseas eliminar (opcional)'))
     .addStringOption(option =>
       option.setName('nombre')
@@ -17,7 +17,7 @@ module.exports = {
 
   async executeSlash(interaction) {
     try {
-      const user = interaction.options.getUser('usuario');
+      const user = interaction.options.getUser('user'); // Usar 'user', no 'usuario'
       const nombre = interaction.options.getString('nombre');
       const guildId = interaction.guild.id;
 

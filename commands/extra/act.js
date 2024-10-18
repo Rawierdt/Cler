@@ -63,7 +63,7 @@ module.exports = {
         .addSubcommand(subcommand =>
             subcommand
                 .setName('kiss')
-                .setDescription('Envía un beso a otro usuario.')
+                .setDescription('😘 : Envía un beso a otro usuario.')
                 .addUserOption(option =>
                     option.setName('usuario')
                     .setDescription('El usuario al que deseas besar')
@@ -71,11 +71,11 @@ module.exports = {
         .addSubcommand(subcommand =>
             subcommand
                 .setName('cry')
-                .setDescription('Expresa que estás llorando.'))
+                .setDescription('😭 : Expresa que estás llorando.'))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('kill')
-                .setDescription('Envía un desvivir a otro usuario.')
+                .setDescription('🔪 : Envía un desvivir a otro usuario.')
                 .addUserOption(option =>
                     option.setName('usuario')
                     .setDescription('El usuario al que deseas desvivir')
@@ -83,7 +83,7 @@ module.exports = {
         .addSubcommand(subcommand =>
             subcommand
                 .setName('hug')
-                .setDescription('Envía un abrazo a otro usuario.')
+                .setDescription('🤗 : Envía un abrazo a otro usuario.')
                 .addUserOption(option =>
                     option.setName('usuario')
                     .setDescription('El usuario al que deseas abrazar')
