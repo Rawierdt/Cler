@@ -12,7 +12,7 @@ module.exports = {
             .setColor(0xC6EB0E)
             .setDescription("Cler es una bot en español multipropósitos, moderación, diversión y aprendizaje acerca de temas relacionados, *Cler recibe actualizaciones el 20 de cada mes*.")
             .setThumbnail(client.user.avatarURL())
-            .setFooter({ text: "Tengo frio..." })
+            .setFooter({ text: "Acerca de" })
             .addFields(
                 { name: "❯ <a:activedeveloperbadgeanimated:1287542344329203813> Dev", value: dev, inline: true },
                 { name: "❯ <:onlinedesktop:1287542114124828812> Prefix", value: "c!", inline: true },

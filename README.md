@@ -79,25 +79,92 @@ Para instalar y ejecutar Cler localmente, sigue estos pasos:
     PG_HOST=localhost
     PG_DATABASE=YOUR_POSTGRES_DATABASE
     PG_PORT=5432
-
     ```
 
-4. **Instala las dependencias**:
+4. **Importa la data base o crea una**:
+
+    ```bash
+    psql -h EXTERNAL_HOSTNAME -U USERNAME -p PORT -d DATABASE_NAME < bd.sql
+    ```
+
+    **TABLES**
+
+    ```sql
+    CREATE DATABASE dd;
+    CREATE USER botuser WITH PASSWORD 'password';
+    GRANT ALL PRIVILEGES ON DATABASE dd TO botuser;
+
+    warnings (
+    id SERIAL PRIMARY KEY,
+    user_id VARCHAR(20) NOT NULL,        -- ID del usuario advertido
+    moderator_id VARCHAR(20) NOT NULL,   -- ID del moderador que aplicó la advertencia
+    reason TEXT,                         -- Motivo de la advertencia
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    event_id INT REFERENCES moderation_events(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE kicks (
+    id SERIAL PRIMARY KEY,
+    user_id VARCHAR(20) NOT NULL,        -- ID del usuario que fue kickeado
+    moderator_id VARCHAR(20) NOT NULL,   -- ID del moderador que ejecutó el kick
+    reason TEXT,                         -- Motivo del kick
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    event_id INT REFERENCES moderation_events(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE bans (
+    id SERIAL PRIMARY KEY,
+    user_id VARCHAR(20) NOT NULL,        -- ID del usuario baneado/desbaneado
+    moderator_id VARCHAR(20) NOT NULL,   -- ID del moderador que ejecutó el baneo/desbaneo
+    action VARCHAR(10) NOT NULL,         -- 'ban' o 'unban'
+    reason TEXT,                         -- Motivo del baneo/desbaneo
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    event_id INT REFERENCES moderation_events(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE mutes (
+    id SERIAL PRIMARY KEY,
+    user_id VARCHAR(20) NOT NULL,        -- ID del usuario muteado/desmuteado
+    moderator_id VARCHAR(20) NOT NULL,   -- ID del moderador que ejecutó el mute/desmute
+    action VARCHAR(10) NOT NULL,         -- 'mute' o 'unmute'
+    reason TEXT,                         -- Motivo del mute/desmute
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    event_id INT REFERENCES moderation_events(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE muted_roles (
+    id SERIAL PRIMARY KEY,
+    guild_id VARCHAR(255) NOT NULL UNIQUE, -- ID del servidor
+    muted_role_id VARCHAR(255) NOT NULL, -- ID del rol de muteo
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Fecha de creación
+    );
+
+    CREATE TABLE birthdays (
+    guild_id VARCHAR(20) NOT NULL,
+    user_id VARCHAR(20) NOT NULL,
+    day INT NOT NULL,
+    month INT NOT NULL,
+    announced BOOLEAN DEFAULT FALSE,
+    PRIMARY KEY (guild_id, user_id)
+    );
+    ```
+
+5. **Instala las dependencias**:
 
     ```bash
     npm install
     ```
 
-5. **Ejecuta el comando de carga global**:
+6. **Ejecuta el comando de carga global**:
 
     ```bash
     npm deploy-commands.js
     ```
 
-6. **Ejecuta el comando de inicio**:
+7. **Ejecuta el comando de inicio**:
 
     ```bash
-    npm index.js
+    npm start
     ```
 
     Dirigete a tu servidor de discord al que invitaste a tu bot y ejecuta el comando de /help.

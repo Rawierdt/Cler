@@ -9,7 +9,8 @@
 **/
 
 const { Client, GatewayIntentBits, Collection, ActivityType, Events, EmbedBuilder, ButtonComponent} = require('discord.js');
-const { checkBirthdays, resetAnnouncedBirthdays } = require('./utils');
+const { checkBirthdays, resetAnnouncedBirthdays } = require('./utils.js');
+const path = require('path');
 const fs = require('fs');
 const cron = require('node-cron');
 const config = require('./config.json');
@@ -63,6 +64,7 @@ loadCommands('./commands/fun');
 loadCommands('./commands/secrets');
 loadCommands('./commands/utility');
 loadCommands('./commands/extra');
+loadCommands('./commands/owner');
 
 // Función para enviar un evento (Endpoint) a Glitch
 async function enviarEventoAGlitch(data) {
@@ -126,21 +128,38 @@ client.once(Events.ClientReady, async () => {
     console.log('[LOG] Comprobación diaria de cumpleaños completada.');
 });
 
+  // Cron job cada hora
+  cron.schedule('0 * * * *', async () => {
+    console.log(`[LOG] Comprobación de cumpleaños cada hora.`);
+
+    try {
+      await client.shard.broadcastEval(async (c) => {
+        if (!c) {
+          console.error('Cliente no disponible durante la evaluación.');
+          return;
+        }
+        // const { checkBirthdays } = require('./utils.js');
+        await checkBirthdays(c);
+      });
+      console.log('[LOG] Comprobación cada hora completada.');
+    } catch (error) {
+      console.error('[ERROR] Ocurrió un error durante la comprobación:', error);
+    }
+  });
+
   // Cron job cada 8 horas
   cron.schedule('0 */8 * * *', async () => {
     console.log(`[LOG] Comprobación de cumpleaños cada 8 horas.`);
-
+  
     await client.shard.broadcastEval(async (c) => {
-      console.log('Evaluando cliente en shard:', c.shard.id); // Log para verificar el shard
-      if (!c || !c.guilds) {
+      if (!c) {
         console.error('Cliente no disponible durante la evaluación.');
         return;
       }
-      
-      const { checkBirthdays } = require('./utils');
-      await checkBirthdays(c); // Asegúrate de usar c
+      const { checkBirthdays } = require('./utils.js');  // Importar aquí dentro
+      await checkBirthdays(c);
     }).catch(console.error);
-    
+  
     console.log('[LOG] Comprobación cada 8 horas completada.');
   });
 

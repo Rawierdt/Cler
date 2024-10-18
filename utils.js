@@ -18,7 +18,7 @@ async function resetAnnouncedBirthdays(client) {
 async function checkBirthdays(client) {
   // Depuración: muestra el estado del cliente
   console.log(`Ejecutando checkBirthdays con el cliente: ${client}`);
-  console.log('Guilds disponibles:', client.guilds.cache.map(guild => guild.name));
+  // console.log('Guilds disponibles:', client.guilds.cache.map(guild => guild.name));
   if (!client) throw new Error('Client no fue proporcionado.');
 
   // Verificación del cliente y sus guilds
