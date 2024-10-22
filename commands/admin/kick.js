@@ -1,10 +1,10 @@
 const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
-const { query } = require('../../db'); // Importar el conector de PostgreSQL
+const { query } = require('../../db');
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('kick')
-    .setDescription('Expulsa a un miembro del servidor.')
+    .setDescription('🛡️ : Expulsa a un miembro del servidor.')
     .addUserOption(option =>
       option.setName('user')
         .setDescription('El usuario que deseas expulsar')

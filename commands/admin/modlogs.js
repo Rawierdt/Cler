@@ -4,7 +4,7 @@ const { query } = require('../../db'); // Asumiendo que query ya está implement
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('modlogs')
-    .setDescription('Muestra el historial de moderación de un usuario.')
+    .setDescription('⚔️ : Muestra el historial de moderación de un usuario.')
     .addUserOption(option =>
       option.setName('user')
         .setDescription('El usuario del cual deseas ver los registros de moderación')

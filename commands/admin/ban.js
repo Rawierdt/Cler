@@ -4,7 +4,7 @@ const { query } = require('../../db'); // Importar el conector de PostgreSQL
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('ban')
-    .setDescription('Banea a un miembro del servidor.')
+    .setDescription('🛡️ : Banea a un miembro del servidor.')
     .addUserOption(option =>
       option.setName('user')
         .setDescription('El usuario que deseas banear')

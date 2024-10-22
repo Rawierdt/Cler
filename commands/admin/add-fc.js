@@ -4,7 +4,7 @@ const { query } = require('../../db');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('add-fc')
-    .setDescription('Agrega una fecha de cumpleaños')
+    .setDescription('🎂 : Agrega una fecha de cumpleaños')
     .addUserOption(option =>
       option.setName('usuario')
         .setDescription('El usuario al que deseas agregar el cumpleaños (opcional)'))

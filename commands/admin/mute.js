@@ -4,7 +4,7 @@ const { query } = require('../../db');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('mute')
-    .setDescription('Silencia a un miembro del servidor por un tiempo definido.')
+    .setDescription('🛡️ : Silencia a un miembro del servidor por un tiempo definido.')
     .addUserOption(option => 
       option.setName('user')
         .setDescription('El usuario que deseas silenciar')

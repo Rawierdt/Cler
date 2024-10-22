@@ -4,7 +4,7 @@ require('dotenv').config();
 const commands = [
   new SlashCommandBuilder()
     .setName('kick')
-    .setDescription('Expulsa a un miembro del servidor.')
+    .setDescription('🛡️ : Expulsa a un miembro del servidor.')
     .addUserOption(option =>
       option.setName('user')
         .setDescription('El usuario que deseas expulsar')
@@ -16,7 +16,7 @@ const commands = [
     .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers), 
   new SlashCommandBuilder()
     .setName('ban')
-    .setDescription('Banea a un miembro del servidor.')
+    .setDescription('🛡️ : Banea a un miembro del servidor.')
     .addUserOption(option => 
       option.setName('user')
         .setDescription('El usuario que deseas banear')
@@ -28,7 +28,7 @@ const commands = [
     .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
   new SlashCommandBuilder()
     .setName('softban')
-    .setDescription('Realiza un softban a un miembro, banea por 7 días y borra mensajes recientes.')
+    .setDescription('🛡️ : Realiza un softban a un miembro, banea por 7 días y borra mensajes recientes.')
     .addUserOption(option =>
       option.setName('user')
         .setDescription('El usuario que deseas softbanear')
@@ -40,14 +40,14 @@ const commands = [
     .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
   new SlashCommandBuilder()
     .setName('unban')
-    .setDescription('Desbanea a un miembro del servidor.')
+    .setDescription('🛡️ : Desbanea a un miembro del servidor.')
     .addStringOption(option =>
       option.setName('id')
         .setDescription('El usuario que deseas desbanear')
         .setRequired(true)),
   new SlashCommandBuilder()
     .setName('warn')
-    .setDescription('Advierte a un miembro del servidor.')
+    .setDescription('🛡️ : Advierte a un miembro del servidor.')
     .addUserOption(option =>
       option.setName('user')
         .setDescription('El usuario que deseas advertir')
@@ -59,14 +59,14 @@ const commands = [
     .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
   new SlashCommandBuilder()
     .setName('warnings')
-    .setDescription('Muestra las advertencias de un miembro.')
+    .setDescription('⚔️ : Muestra las advertencias de un miembro.')
     .addUserOption(option =>
       option.setName('user')
         .setDescription('El usuario del cual deseas ver las advertencias.')
         .setRequired(true)),
   new SlashCommandBuilder()
     .setName('unwarn')
-    .setDescription('Elimina una advertencia de un miembro.')
+    .setDescription('🛡️ : Elimina una advertencia de un miembro.')
     .addUserOption(option =>
       option.setName('user')
         .setDescription('El usuario del cual deseas eliminar la advertencia.')
@@ -77,7 +77,7 @@ const commands = [
         .setRequired(true)),
   new SlashCommandBuilder()
     .setName('set_mute')
-    .setDescription('Configura el rol de mute para el servidor.')
+    .setDescription('⚙️ : Configura el rol de mute para el servidor.')
     .addRoleOption(option => 
       option.setName('role')
         .setDescription('El rol que deseas configurar como rol de mute.')
@@ -85,7 +85,7 @@ const commands = [
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
   new SlashCommandBuilder()
     .setName('mute')
-    .setDescription('Silencia a un miembro del servidor por un tiempo definido.')
+    .setDescription('🛡️ : Silencia a un miembro del servidor por un tiempo definido.')
     .addUserOption(option => 
       option.setName('user')
         .setDescription('El usuario que deseas silenciar')
@@ -99,7 +99,7 @@ const commands = [
     .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
   new SlashCommandBuilder()
     .setName('unmute')
-    .setDescription('Desmuta a un miembro del servidor.')
+    .setDescription('🛡️ : Desmuta a un miembro del servidor.')
     .addUserOption(option => 
       option.setName('user')
         .setDescription('El usuario que deseas desmutear')
@@ -107,37 +107,34 @@ const commands = [
     .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
   new SlashCommandBuilder()
     .setName('clear')
-    .setDescription('Elimina una cantidad especificada de mensajes en el canal actual.')
+    .setDescription('🧹 : Elimina una cantidad especificada de mensajes en el canal actual.')
     .addIntegerOption(option =>
       option.setName('cantidad')
         .setDescription('La cantidad de mensajes a borrar (mínimo 1)')
         .setRequired(true))
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
   new SlashCommandBuilder()
-      .setName('help')
-      .setDescription('Muestra la lista de comandos disponibles.'),
-  new SlashCommandBuilder()
     .setName('avatar')
-    .setDescription('Muestra el avatar de un usuario.')
+    .setDescription('🎨 : Muestra el avatar de un usuario.')
     .addUserOption(option =>
       option.setName('user')
         .setDescription('El usuario del que deseas ver el avatar.')),
   new SlashCommandBuilder()
     .setName('test')
-    .setDescription('Un comando de prueba'),
+    .setDescription('🧪 : Un comando de prueba'),
   new ContextMenuCommandBuilder()
     .setName('Ver Avatar')
     .setType(ApplicationCommandType.User),
   new SlashCommandBuilder()
     .setName('set-fc-channel')
-    .setDescription('Define el canal donde se anunciarán los cumpleaños')
+    .setDescription('⚙️ : Define el canal donde se anunciarán los cumpleaños')
     .addChannelOption(option => 
       option.setName('canal')
         .setDescription('El canal para los anuncios de cumpleaños')
         .setRequired(true)),
   new SlashCommandBuilder()
     .setName('add-fc')
-    .setDescription('Agrega una fecha de cumpleaños')
+    .setDescription('🎂 : Agrega una fecha de cumpleaños')
     .addIntegerOption(option => 
       option.setName('día')
         .setDescription('Día del cumpleaños')
@@ -161,14 +158,14 @@ const commands = [
             .setRequired(true)),
   new SlashCommandBuilder()
         .setName('ask')
-        .setDescription('Has una pregunta para Cler')
+        .setDescription('⁉️ : Has una pregunta para Cler')
         .addStringOption(option => 
             option.setName('prompt')
             .setDescription('¿Cuál es tu pregunta?')
             .setRequired(true)),
   new SlashCommandBuilder()
     .setName('modlogs')
-    .setDescription('Muestra el historial de moderación de un usuario.')
+    .setDescription('⚔️ : Muestra el historial de moderación de un usuario.')
     .addUserOption(option =>
       option.setName('user')
         .setDescription('El usuario del cual deseas ver los registros de moderación')
@@ -183,7 +180,7 @@ const commands = [
             .setRequired(true)),
     new SlashCommandBuilder()
         .setName('remove-fc')
-        .setDescription('Elimina un cumpleaños registrado')
+        .setDescription('❌ : Elimina un cumpleaños registrado')
         .addUserOption(option =>
             option.setName('user') // Aquí es 'user', no 'usuario'
               .setDescription('El usuario cuyo cumpleaños deseas eliminar (opcional)'))
@@ -192,7 +189,7 @@ const commands = [
                 .setDescription('El nombre de la persona si no es un usuario de Discord (opcional)')),
     new SlashCommandBuilder()
         .setName('user')
-        .setDescription('Muestra información sobre un usuario.')
+        .setDescription('👤 : Muestra información sobre un usuario.')
         .addUserOption(option =>
           option.setName('usuario')
             .setDescription('Selecciona un usuario.')
@@ -228,6 +225,34 @@ const commands = [
                     option.setName('usuario')
                     .setDescription('El usuario al que deseas abrazar')
                     .setRequired(true))),
+    new SlashCommandBuilder()
+        .setName('deletenote')
+        .setDescription('❌ : Elimina una nota específica de un usuario.')
+        .addUserOption(option =>
+          option.setName('user')
+            .setDescription('El usuario del que deseas eliminar la nota.')
+            .setRequired(true))
+        .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
+    new SlashCommandBuilder()
+        .setName('note')
+        .setDescription('📝 : Añade una nota a un usuario.')
+        .addUserOption(option =>
+          option.setName('usuario')
+            .setDescription('Usuario al que deseas añadir la nota.')
+            .setRequired(true))
+        .addStringOption(option =>
+          option.setName('nota')
+            .setDescription('Contenido de la nota.')
+            .setRequired(true))
+        .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
+    new SlashCommandBuilder()
+        .setName('help')
+        .setDescription('❓ : Muestra la lista de comandos disponibles.')
+        .addStringOption((option) =>
+          option
+            .setName('comando')
+            .setDescription('Nombre del comando para obtener más detalles')
+            .setRequired(false)),
 ].map(command => {
   console.log(`Comando: ${command.name} registrado.`); // Agrega un log para cada comando
   return command.toJSON();

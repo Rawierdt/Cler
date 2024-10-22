@@ -1,0 +1,22 @@
+{
+  "kick": {
+    "title": "Comando: Kick",
+    "description": "Expulsa a un miembro del servidor. **(Kick Permission Required)**",
+    "usage": "/kick @usuario [razón] || c!kick @usuario [razón]" 
+  },
+  "ban": {
+    "title": "Comando: Ban",
+    "description": "Banea a un miembro del servidor. **(Ban Permission Required)**",
+    "usage": "/ban @usuario [razón] || c!ban @usuario [razón]"
+  },
+  "mute": {
+    "title": "Comando: Mute",
+    "description": "Silencia a un miembro del servidor. **(Mod Permission Required)**",
+    "usage": "/mute @usuario [duración] [razón] || c!mute @usuario [duración] [razón]"
+  },
+  "set-mute": {
+    "title": "Comando: Set-mute",
+    "description": "Configura el rol de mute para el servidor, sin el no será posible mutear a los miembros. **(Admin Required)**",
+    "usage": "/set-mute @rol || c!set-mute @rol"
+  }
+}

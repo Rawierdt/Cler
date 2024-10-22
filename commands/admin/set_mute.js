@@ -4,7 +4,7 @@ const { query } = require('../../db');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('set_mute')
-    .setDescription('Configura el rol de mute para el servidor.')
+    .setDescription('⚙️ : Configura el rol de mute para el servidor.')
     .addRoleOption(option => 
       option.setName('role')
         .setDescription('El rol que deseas configurar como rol de mute.')

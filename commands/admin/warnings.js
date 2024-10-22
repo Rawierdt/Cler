@@ -4,7 +4,7 @@ const { query } = require('../../db');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('warnings')
-    .setDescription('Muestra las advertencias de un miembro.')
+    .setDescription('⚔️ : Muestra las advertencias de un miembro.')
     .addUserOption(option =>
       option.setName('user')
         .setDescription('El usuario del cual deseas ver las advertencias.')

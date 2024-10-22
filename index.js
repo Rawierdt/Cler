@@ -2,14 +2,14 @@
 * SPANISH
 * Autor: Alejandro Aguilar (Rawier)
 * Sitio Web: https://rawier.vercel.app
-* Ultima Modificación: 13/10/2024 : 19:44 PM
+* Ultima Modificación: 20/10/2024 : 00:00 AM
 * Descripción: Bot Multipropositos para Discord con funciones de moderación y utilidad, Desarrollado con
 *              Node.js (Javascript) y PostgreSQL y MegaDB para las base de datos.
-* Objetivo: Solucionar la problematica de administración de ususarios para más de 10,000 servidores.
+* Objetivo: Solucionar la problematica de administración de usuarios para más de 10,000 servidores.
 **/
 
 const { Client, GatewayIntentBits, Collection, ActivityType, Events, EmbedBuilder, ButtonComponent} = require('discord.js');
-const { checkBirthdays, resetAnnouncedBirthdays } = require('./utils.js');
+const { checkBirthdays, resetAnnouncedBirthdays } = require('./utils');
 const path = require('path');
 const fs = require('fs');
 const cron = require('node-cron');
@@ -96,9 +96,10 @@ client.once(Events.ClientReady, async () => {
 
 
     try {
+      // Conectarse a la base de datos
       const res = await query('SELECT NOW()');
       console.log(chalk.white.bgBlue.bold('Conexión a DB exitosa:'), res.rows[0]);
-      console.log('--------------------------');
+      console.log('--------------------------------------------');
     } catch (err) {
       console.error('[ERROR] Error conectando a PostgreSQL:', err);
     }
@@ -121,8 +122,8 @@ client.once(Events.ClientReady, async () => {
             return;
         }
 
-        const { checkBirthdays } = require('./utils');
-        await checkBirthdays(c); // Usar `c` para la comprobación
+        // const { checkBirthdays } = require('./utils.js');
+        await checkBirthdays(c);
     }).catch(console.error);
 
     console.log('[LOG] Comprobación diaria de cumpleaños completada.');
@@ -156,7 +157,7 @@ client.once(Events.ClientReady, async () => {
         console.error('Cliente no disponible durante la evaluación.');
         return;
       }
-      const { checkBirthdays } = require('./utils.js');  // Importar aquí dentro
+      // const { checkBirthdays } = require('./utils.js'); 
       await checkBirthdays(c);
     }).catch(console.error);
   
@@ -174,8 +175,8 @@ client.once(Events.ClientReady, async () => {
         return;
       }
 
-      const { resetAnnouncedBirthdays } = require('./utils');
-      await resetAnnouncedBirthdays(c); // Usar la función correcta
+      // const { resetAnnouncedBirthdays } = require('./utils.js');
+      await resetAnnouncedBirthdays(c); 
     }).catch(console.error);
 
     console.log('[LOG] Cumpleaños anunciados reiniciados.');

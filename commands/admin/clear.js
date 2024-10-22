@@ -3,7 +3,7 @@ const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('clear')
-    .setDescription('Elimina una cantidad especificada de mensajes en el canal actual.')
+    .setDescription('🧹 : Elimina una cantidad especificada de mensajes en el canal actual.')
     .addIntegerOption(option =>
       option.setName('cantidad')
         .setDescription('La cantidad de mensajes a borrar (mínimo 1)')

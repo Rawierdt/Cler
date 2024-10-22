@@ -3,7 +3,7 @@ const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require('disc
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('softban')
-    .setDescription('Realiza un softban a un miembro, banea por 7 días y borra mensajes recientes.')
+    .setDescription('🛡️ : Realiza un softban a un miembro, banea por 7 días y borra mensajes recientes.')
     .addUserOption(option =>
       option.setName('user')
         .setDescription('El usuario que deseas softbanear')

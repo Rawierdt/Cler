@@ -60,7 +60,16 @@ async function checkBirthdays(client) {
         const name = user ? `<@${user_id}>` : `ID: ${user_id}`;
 
         const birthdayImages = [
-          // ... imágenes
+          'https://i.imgur.com/Yt85aeT.jpeg',
+          'https://i.imgur.com/8RHYdWy.jpeg',
+          'https://i.imgur.com/hH9WF21.jpeg',
+          'https://i.imgur.com/8JL5KNk.jpeg',
+          'https://i.imgur.com/JopAV22.jpeg',
+          'https://i.imgur.com/kgMTUr1.jpeg',
+          'https://i.imgur.com/zM3LyrF.jpeg',
+          'https://i.imgur.com/pLnpzTB.jpeg',
+          'https://i.imgur.com/NtTgGVJ.jpeg',
+          'https://i.imgur.com/sYXibRj.jpeg'
         ];
         const randomImage = birthdayImages[Math.floor(Math.random() * birthdayImages.length)];
 

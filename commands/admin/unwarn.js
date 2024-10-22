@@ -4,7 +4,7 @@ const { query } = require('../../db');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('unwarn')
-    .setDescription('Elimina una advertencia de un miembro.')
+    .setDescription('🛡️ : Elimina una advertencia de un miembro.')
     .addUserOption(option =>
       option.setName('user')
         .setDescription('El usuario del cual deseas eliminar la advertencia.')

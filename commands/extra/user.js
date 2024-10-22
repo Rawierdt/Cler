@@ -3,7 +3,7 @@ const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRow
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('user')
-    .setDescription('Muestra información sobre un usuario.')
+    .setDescription('👤 : Muestra información sobre un usuario.')
     .addUserOption(option =>
       option.setName('usuario')
         .setDescription('Selecciona un usuario.')

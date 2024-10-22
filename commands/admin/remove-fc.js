@@ -4,7 +4,7 @@ const { query } = require('../../db');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('remove-fc')
-    .setDescription('Elimina un cumpleaños registrado')
+    .setDescription('❌ : Elimina un cumpleaños registrado')
     .addUserOption(option =>
       option.setName('user') // Aquí es 'user', no 'usuario'
         .setDescription('El usuario cuyo cumpleaños deseas eliminar (opcional)'))

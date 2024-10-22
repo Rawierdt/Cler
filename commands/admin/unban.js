@@ -4,7 +4,7 @@ const { query } = require('../../db');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('unban')
-    .setDescription('Desbanea a un miembro.')
+    .setDescription('🛡️ : Desbanea a un miembro.')
     .addStringOption(option =>
       option.setName('userid')
         .setDescription('El ID del usuario a desbanear.')

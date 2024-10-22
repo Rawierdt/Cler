@@ -4,7 +4,7 @@ const { query } = require('../../db');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('set-fc-channel')
-    .setDescription('Define el canal donde se anunciarán los cumpleaños')
+    .setDescription('⚙️ : Define el canal donde se anunciarán los cumpleaños')
     .addChannelOption(option =>
       option.setName('canal')
         .setDescription('El canal para los anuncios de cumpleaños')
