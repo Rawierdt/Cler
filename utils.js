@@ -57,7 +57,8 @@ async function checkBirthdays(client) {
       // Enviar mensaje para cada cumpleaños encontrado
       for (const { user_id } of birthdaysToday) {
         const user = guild.members.cache.get(user_id);
-        const name = user ? `<@${user_id}>` : `ID: ${user_id}`;
+        const name = user `<@${user_id}>`;
+        // const name = user ? `<@${user_id}>` : `ID: ${user_id}`;
 
         const birthdayImages = [
           'https://i.imgur.com/Yt85aeT.jpeg',

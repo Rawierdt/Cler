@@ -134,13 +134,13 @@ client.once(Events.ClientReady, async () => {
     console.log(`[LOG] Comprobación de cumpleaños cada hora.`);
 
     try {
-      await client.shard.broadcastEval(async (c) => {
-        if (!c) {
+      await client.shard.broadcastEval(async (client) => {
+        if (!client) {
           console.error('Cliente no disponible durante la evaluación.');
           return;
         }
         // const { checkBirthdays } = require('./utils.js');
-        await checkBirthdays(c);
+        await checkBirthdays(client);
       });
       console.log('[LOG] Comprobación cada hora completada.');
     } catch (error) {
@@ -150,33 +150,36 @@ client.once(Events.ClientReady, async () => {
 
   // Cron job cada 8 horas
   cron.schedule('0 */8 * * *', async () => {
-    console.log(`[LOG] Comprobación de cumpleaños cada 8 horas.`);
-  
-    await client.shard.broadcastEval(async (c) => {
-      if (!c) {
-        console.error('Cliente no disponible durante la evaluación.');
-        return;
-      }
-      // const { checkBirthdays } = require('./utils.js'); 
-      await checkBirthdays(c);
-    }).catch(console.error);
-  
-    console.log('[LOG] Comprobación cada 8 horas completada.');
+    console.log(`[LOG] Comprobación de cumpleaños cada hora.`);
+
+    try {
+      await client.shard.broadcastEval(async (client) => {
+        if (!client) {
+          console.error('Cliente no disponible durante la evaluación.');
+          return;
+        }
+        // const { checkBirthdays } = require('./utils.js');
+        await checkBirthdays(client);
+      });
+      console.log('[LOG] Comprobación cada 8 horas completada.');
+    } catch (error) {
+      console.error('[ERROR] Ocurrió un error durante la comprobación:', error);
+    }
   });
 
   // Cron job anual (1 de enero a las 00:00)
   cron.schedule('0 0 1 1 *', async () => {
     console.log('[LOG] Reiniciando cumpleaños anunciados.');
 
-    await client.shard.broadcastEval(async (c) => {
+    await client.shard.broadcastEval(async (client) => {
       console.log('Evaluando cliente en shard:', c.shard.id); // Log para verificar el shard
-      if (!c || !c.guilds) {
+      if (!client || !client.guilds) {
         console.error('Cliente no disponible durante la evaluación.');
         return;
       }
 
       // const { resetAnnouncedBirthdays } = require('./utils.js');
-      await resetAnnouncedBirthdays(c); 
+      await resetAnnouncedBirthdays(client); 
     }).catch(console.error);
 
     console.log('[LOG] Cumpleaños anunciados reiniciados.');
