@@ -2,7 +2,7 @@
 * SPANISH
 * Autor: Alejandro Aguilar (Rawier)
 * Sitio Web: https://rawier.vercel.app
-* Ultima Modificación: 20/10/2024 : 00:00 AM
+* Ultima Modificación: 22/10/2024 : 22:00 PM
 * Descripción: Bot Multipropositos para Discord con funciones de moderación y utilidad, Desarrollado con
 *              Node.js (Javascript) y PostgreSQL y MegaDB para las base de datos.
 * Objetivo: Solucionar la problematica de administración de usuarios para más de 10,000 servidores.
@@ -11,6 +11,7 @@
 const { Client, GatewayIntentBits, Collection, ActivityType, Events, EmbedBuilder, ButtonComponent} = require('discord.js');
 const { checkBirthdays, resetAnnouncedBirthdays } = require('./utils');
 const path = require('path');
+const utilsPath = path.resolve(__dirname, 'utils.js'); // Ruta absoluta
 const fs = require('fs');
 const cron = require('node-cron');
 const config = require('./config.json');
@@ -81,120 +82,6 @@ async function enviarEventoAGlitch(data) {
   }
 }
 
-// Logs de actividad del bot
-client.once(Events.ClientReady, async () => {
-  try {
-    const shardId = client.shard?.ids?.[0] ?? 0; // Usa nullish para prevenir fallos
-
-    console.log(`${chalk.green.bgBlack.bold(`Shard ${shardId} en línea como`)} ${client.user.tag}`);
-    console.log(`[LOG] Shard ${shardId} atendiendo en ${client.guilds.cache.size} servidores`);
-    console.log(`[LOG] Hora actual: ${new Date().toLocaleTimeString()}`);
-    // console.log('Cliente:', client);
-    console.log('Guilds:', client.guilds?.cache?.size);
-    console.log(`Bot listo. Ejecutando comprobación inicial de cumpleaños.`);
-    await ejecutarCheckCumpleaños('Comprobación inicial de cumpleaños completada.', client);
-
-
-    try {
-      // Conectarse a la base de datos
-      const res = await query('SELECT NOW()');
-      console.log(chalk.white.bgBlue.bold('Conexión a DB exitosa:'), res.rows[0]);
-      console.log('--------------------------------------------');
-    } catch (err) {
-      console.error('[ERROR] Error conectando a PostgreSQL:', err);
-    }
-
-    await establecerPresencia(shardId);
-
-    // Enviar evento a Glitch
-    await enviarEventoAGlitch({ event: `Shard ${shardId} en línea`, guilds: client.guilds.cache.size });
-
-    // // Comprobación inicial de cumpleaños
-    // await ejecutarCheckCumpleaños('Comprobación inicial de cumpleaños completada.');
-
-  // Cron job diario (00:00)
-  cron.schedule('0 0 * * *', async () => {
-    console.log(`[LOG] Ejecutando comprobación diaria de cumpleaños.`);
-
-    await client.shard.broadcastEval(async (c) => {
-        if (!c || !c.guilds) {
-            console.error('Cliente no disponible durante la evaluación.');
-            return;
-        }
-
-        // const { checkBirthdays } = require('./utils.js');
-        await checkBirthdays(c);
-    }).catch(console.error);
-
-    console.log('[LOG] Comprobación diaria de cumpleaños completada.');
-});
-
-  // Cron job cada hora
-  cron.schedule('0 * * * *', async () => {
-    console.log(`[LOG] Comprobación de cumpleaños cada hora.`);
-
-    try {
-      await client.shard.broadcastEval(async (client) => {
-        if (!client) {
-          console.error('Cliente no disponible durante la evaluación.');
-          return;
-        }
-        // const { checkBirthdays } = require('./utils.js');
-        await checkBirthdays(client);
-      });
-      console.log('[LOG] Comprobación cada hora completada.');
-    } catch (error) {
-      console.error('[ERROR] Ocurrió un error durante la comprobación:', error);
-    }
-  });
-
-  // Cron job cada 8 horas
-  cron.schedule('0 */8 * * *', async () => {
-    console.log(`[LOG] Comprobación de cumpleaños cada hora.`);
-
-    try {
-      await client.shard.broadcastEval(async (client) => {
-        if (!client) {
-          console.error('Cliente no disponible durante la evaluación.');
-          return;
-        }
-        // const { checkBirthdays } = require('./utils.js');
-        await checkBirthdays(client);
-      });
-      console.log('[LOG] Comprobación cada 8 horas completada.');
-    } catch (error) {
-      console.error('[ERROR] Ocurrió un error durante la comprobación:', error);
-    }
-  });
-
-  // Cron job anual (1 de enero a las 00:00)
-  cron.schedule('0 0 1 1 *', async () => {
-    console.log('[LOG] Reiniciando cumpleaños anunciados.');
-
-    await client.shard.broadcastEval(async (client) => {
-      console.log('Evaluando cliente en shard:', c.shard.id); // Log para verificar el shard
-      if (!client || !client.guilds) {
-        console.error('Cliente no disponible durante la evaluación.');
-        return;
-      }
-
-      // const { resetAnnouncedBirthdays } = require('./utils.js');
-      await resetAnnouncedBirthdays(client); 
-    }).catch(console.error);
-
-    console.log('[LOG] Cumpleaños anunciados reiniciados.');
-  });
-
-
-    // Obtener total de servidores en todos los shards
-    const totalGuilds = await obtenerTotalServidores();
-    console.log(`[LOG] El bot está atendiendo un total de ${totalGuilds} servidores en todos los shards.`);
-
-  } catch (globalError) {
-    console.error('[ERROR] Error global en el cliente al iniciar:', globalError);
-  }
-});
-
 // Función para establecer la presencia del bot
 async function establecerPresencia(shardId) {
   await client.user.setPresence({
@@ -207,13 +94,23 @@ async function establecerPresencia(shardId) {
   });
 }
 
-// Función para ejecutar la comprobación de cumpleaños y manejar errores
+// **Función para comprobar cumpleaños**
 async function ejecutarCheckCumpleaños(logMessage, client) {
   try {
-    await checkBirthdays(client);  // Se pasa el cliente como argumento
+    await checkBirthdays(client); 
     console.log(`${chalk.white.bgGreen.bold(`[LOG] ${logMessage}`)}`);
   } catch (error) {
     console.error('[ERROR] Error en la comprobación de cumpleaños:', error);
+  }
+}
+
+// **Función para resetear cumpleaños anunciados**
+async function ejecutarResetCumpleaños(logMessage, client) {
+  try {
+    await resetAnnouncedBirthdays(client); 
+    console.log(`${chalk.white.bgYellow.bold(`[LOG] ${logMessage}`)}`);
+  } catch (error) {
+    console.error('[ERROR] Error al resetear cumpleaños anunciados:', error);
   }
 }
 
@@ -222,6 +119,94 @@ async function obtenerTotalServidores() {
   return client.shard.broadcastEval((c) => c.guilds.cache.size)
     .then(results => results.reduce((acc, count) => acc + count, 0));
 }
+
+// Función para obtener el total de servidores en todos los shards
+async function conectarABd() {
+  try {
+    // Conectarse a la base de datos
+    const res = await query('SELECT NOW()');
+    console.log(chalk.white.bgBlue.bold('Conexión a DB exitosa:'), res.rows[0]);
+    console.log('--------------------------------------------');
+  } catch (err) {
+    console.error('[ERROR] Error conectando a PostgreSQL:', err);
+  }
+}
+
+// Logs de actividad del bot
+client.once(Events.ClientReady, async () => {
+  try {
+    //const shardId = client.shard?.ids?.[0] ?? 0; // Usa nullish para prevenir fallos
+    const shardId = client.shard ? client.shard.ids[0] : 0;
+    //console.log(`[LOG] Bot listo en shard ${shardId}.`);
+    const totalGuilds = await obtenerTotalServidores();
+    
+    console.log(`[LOG] El bot está atendiendo un total de ${totalGuilds} servidores en todos los shards.`);
+    console.log(`${chalk.green.bgBlack.bold(`Shard ${shardId} en línea como`)} ${client.user.tag}`);
+    console.log(`[LOG] Shard ${shardId} atendiendo en ${client.guilds.cache.size} servidores`);
+    console.log(`[LOG] Hora actual: ${new Date().toLocaleTimeString()}`);
+    // console.log('Cliente:', client);
+    console.log('Guilds:', client.guilds?.cache?.size);
+    console.log(`Bot listo. Ejecutando comprobación inicial de cumpleaños.`);
+
+    await conectarABd();
+
+    await establecerPresencia(shardId);
+
+    await ejecutarCheckCumpleaños('Comprobación inicial de cumpleaños completada.', client);
+
+    await enviarEventoAGlitch({ event: `Shard ${shardId} en línea`, guilds: client.guilds.cache.size });
+
+  if (shardId === 0) {
+
+    // Exporta la ruta absoluta de 'utils.js'
+    const utilsPath = path.resolve(__dirname, 'utils.js');
+
+    // Cron cada hora
+    cron.schedule('0 * * * *', async () => {
+      console.log(chalk.white.bgCyan.bold('[LOG] Iniciando comprobación cada hora de cumpleaños.'));
+
+      await client.shard.broadcastEval(async (client, { utilsPath }) => {
+        const { checkBirthdays } = require(utilsPath); // Importa la función
+        await checkBirthdays(client); // Ejecuta la función
+      }, { context: { utilsPath } }).catch(console.error); // Pasa la ruta en contexto
+    });
+
+    // Cron diario (a medianoche)
+    cron.schedule('0 0 * * *', async () => {
+      console.log(chalk.white.bgGreen.bold('[LOG] Iniciando comprobación diaria de cumpleaños.'));
+
+      await client.shard.broadcastEval(async (client, { utilsPath }) => {
+        const { checkBirthdays } = require(utilsPath); // Importa la función
+        await checkBirthdays(client); // Ejecuta la función
+      }, { context: { utilsPath } }).catch(console.error); // Pasa la ruta en contexto
+    });
+
+    // Cron cada 8 horas
+    cron.schedule('0 */8 * * *', async () => {
+      console.log(chalk.white.bgCyan.bold('[LOG] Iniciando comprobación cada 8 horas.'));
+
+      await client.shard.broadcastEval(async (client, { utilsPath }) => {
+        const { checkBirthdays } = require(utilsPath); // Importa la función
+        await checkBirthdays(client); // Ejecuta la función
+      }, { context: { utilsPath } }).catch(console.error); // Pasa la ruta en contexto
+    });
+
+    // Cron anual (1 de enero a medianoche)
+    cron.schedule('0 0 1 1 *', async () => {
+      console.log(chalk.white.bgYellow.bold('[LOG] Reiniciando cumpleaños anunciados.'));
+
+      await client.shard.broadcastEval(async (client, { utilsPath }) => {
+        const { resetAnnouncedBirthdays } = require(utilsPath); // Importa la función
+        await resetAnnouncedBirthdays(client); // Ejecuta la función
+      }, { context: { utilsPath } }).catch(console.error); // Pasa la ruta en contexto
+    });
+  }
+
+  } catch (globalError) {
+    console.error('[ERROR] Error global en el cliente al iniciar:', globalError);
+  }
+});
+
 
 // Manejando eventos de interacción (slash commands)
 client.on(Events.InteractionCreate, async interaction => {
