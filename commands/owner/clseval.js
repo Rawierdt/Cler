@@ -1,6 +1,3 @@
-require('dotenv').config();
-const { EmbedBuilder } = require('discord.js');
-const beautify = require('beautify');
 const fetch = require('node-fetch');
 const { query } = require('../../db');
 const { checkBirthdays, resetAnnouncedBirthdays } = require('../../utils');
@@ -9,6 +6,10 @@ const utilsPath = path.resolve(__dirname, 'utils.js');
 const fs = require('fs');
 const cron = require('node-cron');
 const chalk = require('chalk');
+require('dotenv').config();
+const { EmbedBuilder, AttachmentBuilder } = require('discord.js');
+const beautify = require('beautify');
+const { inspect } = require('util'); // Para inspeccionar objetos grandes
 
 module.exports = {
   name: 'clseval',
@@ -32,20 +33,41 @@ module.exports = {
     try {
       const code = args.join(' ');
 
-      // Evita exponer el token del bot
       if (code.toLowerCase().includes('token')) {
         return message.channel.send('No, no puedo darte mi token. ¡Buen intento!');
       }
 
-      // Usamos await para manejar promesas correctamente
-      let evaluated = await eval(`(async () => { ${code} })()`);
+      let evaluated;
 
-      // Convertimos el resultado en string para evitar errores
+      const asyncEval = async () => {
+        return await eval(`(async () => { 
+          try { 
+            return ${code}; 
+          } catch (err) { 
+            return err.message; 
+          } 
+        })()`);
+      };
+
+      evaluated = await asyncEval();
+
+      // Si el resultado no es cadena, lo inspeccionamos
       if (typeof evaluated !== 'string') {
-        evaluated = require('util').inspect(evaluated, { depth: 1 });
+        evaluated = inspect(evaluated, { depth: 1 });
       }
 
-      // Crear el embed con los resultados de la evaluación
+      // Limitamos la longitud del resultado a 1024 caracteres
+      if (evaluated.length > 1024) {
+        const attachment = new AttachmentBuilder(Buffer.from(evaluated), {
+          name: 'resultado.txt',
+        });
+
+        return message.channel.send({
+          content: 'El resultado es muy largo, aquí está como archivo:',
+          files: [attachment],
+        });
+      }
+
       const embed = new EmbedBuilder()
         .setColor('Purple')
         .setTimestamp()
@@ -63,7 +85,6 @@ module.exports = {
       return message.channel.send({ embeds: [embed] });
     } catch (error) {
       console.error('Error al evaluar el código:', error);
-
       return message.channel.send({
         content: `ERROR!\n\`\`\`js\n${error.message}\n\`\`\``,
       });
