@@ -11,7 +11,7 @@
 const { Client, GatewayIntentBits, Collection, ActivityType, Events, EmbedBuilder, ButtonComponent} = require('discord.js');
 const { checkBirthdays, resetAnnouncedBirthdays } = require('./utils');
 const path = require('path');
-const utilsPath = path.resolve(__dirname, 'utils.js'); // Ruta absoluta
+const utilsPath = path.resolve(__dirname, 'utils.js'); 
 const fs = require('fs');
 const cron = require('node-cron');
 const config = require('./config.json');
@@ -120,10 +120,9 @@ async function obtenerTotalServidores() {
     .then(results => results.reduce((acc, count) => acc + count, 0));
 }
 
-// Función para obtener el total de servidores en todos los shards
+// Función de conector a la bd
 async function conectarABd() {
   try {
-    // Conectarse a la base de datos
     const res = await query('SELECT NOW()');
     console.log(chalk.white.bgBlue.bold('Conexión a DB exitosa:'), res.rows[0]);
     console.log('--------------------------------------------');
@@ -158,27 +157,26 @@ client.once(Events.ClientReady, async () => {
 
   if (shardId === 0) {
 
-    // Exporta la ruta absoluta de 'utils.js'
     const utilsPath = path.resolve(__dirname, 'utils.js');
 
     // Cron cada hora
-    cron.schedule('0 * * * *', async () => {
-      console.log(chalk.white.bgCyan.bold('[LOG] Iniciando comprobación cada hora de cumpleaños.'));
+    // cron.schedule('0 * * * *', async () => {
+    //   console.log(chalk.white.bgCyan.bold('[LOG] Iniciando comprobación cada hora de cumpleaños.'));
 
-      await client.shard.broadcastEval(async (client, { utilsPath }) => {
-        const { checkBirthdays } = require(utilsPath); // Importa la función
-        await checkBirthdays(client); // Ejecuta la función
-      }, { context: { utilsPath } }).catch(console.error); // Pasa la ruta en contexto
-    });
+    //   await client.shard.broadcastEval(async (client, { utilsPath }) => {
+    //     const { checkBirthdays } = require(utilsPath); // Importa la función
+    //     await checkBirthdays(client); // Ejecuta la función
+    //   }, { context: { utilsPath } }).catch(console.error); // Pasa la ruta en contexto
+    // });
 
     // Cron diario (a medianoche)
     cron.schedule('0 0 * * *', async () => {
       console.log(chalk.white.bgGreen.bold('[LOG] Iniciando comprobación diaria de cumpleaños.'));
 
       await client.shard.broadcastEval(async (client, { utilsPath }) => {
-        const { checkBirthdays } = require(utilsPath); // Importa la función
-        await checkBirthdays(client); // Ejecuta la función
-      }, { context: { utilsPath } }).catch(console.error); // Pasa la ruta en contexto
+        const { checkBirthdays } = require(utilsPath);
+        await checkBirthdays(client);
+      }, { context: { utilsPath } }).catch(console.error); 
     });
 
     // Cron cada 8 horas
@@ -186,9 +184,9 @@ client.once(Events.ClientReady, async () => {
       console.log(chalk.white.bgCyan.bold('[LOG] Iniciando comprobación cada 8 horas.'));
 
       await client.shard.broadcastEval(async (client, { utilsPath }) => {
-        const { checkBirthdays } = require(utilsPath); // Importa la función
-        await checkBirthdays(client); // Ejecuta la función
-      }, { context: { utilsPath } }).catch(console.error); // Pasa la ruta en contexto
+        const { checkBirthdays } = require(utilsPath);
+        await checkBirthdays(client);
+      }, { context: { utilsPath } }).catch(console.error); 
     });
 
     // Cron anual (1 de enero a medianoche)
@@ -196,9 +194,9 @@ client.once(Events.ClientReady, async () => {
       console.log(chalk.white.bgYellow.bold('[LOG] Reiniciando cumpleaños anunciados.'));
 
       await client.shard.broadcastEval(async (client, { utilsPath }) => {
-        const { resetAnnouncedBirthdays } = require(utilsPath); // Importa la función
-        await resetAnnouncedBirthdays(client); // Ejecuta la función
-      }, { context: { utilsPath } }).catch(console.error); // Pasa la ruta en contexto
+        const { resetAnnouncedBirthdays } = require(utilsPath);
+        await resetAnnouncedBirthdays(client);
+      }, { context: { utilsPath } }).catch(console.error);
     });
   }
 
