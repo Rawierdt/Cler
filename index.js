@@ -241,7 +241,7 @@ client.on(Events.InteractionCreate, async interaction => {
 
     try {
       if (command.executeContextMenu) {
-        await command.executeContextMenu(interaction);  // Ejecuta el método para context menu commands
+        await command.executeContextMenu(interaction);
       }
 
       await enviarEventoAGlitch({

@@ -1,12 +1,22 @@
 const { SlashCommandBuilder, EmbedBuilder, MessageFlags, Collection } = require('discord.js');
 const puppeteer = require('puppeteer');
-const COOLDOWN_TIME = 15 * 1000; // 15 segundos
+const COOLDOWN_TIME = 15 * 1000;
 const cooldowns = new Collection();
-let browser; // Mantenemos la instancia del navegador globalmente
+let browser, page;
 
 (async () => {
     browser = await puppeteer.launch({ headless: true });
+    page = await browser.newPage();
+    await page.goto('https://chat-app-f2d296.zapier.app/', { waitUntil: 'networkidle2' });
 })();
+
+async function ensurePageReady() {
+    if (!browser || !page) {
+        browser = await puppeteer.launch({ headless: true });
+        page = await browser.newPage();
+        await page.goto('https://chat-app-f2d296.zapier.app/', { waitUntil: 'networkidle2' });
+    }
+}
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -19,8 +29,11 @@ module.exports = {
         ),
     async executeSlash(interaction) {
         const userId = interaction.user.id;
-        if (cooldowns.has(userId)) {
-            const remaining = ((cooldowns.get(userId) + COOLDOWN_TIME) - Date.now()) / 1000;
+
+        // Verificar cooldown antes de proceder
+        const lastUsed = cooldowns.get(userId);
+        if (lastUsed && Date.now() - lastUsed < COOLDOWN_TIME) {
+            const remaining = ((lastUsed + COOLDOWN_TIME) - Date.now()) / 1000;
             return interaction.reply({
                 content: `⏳ Debes esperar ${remaining.toFixed(1)} segundos antes de usar este comando nuevamente.`,
                 ephemeral: true
@@ -29,15 +42,15 @@ module.exports = {
 
         await interaction.deferReply();
         const prompt = interaction.options.getString('prompt');
+
         try {
-            if (!browser) { // Reabrir el navegador si no está abierto
-                browser = await puppeteer.launch({ headless: true });
-            }
-            const page = await browser.newPage();
-            await page.goto('https://chat-app-f2d296.zapier.app/', { waitUntil: 'networkidle2' });
+            // Asegurar que la página esté lista
+            await ensurePageReady();
+
             await page.waitForSelector('textarea[placeholder="automate"]', { timeout: 30000 });
             await page.type('textarea[placeholder="automate"]', prompt);
             await page.keyboard.press('Enter');
+
             await page.waitForSelector('[data-testid="bot-message"]', { timeout: 5000 });
             const value = await page.$$eval('[data-testid="bot-message"]', elements =>
                 elements.map(el => el.textContent)
@@ -45,7 +58,7 @@ module.exports = {
 
             if (value.length === 0) throw new Error('No hay respuesta del bot.');
 
-            value.shift();
+            value.shift(); // Remover mensaje inicial si es necesario
             const embed = new EmbedBuilder()
                 .setColor('Blurple')
                 .setDescription(`\`\`\`${value.join('\n\n')}\`\`\``);
@@ -59,11 +72,9 @@ module.exports = {
             await interaction.editReply({
                 content: '❌ No puedo responder eso ahora, inténtalo más tarde.'
             });
-        } finally {
-            // Cerrar la página en lugar del navegador
-            if (browser) await browser.pages().then(pages => pages.forEach(page => page.close()));
         }
 
+        // Registrar el uso del comando y configurar cooldown
         cooldowns.set(userId, Date.now());
         setTimeout(() => cooldowns.delete(userId), COOLDOWN_TIME);
     }

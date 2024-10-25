@@ -15,6 +15,7 @@
     "@discordjs/voice": "^0.17.0",
     "akaneko": "^5.3.0",
     "axios": "^1.7.7",
+    "beautify": "^0.0.8",
     "chalk": "^4.1.2",
     "discord-api-types": "^0.37.100",
     "discord-tts": "^1.0.3",

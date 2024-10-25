@@ -16,4 +16,5 @@ const query = (text, params) => pool.query(text, params);
 
 module.exports = {
     query,
+    pool, // Exportamos el pool para cerrarlo correctamente en el comando shutdown
 };
