@@ -16,7 +16,7 @@ module.exports = {
             .addFields(
                 { name: "❯ <a:activedeveloperbadgeanimated:1287542344329203813> Dev", value: dev, inline: true },
                 { name: "❯ <:onlinedesktop:1287542114124828812> Prefix", value: "c!", inline: true },
-                { name: "❯ <:useapps:1287542291078189140> Versión", value: "v4.8.40", inline: true },
+                { name: "❯ <:useapps:1287542291078189140> Versión", value: "v4.8.60", inline: true },
                 { name: "❯ <a:9755discordstaffanimated:1287542237571321896> Artista de la imagen", value: "kureihii", inline: true },
                 { name: "❯ <a:9755discordstaffanimated:1287542237571321896> Artista de las cartas", value: "Karite-Kita-Neko", inline: true },
                 { name: "❯ <:765discordinfowhitetheme:1287542268328280197> Soundtrack", value: "[Eight Beat Berserker ー KISIDA KYODAN & THE AKEBOSI ROCKETS](https://www.youtube.com/watch?v=PWbg7ShjOPk)", inline: true },

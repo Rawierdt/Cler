@@ -13,7 +13,7 @@ const { inspect } = require('util'); // Para inspeccionar objetos grandes
 
 module.exports = {
   name: 'clseval',
-  description: 'Ejecuta código directamente en Discord. (Solo para desarrolladores)',
+  description: 'Ejecuta código directamente en Discord.',
   async executePrefix(client, message, args) {
     const dev = process.env.OWNER;
 
@@ -35,6 +35,10 @@ module.exports = {
 
       if (code.toLowerCase().includes('token')) {
         return message.channel.send('No, no puedo darte mi token. ¡Buen intento!');
+      }
+
+      if (code.toLowerCase().includes('pg')) {
+        return message.channel.send('No, no puedo darme mi contraseña. ¡Buen intento!');
       }
 
       let evaluated;
@@ -59,7 +63,7 @@ module.exports = {
       // Limitamos la longitud del resultado a 1024 caracteres
       if (evaluated.length > 1024) {
         const attachment = new AttachmentBuilder(Buffer.from(evaluated), {
-          name: 'resultado.txt',
+          name: 'result.txt',
         });
 
         return message.channel.send({
