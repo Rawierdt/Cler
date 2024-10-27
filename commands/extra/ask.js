@@ -1,20 +1,29 @@
 const { SlashCommandBuilder, EmbedBuilder, MessageFlags, Collection } = require('discord.js');
 const puppeteer = require('puppeteer');
-const COOLDOWN_TIME = 15 * 1000;
+const COOLDOWN_TIME = 15 * 1000; // 15 segundos
 const cooldowns = new Collection();
 let browser, page;
 
 (async () => {
-    browser = await puppeteer.launch({ headless: true });
-    page = await browser.newPage();
-    await page.goto('https://chat-app-f2d296.zapier.app/', { waitUntil: 'networkidle2' });
+    try {
+        browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
+        page = await browser.newPage();
+        await page.goto('https://chat-app-f2d296.zapier.app/', { waitUntil: 'domcontentloaded', timeout: 60000 });
+    } catch (error) {
+        console.error('Error inicializando Puppeteer:', error);
+    }
 })();
 
 async function ensurePageReady() {
-    if (!browser || !page) {
-        browser = await puppeteer.launch({ headless: true });
-        page = await browser.newPage();
-        await page.goto('https://chat-app-f2d296.zapier.app/', { waitUntil: 'networkidle2' });
+    try {
+        if (!browser || !page) {
+            browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
+            page = await browser.newPage();
+            await page.goto('https://chat-app-f2d296.zapier.app/', { waitUntil: 'domcontentloaded', timeout: 60000 });
+        }
+    } catch (error) {
+        console.error('Error reabriendo la página:', error);
+        throw new Error('No se pudo inicializar el navegador.');
     }
 }
 
@@ -30,7 +39,6 @@ module.exports = {
     async executeSlash(interaction) {
         const userId = interaction.user.id;
 
-        // Verificar cooldown antes de proceder
         const lastUsed = cooldowns.get(userId);
         if (lastUsed && Date.now() - lastUsed < COOLDOWN_TIME) {
             const remaining = ((lastUsed + COOLDOWN_TIME) - Date.now()) / 1000;
@@ -44,21 +52,29 @@ module.exports = {
         const prompt = interaction.options.getString('prompt');
 
         try {
-            // Asegurar que la página esté lista
             await ensurePageReady();
 
+            // Escribimos y enviamos el mensaje en la página
             await page.waitForSelector('textarea[placeholder="automate"]', { timeout: 30000 });
             await page.type('textarea[placeholder="automate"]', prompt);
             await page.keyboard.press('Enter');
 
+            // Esperamos que aparezcan los mensajes del bot
             await page.waitForSelector('[data-testid="bot-message"]', { timeout: 5000 });
+
+            // Depuración: Verificar cuántos mensajes se encontraron
+            const elements = await page.$$('[data-testid="bot-message"]');
+            console.log(`Mensajes encontrados: ${elements.length}`);
+
+            // Extraer el contenido del mensaje
             const value = await page.$$eval('[data-testid="bot-message"]', elements =>
-                elements.map(el => el.textContent)
+                elements.map(el => el.textContent.trim()).filter(text => text.length > 0)
             );
 
-            if (value.length === 0) throw new Error('No hay respuesta del bot.');
+            // Validar si hay contenido
+            if (value.length === 0) throw new Error('No hay respuesta válida del bot.');
 
-            value.shift(); // Remover mensaje inicial si es necesario
+            value.shift(); // Remover el primer mensaje si es necesario
             const embed = new EmbedBuilder()
                 .setColor('Blurple')
                 .setDescription(`\`\`\`${value.join('\n\n')}\`\`\``);
@@ -74,7 +90,6 @@ module.exports = {
             });
         }
 
-        // Registrar el uso del comando y configurar cooldown
         cooldowns.set(userId, Date.now());
         setTimeout(() => cooldowns.delete(userId), COOLDOWN_TIME);
     }
