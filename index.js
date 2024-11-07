@@ -145,7 +145,6 @@ client.once(Events.ClientReady, async () => {
     console.log(`[LOG] Hora actual: ${new Date().toLocaleTimeString()}`);
     // console.log('Cliente:', client);
     console.log('Guilds:', client.guilds?.cache?.size);
-    console.log(`Bot listo. Ejecutando comprobación inicial de cumpleaños.`);
 
     await conectarABd();
 
@@ -159,7 +158,7 @@ client.once(Events.ClientReady, async () => {
 
     const utilsPath = path.resolve(__dirname, 'utils.js');
 
-    // Cron cada hora
+    // Cron cada hora ya no se utiliza, sol oera para comprobaciones
     // cron.schedule('0 * * * *', async () => {
     //   console.log(chalk.white.bgCyan.bold('[LOG] Iniciando comprobación cada hora de cumpleaños.'));
 
