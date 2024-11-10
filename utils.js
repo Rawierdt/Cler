@@ -61,6 +61,7 @@ async function checkBirthdays(client) {
         }
 
         const birthdayImages = [
+          'https://i.imgur.com/jTsohIm.jpeg',
           'https://i.imgur.com/Yt85aeT.jpeg',
           'https://i.imgur.com/8RHYdWy.jpeg',
           'https://i.imgur.com/hH9WF21.jpeg',
@@ -79,7 +80,7 @@ async function checkBirthdays(client) {
           .setColor(0x00FF00)
           .setThumbnail('https://i.ibb.co/XDF8Tqc/cake.gif')
           .setImage(randomImage)
-          .setFooter({ text: '¡Felicidades!, Te quiere Cler!' })
+          .setFooter({ text: `Hora local: ${new Date().toLocaleString('es-MX', { timeZone: 'America/Mexico_City' })}` })
           .setTimestamp();
 
         try {
