@@ -253,6 +253,23 @@ const commands = [
             .setName('comando')
             .setDescription('Nombre del comando para obtener más detalles')
             .setRequired(false)),
+    new SlashCommandBuilder()
+        .setName('image')
+        .setDescription('🖼️ : Genera una imagen IA.')
+        .addStringOption(option =>
+            option.setName('model')
+                .setDescription('Modelo a usar para generar la imagen')
+                .setRequired(true)
+                .addChoices(
+                    { name: 'Shonin', value: 'shonin' },
+                    { name: 'Animefy', value: 'animefy' },
+                    { name: 'Raava', value: 'raava' },
+                    { name: 'Prodia', value: 'prodia' }
+                ))
+        .addStringOption(option =>
+            option.setName('prompt')
+                .setDescription('Descripción para la generación de la imagen')
+                .setRequired(true)),
 ].map(command => {
   console.log(`Comando: ${command.name} registrado.`); // Agrega un log para cada comando
   return command.toJSON();

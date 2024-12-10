@@ -18,5 +18,95 @@
     "title": "Comando: Set-mute",
     "description": "Configura el rol de mute para el servidor, sin el no será posible mutear a los miembros. **(Admin Required)**",
     "usage": "/set-mute @rol || c!set-mute @rol"
+  },
+  "note": {
+    "title": "Comando: Note",
+    "description": "Añade o actualiza una nota a un usuario. **(Kick Permission Required)**",
+    "usage": "/note @usuario [contenido de la nota] || c!note @usuario [contenido de la nota]"
+  },
+  "deletenote": {
+    "title": "Comando: Deletenote",
+    "description": "Elimina una nota específica de un usuario. **(Kick Permission Required)**",
+    "usage": "/deletenote @usuario || c!deletenote @usuario"
+  },
+  "unmute": {
+    "title": "Comando: Unmute",
+    "description": "Desmuta a un miembro del servidor. **(Mod Permission Required)**",
+    "usage": "/unmute @usuario || c!unmute @usuario"
+  },
+  "softban": {
+    "title": "Comando: Softban",
+    "description": "Realiza un softban a un miembro, banea por 7 días y borra mensajes recientes. **(Ban Permission Required)**",
+    "usage": "/softban @usuario [razón] || c!softban @usuario [razón]"
+  },
+  "modlogs": {
+    "title": "Comando: Modlogs",
+    "description": "Muestra el historial de moderación de un usuario. **(Mod Permission Required)**",
+    "usage": "/modlogs @usuario || c!modlogs @usuario"
+  },
+  "warnings": {
+    "title": "Comando: Warnings",
+    "description": "Muestra las advertencias de un miembro. **(Mod Permission Required)**",
+    "usage": "/warnings @usuario || c!warnings @usuario"
+  },
+  "unwarn": {
+    "title": "Comando: Unwarn",
+    "description": "Elimina una advertencia de un miembro. **(Mod Permission Required)**",
+    "usage": "/unwarn @usuario [número de advertencia] || c!unwarn @usuario [número de advertencia]"
+  },
+  "help": {
+    "title": "Comando: Help",
+    "description": "Muestra la lista de comandos disponibles.",
+    "usage": "/help [comando] || c!help [comando]"
+  },
+  "avatar": {
+    "title": "Comando: Avatar",
+    "description": "Muestra el avatar de un usuario.",
+    "usage": "/avatar @usuario || c!avatar @usuario"
+  },
+  "clear": {
+    "title": "Comando: Clear",
+    "description": "Elimina una cantidad especificada de mensajes en el canal actual. **(Manage Messages Permission Required)**",
+    "usage": "/clear [cantidad] || c!clear [cantidad]"
+  },
+  "add-fc": {
+    "title": "Comando: Add-fc",
+    "description": "Agrega una fecha de cumpleaños para un usuario.",
+    "usage": "/add-fc [día] [mes] @usuario"
+  },
+  "remove-fc": {
+    "title": "Comando: Remove-fc",
+    "description": "Elimina un cumpleaños registrado de un usuario.",
+    "usage": "/remove-fc @usuario"
+  },
+  "ask": {
+    "title": "Comando: Ask",
+    "description": "Haz una pregunta para Cler.",
+    "usage": "/ask [pregunta]"
+  },
+  "image": {
+    "title": "Comando: Image",
+    "description": "Genera una imagen IA.",
+    "usage": "/image [model] [prompt]"
+  },
+  "set-fc-channel": {
+    "title": "Comando: Set-fc-channel",
+    "description": "Define el canal donde se anunciarán los cumpleaños.",
+    "usage": "/set-fc-channel [canal]"
+  },
+  "love": {
+    "title": "Comando: Love",
+    "description": "Calcula tu compatibilidad amorosa.",
+    "usage": "/love @usuario || c!love @usuario"
+  },
+  "user": {
+    "title": "Comando: User",
+    "description": "Muestra información sobre un usuario.",
+    "usage": "/user @usuario"
+  },
+  "act": {
+    "title": "Comando: Act",
+    "description": "Realiza acciones con GIFs.",
+    "usage": "/act [acción] @usuario"
   }
 }

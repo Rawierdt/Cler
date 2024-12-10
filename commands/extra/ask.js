@@ -1,31 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, MessageFlags, Collection } = require('discord.js');
-const puppeteer = require('puppeteer');
+const axios = require('axios');
 const COOLDOWN_TIME = 15 * 1000; // 15 segundos
 const cooldowns = new Collection();
-let browser, page;
-
-(async () => {
-    try {
-        browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
-        page = await browser.newPage();
-        await page.goto('https://chat-app-f2d296.zapier.app/', { waitUntil: 'domcontentloaded', timeout: 60000 });
-    } catch (error) {
-        console.error('Error inicializando Puppeteer:', error);
-    }
-})();
-
-async function ensurePageReady() {
-    try {
-        if (!browser || !page) {
-            browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
-            page = await browser.newPage();
-            await page.goto('https://chat-app-f2d296.zapier.app/', { waitUntil: 'domcontentloaded', timeout: 60000 });
-        }
-    } catch (error) {
-        console.error('Error reabriendo la página:', error);
-        throw new Error('No se pudo inicializar el navegador.');
-    }
-}
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -43,7 +19,7 @@ module.exports = {
         if (lastUsed && Date.now() - lastUsed < COOLDOWN_TIME) {
             const remaining = ((lastUsed + COOLDOWN_TIME) - Date.now()) / 1000;
             return interaction.reply({
-                content: `⏳ Debes esperar ${remaining.toFixed(1)} segundos antes de usar este comando nuevamente.`,
+                content: `<:cooldown:1287542331473399949> Debes esperar ${remaining.toFixed(1)} segundos antes de usar este comando nuevamente.`,
                 ephemeral: true
             });
         }
@@ -52,41 +28,33 @@ module.exports = {
         const prompt = interaction.options.getString('prompt');
 
         try {
-            await ensurePageReady();
+            const apiUrl = `https://hercai.onrender.com/v3/hercai?question=${encodeURIComponent(prompt)}`;
+            console.log(`[DEBUG] Solicitando a la API: ${apiUrl}`);
 
-            // Escribimos y enviamos el mensaje en la página
-            await page.waitForSelector('textarea[placeholder="automate"]', { timeout: 30000 });
-            await page.type('textarea[placeholder="automate"]', prompt);
-            await page.keyboard.press('Enter');
+            const response = await axios.get(apiUrl);
+            console.log('[DEBUG] Respuesta completa de la API:', response.data);
 
-            // Esperamos que aparezcan los mensajes del bot
-            await page.waitForSelector('[data-testid="bot-message"]', { timeout: 5000 });
+            if (!response.data || !response.data.reply) {
+                console.error('[DEBUG] La respuesta no tiene el campo "reply".');
+                throw new Error('Respuesta inválida de la API.');
+            }
 
-            // Depuración: Verificar cuántos mensajes se encontraron
-            const elements = await page.$$('[data-testid="bot-message"]');
-            console.log(`Mensajes encontrados: ${elements.length}`);
+            const reply = response.data.reply.trim();
+            console.log(`[DEBUG] Respuesta "reply" extraída: "${reply}"`);
 
-            // Extraer el contenido del mensaje
-            const value = await page.$$eval('[data-testid="bot-message"]', elements =>
-                elements.map(el => el.textContent.trim()).filter(text => text.length > 0)
-            );
-
-            // Validar si hay contenido
-            if (value.length === 0) throw new Error('No hay respuesta válida del bot.');
-
-            value.shift(); // Remover el primer mensaje si es necesario
-            const embed = new EmbedBuilder()
-                .setColor('Blurple')
-                .setDescription(`\`\`\`${value.join('\n\n')}\`\`\``);
+            if (!reply) {
+                throw new Error('El campo "reply" está vacío.');
+            }
 
             await interaction.editReply({
-                embeds: [embed],
+                content: reply,
                 flags: MessageFlags.SuppressEmbeds
             });
         } catch (error) {
-            console.error('Error en el comando /ask:', error);
+            console.error('[DEBUG] Error en el comando /ask:', error.message);
+
             await interaction.editReply({
-                content: '❌ No puedo responder eso ahora, inténtalo más tarde.'
+                content: '<:win11warningicon:1287543045289410602> No puedo responder eso ahora, inténtalo en un rato.'
             });
         }
 
