@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, MessageFlags, Collection } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, MessageFlags, Collection, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const axios = require('axios');
 const COOLDOWN_TIME = 15 * 1000; // 15 segundos
 const cooldowns = new Collection();
@@ -24,8 +24,12 @@ module.exports = {
             });
         }
 
-        await interaction.deferReply();
         const prompt = interaction.options.getString('prompt');
+
+        await interaction.reply({
+            content: `<a:7loading:1287542248258666647> : **Tu pregunta ha sido enviada, espera un momento**.`,
+            ephemeral: true
+        });
 
         try {
             const apiUrl = `https://hercai.onrender.com/v3/hercai?question=${encodeURIComponent(prompt)}`;
@@ -46,14 +50,22 @@ module.exports = {
                 throw new Error('El campo "reply" está vacío.');
             }
 
-            await interaction.editReply({
-                content: reply,
-                flags: MessageFlags.SuppressEmbeds
+            const button = new ButtonBuilder()
+                .setLabel('📀 : ¿Qué es esto?')
+                .setStyle(ButtonStyle.Link)
+                .setURL('https://rawier.gitbook.io/cler/main/extra#ask');
+
+            const row = new ActionRowBuilder().addComponents(button);
+
+            // Respuesta pública con el botón
+            await interaction.followUp({
+                content: `**Pregunta:** ${prompt}\n**Respuesta:** ${reply}`,
+                components: [row]
             });
         } catch (error) {
             console.error('[DEBUG] Error en el comando /ask:', error.message);
 
-            await interaction.editReply({
+            await interaction.followUp({
                 content: '<:win11warningicon:1287543045289410602> No puedo responder eso ahora, inténtalo en un rato.'
             });
         }

@@ -261,10 +261,14 @@ const commands = [
                 .setDescription('Modelo a usar para generar la imagen')
                 .setRequired(true)
                 .addChoices(
+                    { name: 'Simurg', value: 'simurg' },
+                    { name: 'V2', value: 'v2-beta' },
                     { name: 'Shonin', value: 'shonin' },
                     { name: 'Animefy', value: 'animefy' },
                     { name: 'Raava', value: 'raava' },
-                    { name: 'Prodia', value: 'prodia' }
+                    { name: 'Prodia', value: 'prodia' },
+                    { name: 'DALL-E', value: 'v3' },
+                    { name: 'Lexica', value: 'lexica' }
                 ))
         .addStringOption(option =>
             option.setName('prompt')

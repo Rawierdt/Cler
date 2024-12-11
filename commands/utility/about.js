@@ -10,13 +10,13 @@ module.exports = {
         const embedDatos = new EmbedBuilder()
             .setTitle("**✿ Acerca de Cler ✿**")
             .setColor(0xC6EB0E)
-            .setDescription("Cler es una bot en español multipropósitos, moderación, diversión y aprendizaje acerca de temas relacionados, *Cler recibe actualizaciones el 20 de cada mes*.")
+            .setDescription("Cler es una bot en español multipropósitos, moderación, diversión y aprendizaje acerca de temas relacionados, *Cler recibe actualizaciones entre el 10 y20 de cada mes*.")
             .setThumbnail(client.user.avatarURL())
             .setFooter({ text: "Acerca de" })
             .addFields(
                 { name: "❯ <a:activedeveloperbadgeanimated:1287542344329203813> Dev", value: dev, inline: true },
                 { name: "❯ <:onlinedesktop:1287542114124828812> Prefix", value: "c!", inline: true },
-                { name: "❯ <:useapps:1287542291078189140> Versión", value: "v4.8.60", inline: true },
+                { name: "❯ <:useapps:1287542291078189140> Versión", value: "v4.8.90", inline: true },
                 { name: "❯ <a:9755discordstaffanimated:1287542237571321896> Artista de la imagen", value: "kureihii", inline: true },
                 { name: "❯ <a:9755discordstaffanimated:1287542237571321896> Artista de las cartas", value: "Karite-Kita-Neko", inline: true },
                 { name: "❯ <:765discordinfowhitetheme:1287542268328280197> Soundtrack", value: "[Eight Beat Berserker ー KISIDA KYODAN & THE AKEBOSI ROCKETS](https://www.youtube.com/watch?v=PWbg7ShjOPk)", inline: true },
