@@ -231,6 +231,7 @@ client.on(Events.InteractionCreate, async interaction => {
       if (interaction.replied || interaction.deferred) {
         await interaction.followUp({ content: 'Hubo un error al ejecutar este comando.', ephemeral: true });
       } else {
+        console.warn(`${chalk.yellow.bold('[WARNING]')} Se recibió una interacción desconocida:`, interaction);
         await interaction.reply({ content: 'Hubo un error al ejecutar este comando.', ephemeral: true });
       }
     }
@@ -242,13 +243,6 @@ client.on(Events.InteractionCreate, async interaction => {
       if (command.executeContextMenu) {
         await command.executeContextMenu(interaction);
       }
-
-      await enviarEventoAGlitch({
-        event: 'Comando ejecutado',
-        user: interaction.user.tag,
-        command: interaction.commandName,
-        guild: interaction.guild.name
-      });
 
       console.log(`${chalk.blue(`[${new Date().toLocaleTimeString()}]`)} ${chalk.rgb(13, 236, 229).bold('[LOG]')} ${chalk.yellow(interaction.user.tag)} ha ejecutado ${chalk.white.bgGreen.bold(interaction.commandName)} en ${chalk.cyan(interaction.guild.name)}`);
     } catch (error) {

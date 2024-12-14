@@ -32,7 +32,7 @@ module.exports = {
         });
 
         try {
-            const apiUrl = `https://hercai.onrender.com/v3/hercai?question=${encodeURIComponent(prompt)}`;
+            const apiUrl = `https://hercai.onrender.com/gemini/hercai?question=${encodeURIComponent(prompt)}`;
             console.log(`[DEBUG] Solicitando a la API: ${apiUrl}`);
 
             const response = await axios.get(apiUrl);

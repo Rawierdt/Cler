@@ -29,14 +29,13 @@ module.exports = {
                 .setDescription('Modelo a usar para generar la imagen')
                 .setRequired(true)
                 .addChoices(
-                    { name: 'Simurg', value: 'simurg' },
-                    { name: 'V2', value: 'v2-beta' },
-                    { name: 'Shonin', value: 'shonin' },
                     { name: 'Animefy', value: 'animefy' },
-                    { name: 'Raava', value: 'raava' },
-                    { name: 'Prodia', value: 'prodia' },
                     { name: 'DALL-E', value: 'v3' },
-                    { name: 'Lexica', value: 'lexica' }
+                    { name: 'Prodia', value: 'prodia' },
+                    { name: 'Lexica', value: 'lexica' },
+                    { name: 'Raava', value: 'raava' },
+                    { name: 'Simurg', value: 'simurg' },
+                    { name: 'Shonin', value: 'shonin' }
                 )
         )
         .addStringOption(option =>
@@ -66,8 +65,7 @@ module.exports = {
             const apiUrl = `https://hercai.onrender.com/${model}/text2image?prompt=${encodeURIComponent(prompt)}`;
 
             // Generar dos imágenes en cola
-            const [image1, image2] = await Promise.all([
-                fetchImage(apiUrl),
+            const [image1] = await Promise.all([
                 fetchImage(apiUrl),
             ]);
 
@@ -78,13 +76,13 @@ module.exports = {
                 .setColor('Green')
                 .setFooter({ text: 'Generado con ayuda de Hercai' });
 
-            const embed2 = new EmbedBuilder()
-                .setTitle('<:completedaquest:1287542357083820096> Imagen 2')
-                .setImage(image2.url)
-                .setColor('Green')
-                .setFooter({ text: 'Generado con ayuda de Hercai' });
+            // const embed2 = new EmbedBuilder()
+            //     .setTitle('<:completedaquest:1287542357083820096> Imagen 2')
+            //     .setImage(image2.url)
+            //     .setColor('Green')
+            //     .setFooter({ text: 'Generado con ayuda de Hercai' });
 
-            await interaction.editReply({ embeds: [embed1, embed2] });
+            await interaction.editReply({ embeds: [embed1] });
 
             // Establecer cooldown
             cooldowns.set(userId, Date.now());

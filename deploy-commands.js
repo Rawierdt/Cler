@@ -125,6 +125,9 @@ const commands = [
   new ContextMenuCommandBuilder()
     .setName('Ver Avatar')
     .setType(ApplicationCommandType.User),
+  new ContextMenuCommandBuilder()
+    .setName('Traducir')
+    .setType(ApplicationCommandType.Message),
   new SlashCommandBuilder()
     .setName('set-fc-channel')
     .setDescription('⚙️ : Define el canal donde se anunciarán los cumpleaños')
@@ -261,14 +264,13 @@ const commands = [
                 .setDescription('Modelo a usar para generar la imagen')
                 .setRequired(true)
                 .addChoices(
-                    { name: 'Simurg', value: 'simurg' },
-                    { name: 'V2', value: 'v2-beta' },
-                    { name: 'Shonin', value: 'shonin' },
-                    { name: 'Animefy', value: 'animefy' },
-                    { name: 'Raava', value: 'raava' },
-                    { name: 'Prodia', value: 'prodia' },
-                    { name: 'DALL-E', value: 'v3' },
-                    { name: 'Lexica', value: 'lexica' }
+                  { name: 'Animefy', value: 'animefy' },
+                  { name: 'DALL-E', value: 'v3' },
+                  { name: 'Prodia', value: 'prodia' },
+                  { name: 'Lexica', value: 'lexica' },
+                  { name: 'Raava', value: 'raava' },
+                  { name: 'Simurg', value: 'simurg' },
+                  { name: 'Shonin', value: 'shonin' }
                 ))
         .addStringOption(option =>
             option.setName('prompt')
