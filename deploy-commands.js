@@ -128,6 +128,9 @@ const commands = [
   new ContextMenuCommandBuilder()
     .setName('Traducir')
     .setType(ApplicationCommandType.Message),
+  new ContextMenuCommandBuilder()
+    .setName('Ver Cumpleaños')
+    .setType(ApplicationCommandType.User),
   new SlashCommandBuilder()
     .setName('set-fc-channel')
     .setDescription('⚙️ : Define el canal donde se anunciarán los cumpleaños')
