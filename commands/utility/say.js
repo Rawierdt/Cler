@@ -22,6 +22,10 @@ module.exports = {
         // Obtener el canal si se especifica
         let targetChannel = message.mentions.channels.first();
         if (targetChannel) {
+            // Verificar si el canal pertenece a la misma guild
+            if (targetChannel.guild.id !== message.guild.id) {
+                return message.reply('<a:denyxbox:1287542408082358292> | No puedes usar este comando en canales de otra guild.');
+            }
             args.shift(); // Eliminar la mención del canal de los argumentos
         } else {
             targetChannel = message.channel; // Usar el canal actual si no se especifica otro
