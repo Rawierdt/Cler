@@ -2,7 +2,7 @@ const { PermissionsBitField, EmbedBuilder } = require('discord.js');
 
 module.exports = {
     name: 'clsbc',
-    description: 'Permite al owner enviar un mensaje a todos los servidores donde esté el bot.',
+    description: 'Envía un mensaje embed personalizado a todos los servidores donde está el bot.',
     async executePrefix(client, message, args) {
         // ID del owner
         const ownerId = '165598561675771904';
@@ -12,21 +12,17 @@ module.exports = {
             return message.reply('<a:denyxbox:1287542408082358292> | Este comando solo puede ser usado por el owner del bot.');
         }
 
-        // Verificar si hay argumentos (mensaje para enviar)
-        if (!args.length) {
-            return message.reply('Por favor, proporciona un mensaje o una URL de imagen para enviar a todos los servidores.');
+        // Verificar si hay suficientes argumentos
+        if (args.length < 2) {
+            return message.reply('Por favor, usa el formato `bc {título} {contenido}`.');
         }
 
-        // Unir los argumentos en un solo mensaje
-        const broadcastMessage = args.join(' ');
+        // Extraer título y contenido
+        const title = args[0];
+        const content = args.slice(1).join(' ');
 
         // Prioridad de nombres de canales
-        const channelPriority = ['bots', 'bot', 'comandos', 'commands', 'general'];
-
-        // Función para verificar si es una URL de imagen
-        const isImageUrl = url => {
-            return /\.(jpeg|jpg|png|gif|webp)$/i.test(url);
-        };
+        const channelPriority = ['general', 'comandos', 'commands', 'bots', 'bot'];
 
         // Recorrer todos los servidores del cliente
         const guilds = client.guilds.cache;
@@ -43,7 +39,7 @@ module.exports = {
                         channel =>
                             channel.name === channelName &&
                             channel.isTextBased() &&
-                            channel.permissionsFor(client.user).has(['ViewChannel', 'SendMessages'])
+                            channel.permissionsFor(client.user).has([PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages])
                     );
                     if (targetChannel) break; // Detener la búsqueda si encuentra un canal
                 }
@@ -53,7 +49,7 @@ module.exports = {
                     targetChannel = guild.channels.cache.find(
                         channel =>
                             channel.isTextBased() &&
-                            channel.permissionsFor(client.user).has(['ViewChannel', 'SendMessages'])
+                            channel.permissionsFor(client.user).has([PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages])
                     );
                 }
 
@@ -64,20 +60,18 @@ module.exports = {
                     continue;
                 }
 
-                // Verificar si el mensaje contiene una URL de imagen
-                if (isImageUrl(broadcastMessage)) {
-                    // Crear y enviar el embed con la imagen
-                    const embed = new EmbedBuilder()
-                        .setColor(0x00aeff)
-                        .setImage(broadcastMessage)
-                        .setFooter({ text: `Enviado por ${message.author.tag}`, iconURL: message.author.displayAvatarURL() });
+                // Crear y enviar el embed
+                const embed = new EmbedBuilder()
+                    .setColor(0xF08CED)
+                    .setTitle(title)
+                    .setDescription(content)
+                    .setTimestamp()
+                    .setFooter({
+                        text: client.user.username,
+                        iconURL: client.user.displayAvatarURL()
+                    });
 
-                    await targetChannel.send({ embeds: [embed] });
-                } else {
-                    // Enviar el mensaje como texto plano
-                    await targetChannel.send(broadcastMessage);
-                }
-
+                await targetChannel.send({ embeds: [embed] });
                 successCount++;
             } catch (error) {
                 errorCount++;
