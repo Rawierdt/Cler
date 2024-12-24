@@ -14,12 +14,20 @@ module.exports = {
 
         // Verificar si hay suficientes argumentos
         if (args.length < 2) {
-            return message.reply('Por favor, usa el formato `bc {título} {contenido}`.');
+            return message.reply('Por favor, usa el formato `bc {título} {descripción} {URL de imagen opcional}`.');
         }
 
-        // Extraer título y contenido
-        const title = args[0];
-        const content = args.slice(1).join(' ');
+        // Detectar si la última parte es una URL de imagen
+        const isImageUrl = url => /\.(jpeg|jpg|png|gif|webp)$/i.test(url);
+
+        let imageUrl = null;
+        if (isImageUrl(args[args.length - 1])) {
+            imageUrl = args.pop(); // Extraer la URL de imagen
+        }
+
+        // El primer argumento es el título, el resto es la descripción
+        const title = args.shift();
+        const description = args.join(' ');
 
         // Prioridad de nombres de canales
         const channelPriority = ['general', 'comandos', 'commands', 'bots', 'bot'];
@@ -62,14 +70,18 @@ module.exports = {
 
                 // Crear y enviar el embed
                 const embed = new EmbedBuilder()
-                    .setColor(0xF08CED)
+                    .setColor(0x00aeff)
                     .setTitle(title)
-                    .setDescription(content)
+                    .setDescription(description)
                     .setTimestamp()
                     .setFooter({
                         text: client.user.username,
                         iconURL: client.user.displayAvatarURL()
                     });
+
+                if (imageUrl) {
+                    embed.setImage(imageUrl); // Agregar imagen si existe
+                }
 
                 await targetChannel.send({ embeds: [embed] });
                 successCount++;
