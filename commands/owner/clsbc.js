@@ -2,37 +2,40 @@ const { PermissionsBitField, EmbedBuilder } = require('discord.js');
 
 module.exports = {
     name: 'clsbc',
-    description: 'Envía un mensaje embed personalizado a todos los servidores donde está el bot.',
+    description: 'Envía un mensaje embed personalizado.',
     async executePrefix(client, message, args) {
-        // ID del owner
         const ownerId = '165598561675771904';
 
-        // Verificar si el usuario es el owner
         if (message.author.id !== ownerId) {
-            return message.reply('<a:denyxbox:1287542408082358292> | Este comando solo puede ser usado por el owner del bot.');
+            return message.reply('Solo el owner puede usar este comando.');
         }
 
-        // Verificar si hay suficientes argumentos
         if (args.length < 2) {
-            return message.reply('Por favor, usa el formato `bc {título} {descripción} {URL de imagen opcional}`.');
+            return message.reply('Formato: `bc "Título" {Descripción} {URL de imagen opcional}`.');
         }
+
+        // Extraer título entre comillas
+        const titleMatch = args.join(' ').match(/^"(.+?)"/);
+        if (!titleMatch) {
+            return message.reply('Por favor, encierra el título entre comillas.');
+        }
+        const title = titleMatch[1];
+
+        // Remover título de los argumentos
+        args = args.join(' ').replace(/^"(.+?)"\s*/, '').split(' ');
 
         // Detectar si la última parte es una URL de imagen
         const isImageUrl = url => /\.(jpeg|jpg|png|gif|webp)$/i.test(url);
-
         let imageUrl = null;
         if (isImageUrl(args[args.length - 1])) {
-            imageUrl = args.pop(); // Extraer la URL de imagen
+            imageUrl = args.pop();
         }
 
-        // El primer argumento es el título, el resto es la descripción
-        const title = args.shift();
         const description = args.join(' ');
 
         // Prioridad de nombres de canales
         const channelPriority = ['general', 'comandos', 'commands', 'bots', 'bot'];
 
-        // Recorrer todos los servidores del cliente
         const guilds = client.guilds.cache;
         let successCount = 0;
         let errorCount = 0;
@@ -41,7 +44,6 @@ module.exports = {
             try {
                 let targetChannel = null;
 
-                // Buscar un canal según la prioridad
                 for (const channelName of channelPriority) {
                     targetChannel = guild.channels.cache.find(
                         channel =>
@@ -49,10 +51,9 @@ module.exports = {
                             channel.isTextBased() &&
                             channel.permissionsFor(client.user).has([PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages])
                     );
-                    if (targetChannel) break; // Detener la búsqueda si encuentra un canal
+                    if (targetChannel) break;
                 }
 
-                // Si no se encuentra un canal en la lista, usar cualquier canal accesible
                 if (!targetChannel) {
                     targetChannel = guild.channels.cache.find(
                         channel =>
@@ -61,14 +62,12 @@ module.exports = {
                     );
                 }
 
-                // Si no hay un canal accesible, continuar con el siguiente servidor
                 if (!targetChannel) {
                     errorCount++;
-                    console.warn(`No se pudo enviar un mensaje en el servidor "${guild.name}".`);
+                    console.warn(`No se pudo enviar mensaje en "${guild.name}".`);
                     continue;
                 }
 
-                // Crear y enviar el embed
                 const embed = new EmbedBuilder()
                     .setColor(0x00aeff)
                     .setTitle(title)
@@ -80,20 +79,17 @@ module.exports = {
                     });
 
                 if (imageUrl) {
-                    embed.setImage(imageUrl); // Agregar imagen si existe
+                    embed.setImage(imageUrl);
                 }
 
                 await targetChannel.send({ embeds: [embed] });
                 successCount++;
             } catch (error) {
                 errorCount++;
-                console.error(`Error al enviar mensaje en el servidor "${guild.name}":`, error);
+                console.error(`Error en "${guild.name}":`, error);
             }
         }
 
-        // Informar al owner sobre el resultado
-        message.reply(
-            `Se enviaron mensajes a ${successCount} servidores. Hubo errores en ${errorCount} servidores.`
-        );
+        message.reply(`Se enviaron mensajes a ${successCount} servidores. Errores en ${errorCount} servidores.`);
     },
 };
