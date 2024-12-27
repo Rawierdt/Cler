@@ -24,25 +24,25 @@ module.exports = {
     ctx.fillRect(0, 0, imgWidth, imgHeight);
 
     // Cargar y registrar la fuente
-    const fontPath = path.join(__dirname, 'fonts', 'Hack.ttf');
-    const font = PImage.registerFont(fontPath, 'Hack');
+    const fontPath = path.join(__dirname, 'fonts', 'Poppins.ttf');
+    const font = PImage.registerFont(fontPath, 'Poppins');
     font.loadSync();
 
-    const fontPathBold = path.join(__dirname, 'fonts', 'HackBold.ttf');
-    const fontBold = PImage.registerFont(fontPathBold, 'HackBold');
+    const fontPathBold = path.join(__dirname, 'fonts', 'PoppinsBold.ttf');
+    const fontBold = PImage.registerFont(fontPathBold, 'PoppinsBold');
     fontBold.loadSync();
 
     // Dibujar el nombre del usuario 
     ctx.fillStyle = '#2A2A2A'; 
-    ctx.font = '24pt HackBold'; 
+    ctx.font = '24pt PoppinsBold'; 
     ctx.fillText('@' + user.username, 100, 60);
 
     // Dibujar el mensaje
     if (message.content) {
-      ctx.font = '14pt Hack';
+      ctx.font = '14pt Poppins';
       wrapText(ctx, message.content, 50, 120, imgWidth - 100, 24);
     } else {
-      ctx.font = '14pt Hack';
+      ctx.font = '14pt Poppins';
       ctx.fillText('Mensaje sin texto', 50, 120, imgWidth - 100);
     }
 
